@@ -8,16 +8,29 @@ draft: false
 
 This comes from the file `content/about.md`.
 
-This is a website for the final project for MA[46]15 Data Science with R by Team TEAMNAME.
+This is a website for the final project for MA[46]15 Data Science with R by Team Rreproduce.
 The members of this team are below.
+## Chenkai Yao
 
-## Luis Iberico
+Chenkai is a senior student in BME.
 
-Luis is a Ph.D. student in Stats and is the Teaching Fellow for the course.
+## Ziyu Zhao
 
-## Dan Sussman
+Ziyu (Ivan) is a senior student in Psychology.
 
-Dan is a professor in the Math/Stat department and is the instructor for the course.
+## Ziyi Jia
+
+Ziyi (Freda) is a senior student in Pure and Applied Math.
+
+## Yutong Song
+
+Yutong (Cecilia) is a senior student in Business Administration.
+
+## Shuyi Jiang
+
+Shuyi (Crystal) is a senior student in Math and Advertising. 
+
+Link to github: https://github.com/sussmanbu/ma4615-fa22-final-project-rreproduce.git
 
 <!-- Please leave in the information below -->
 
