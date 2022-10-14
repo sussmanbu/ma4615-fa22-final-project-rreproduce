@@ -1,18 +1,19 @@
 ---
-title: Post 1
-author: Team Rreproduce
-date: '2022-10-14'
+title: "Post 1"
+author: "Team Rreproduce"
+date: "2022-10-14"
 slug: []
 categories: []
 tags: []
-description: ~
+description: null
 toc: yes
 authors: []
 series: []
-lastmod: '2022-10-14T11:38:54-04:00'
-featuredVideo: ~
-featuredImage: ~
+lastmod: "2022-10-14T11:38:54-04:00"
+featuredVideo: null
+featuredImage: null
 ---
+
 ## Intro
 This week our group found three datasets from distinct fields. 
 
