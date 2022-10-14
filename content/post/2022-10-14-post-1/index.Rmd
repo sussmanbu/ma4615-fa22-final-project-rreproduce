@@ -1,0 +1,57 @@
+---
+title: Post 1
+author: Team Rreproduce
+date: '2022-10-14'
+slug: []
+categories: []
+tags: []
+description: ~
+toc: yes
+authors: []
+series: []
+lastmod: '2022-10-14T11:38:54-04:00'
+featuredVideo: ~
+featuredImage: ~
+---
+## Intro
+This week our group found three datasets from distinct fields. 
+
+## Data 1: Young Adult Migration 
+Data source link: https://migrationpatterns.org/
+
+This dataset tracks the people born in the U.S. between 1984 and 1992 where they lived at the age of 16 and where they live at the age of 24. 
+
+Dataset has ~13 million samples and its parameters are:
+
+  - origin commuting zone (o_cz)
+  
+  - o_state
+  
+  - destination commuting zone (d_cz)
+  
+  - d_state
+  
+  - parental income quantile
+  
+  - race
+  
+  - # of people from o now living in d
+  
+  - # of people living in d
+  
+  - # of people from o
+  
+Research Questions:
+
+  - Which city is the most popular for young adult immigrants?
+  
+  - Which city has the most young adults who want to move out?
+  
+  - What parameters influence the immigration decisions? (race, parents income, other datasets maybe education level, married, city GDP, government policy, tax rate, weather)
+
+---
+## Data 2: National Longitudinal Study of Adolescent to Adult Health
+
+Data source link: https://dataverse.unc.edu/dataverse/addhealth
+
+Data have been collected from adolescents, their fellow students, school administrators, parents, siblings, friends, and romantic partners through multiple data collection components, including four respondent in-home interviews. In addition, existing data bases with information about respondents’ neighborhoods and communities have been merged with Add Health data, including variables on income and poverty, unemployment, availability and utilization of health services, crime, church membership, and social programs and policies.
