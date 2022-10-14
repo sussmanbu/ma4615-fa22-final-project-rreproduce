@@ -49,13 +49,20 @@ Research Questions:
   
   - What parameters influence the immigration decisions? (race, parents income, other datasets maybe education level, married, city GDP, government policy, tax rate, weather)
 
----
+
 ## Data 2: National Longitudinal Study of Adolescent to Adult Health
 
 Data source link: https://dataverse.unc.edu/dataverse/addhealth
 
+Data have been collected from adolescents, their fellow students, school administrators, parents, siblings, friends, and romantic partners through multiple data collection components, including four respondent in-home interviews. 
 
----
+In addition, existing data bases with information about respondent's neighborhoods and communities have been merged with Add Health data, including variables on income and poverty, unemployment, availability and utilization of health services, crime, church membership, and social programs and policies.
+
+There are 6504 rows and 2794 columns. Other than the basic demographic information, it contains family relationship, friendship, personality, neighborhood, drug use, physical development, etc.
+
+We hope to address the association between family relationship and drug use behaviors. The data is not necessarily continuous variable so that we might not be able to visualize the relationship using linear plots
+
+
 ## Data 3: International Homicide
 
 Data source link: https://dataunodc.un.org/dp-intentional-homicide-victims 
