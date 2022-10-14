@@ -19,7 +19,7 @@ This week our group found three datasets from distinct fields.
 ## Data 1: Young Adult Migration 
 Data source link: https://migrationpatterns.org/
 
-This dataset tracks the people born in the U.S. between 1984 and 1992 where they lived at the age of 16 and where they live at the age of 24. 
+This data tracks the people born in the U.S. between 1984 and 1992 where they lived at the age of 16 and where they live at the age of 24. 
 
 Dataset has ~13 million samples and its parameters are:
 
@@ -35,11 +35,11 @@ Dataset has ~13 million samples and its parameters are:
   
   - race
   
-  - # of people from o now living in d
+  - number of people from o now living in d
   
-  - # of people living in d
+  - number of people living in d
   
-  - # of people from o
+  - number of people from o
   
 Research Questions:
 
@@ -54,4 +54,45 @@ Research Questions:
 
 Data source link: https://dataverse.unc.edu/dataverse/addhealth
 
-Data have been collected from adolescents, their fellow students, school administrators, parents, siblings, friends, and romantic partners through multiple data collection components, including four respondent in-home interviews. In addition, existing data bases with information about respondents’ neighborhoods and communities have been merged with Add Health data, including variables on income and poverty, unemployment, availability and utilization of health services, crime, church membership, and social programs and policies.
+Data have been collected from adolescents, their fellow students, school administrators, parents, siblings, friends, and romantic partners through multiple data collection components, including four respondent in-home interviews. 
+
+In addition, existing data bases with information about respondents’ neighborhoods and communities have been merged with Add Health data, including variables on income and poverty, unemployment, availability and utilization of health services, crime, church membership, and social programs and policies.
+
+There are 6504 rows and 2794 columns. Other than the basic demographic information, it contains family relationship, friendship, personality, neighborhood, drug use, physical development, etc. 
+
+We hope to address the association between family relationship and drug use behaviors. The data is not necessarily continuous variable so that we might can not visualize the relationship using linear plots. 
+
+---
+## Data 3: International Homicide
+
+Data source link: https://dataunodc.un.org/dp-intentional-homicide-victims 
+
+Data are collected from national authorities through the annual United Nations Crime Trends Survey(UN- CTS). Additional data are sourced from the most reliable sources available. All data are sent to UN Member States for review and validation. Estimate based on UNODC homicide statistics. Male and Female rates are calculated based on the male or female population of the corresponding age group while total is based on the total population (both sexes) of the corresponding age group.
+
+Dataset has ~76000 entries and its parameters includes: 
+
+  - country
+  
+  - subregion
+  
+  - indicator
+  
+  - sex
+  
+  - age
+  
+  - region
+  
+  - unit of measurement
+  
+  - value
+  
+  - source 
+  
+and more 
+
+Research Questions: 
+
+  - Which region of the world has the largest proportion of homicide cases?
+  - How’s the trend of homicide cases look like?
+  - What parameters influence the homicide rate? (country GDP, government policy, tax rate, education level, etc.)
