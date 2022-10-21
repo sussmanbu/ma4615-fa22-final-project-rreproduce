@@ -1,0 +1,17 @@
+---
+title: Post 2
+author: Team Rreproduce
+date: '2022-10-21'
+slug: []
+categories: []
+tags: []
+description: ~
+toc: yes
+authors: []
+series: []
+lastmod: '2022-10-21T13:29:25-04:00'
+featuredVideo: ~
+featuredImage: ~
+---
+
+## tidy data
