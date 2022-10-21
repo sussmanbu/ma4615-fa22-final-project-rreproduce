@@ -17,21 +17,21 @@ featuredImage: ~
 ```{r}
 library(tidyverse)
 ## Upload data
-##data <- read.csv("dataset-igone/od.csv")
+#data <- read.csv("dataset-igone/od.csv")
 ```
 
 ```{r}
 ## Filter out data which the origin state is MA
 ## Separate pool variable to race and income quintile
 ## convert NA probability to 0
-o_MA <- data %>% 
-  filter(o_state_name == "Massachusetts") %>%
-  separate(pool,
-          into = c("race","income"),
-          sep = "Q"
-  ) 
+# o_MA <- data %>% 
+#   filter(o_state_name == "Massachusetts") %>%
+#   separate(pool,
+#           into = c("race","income"),
+#           sep = "Q"
+#   ) 
 
-o_MA[is.na(o_MA)] = 0
+# o_MA[is.na(o_MA)] = 0
 
 ```
 
