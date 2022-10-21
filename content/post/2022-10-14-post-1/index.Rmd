@@ -1,6 +1,6 @@
 ---
-title: "Post 1"
-author: "Team Rreproduce"
+title: Post 1
+author: Team Rreproduce
 date: "2022-10-14"
 slug: []
 categories: []
