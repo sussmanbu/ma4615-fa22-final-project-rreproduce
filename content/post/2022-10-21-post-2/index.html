@@ -375,17 +375,6 @@ true
 ## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
 ## ✖ dplyr::filter() masks stats::filter()
 ## ✖ dplyr::lag()    masks stats::lag()</code></pre>
-<pre class="r"><code>## Filter out data which the origin state is MA
-## Separate pool variable to race and income quintile
-## convert NA probability to 0
-# o_MA &lt;- data %&gt;% 
-#   filter(o_state_name == &quot;Massachusetts&quot;) %&gt;%
-#   separate(pool,
-#           into = c(&quot;race&quot;,&quot;income&quot;),
-#           sep = &quot;Q&quot;
-#   ) 
-
-# o_MA[is.na(o_MA)] = 0</code></pre>
 
 
 

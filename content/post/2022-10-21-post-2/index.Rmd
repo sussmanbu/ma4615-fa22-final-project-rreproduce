@@ -15,23 +15,9 @@ featuredImage: ~
 ---
 
 ```{r}
-
-```
-
-```{r}
 library(tidyverse)
 
-## Filter out data which the origin state is MA
-## Separate pool variable to race and income quintile
-## convert NA probability to 0
-# o_MA <- data %>% 
-#   filter(o_state_name == "Massachusetts") %>%
-#   separate(pool,
-#           into = c("race","income"),
-#           sep = "Q"
-#   ) 
 
-# o_MA[is.na(o_MA)] = 0
 
 ```
 
