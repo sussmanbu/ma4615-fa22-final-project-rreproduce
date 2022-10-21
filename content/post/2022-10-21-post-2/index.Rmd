@@ -1,0 +1,37 @@
+---
+title: Post 2
+author: Daniel Sussman
+date: '2022-10-21'
+slug: []
+categories: []
+tags: []
+description: ~
+toc: yes
+authors: []
+series: []
+lastmod: '2022-10-21T09:23:37-04:00'
+featuredVideo: ~
+featuredImage: ~
+---
+
+```{r}
+library(tidyverse)
+## Upload data
+##data <- read.csv("dataset-igone/od.csv")
+```
+
+```{r}
+## Filter out data which the origin state is MA
+## Separate pool variable to race and income quintile
+## convert NA probability to 0
+o_MA <- data %>% 
+  filter(o_state_name == "Massachusetts") %>%
+  separate(pool,
+          into = c("race","income"),
+          sep = "Q"
+  ) 
+
+o_MA[is.na(o_MA)] = 0
+
+```
+
