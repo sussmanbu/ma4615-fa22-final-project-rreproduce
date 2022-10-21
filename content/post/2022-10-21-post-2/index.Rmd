@@ -15,12 +15,12 @@ featuredImage: ~
 ---
 
 ```{r}
-library(tidyverse)
-## Upload data
-#data <- read.csv("dataset-igone/od.csv")
+
 ```
 
 ```{r}
+library(tidyverse)
+
 ## Filter out data which the origin state is MA
 ## Separate pool variable to race and income quintile
 ## convert NA probability to 0
