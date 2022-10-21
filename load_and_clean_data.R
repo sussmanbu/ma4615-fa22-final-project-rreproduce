@@ -12,6 +12,6 @@ o_MA <- data %>%
 
 o_MA[is.na(o_MA)] = 0
 
-write_csv(o_MA, file = here::here("dataset", "o_MA.csv"))
+write_csv(o_MA, file = here::here("dataset-ignore", "o_MA.csv"))
 
-save(o_MA, file = here::here("dataset/o_MA.RData"))
+save(o_MA, file = here::here("dataset-ignore/o_MA.RData"))
