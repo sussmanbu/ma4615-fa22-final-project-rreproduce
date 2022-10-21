@@ -15,3 +15,29 @@ featuredImage: ~
 ---
 
 ## tidy data
+```{r}
+library(tidyverse)
+o_MA <- read_csv(here::here("dataset-ignore", "o_MA.csv"))
+```
+
+```{r}
+
+
+top20 <- o_MA %>% 
+  group_by(Dest_state) %>%
+  mutate(sum_n = sum(n)) %>%
+  filter(Dest_state != "Massachusetts") %>%
+  ungroup() %>%
+  arrange(desc(sum_n)) %>%
+  filter(sum_n > 1650)
+  
+```
+
+```{r}
+top20 %>% 
+  ggplot() +
+  geom_col(aes(x=reorder(Dest_state,sum_n),y=n,fill=race))+
+  theme(axis.text.x = element_text(angle=45,vjust=1,hjust=1)) +
+  labs(x = "Destination State", y = "Total Commuting Population", color="race")
+```
+
