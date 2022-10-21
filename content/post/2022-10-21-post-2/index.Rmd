@@ -17,11 +17,10 @@ featuredImage: ~
 ## tidy data
 ```{r}
 library(tidyverse)
-o_MA <- read_csv(here::here("dataset-ignore", "o_MA.csv"))
+o_MA <- read_csv(here::here("dataset/o_MA.csv"))
 ```
 
 ```{r}
-
 
 top20 <- o_MA %>% 
   group_by(Dest_state) %>%
