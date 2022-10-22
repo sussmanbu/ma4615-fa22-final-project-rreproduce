@@ -57,7 +57,7 @@ o_MA %>%
   
 ```
 
-We found out that the most popular state that people are moving to is NewYork, which is also the top states that has large populations. Moreover, we found out that within the moving population, the largest race group is white people. Except Georgia, the second largest race group is Hispanic.
+We found out that the most popular state that people are moving to is New York, which is also the top states that has large populations. Moreover, we found out that within the moving population, the largest race group is white people. Except Georgia, the second largest race group is Hispanic.
 
 ## Plot 2
 
@@ -70,7 +70,7 @@ o_MA %>%
   coord_polar(theta='x')
 ```
 
-The number of people who resided in Springfiled and the number of people who resided in Boston are relatively similar, and they their populations are the highest among all five community zone.
+The number of people who resided in Springfield and the number of people who resided in Boston are relatively similar, and they their populations are the highest among all five community zone.
 The number of people in Pittsburgh is the second largest among all five community zone; the number of people in Oak Bluffs is the third largest among all five community zone; the number of people in Nantucket is the least largest in all community zone.
 
 ## Plot 3
@@ -85,6 +85,8 @@ o_MA %>%
   labs(x="",y="",fill="Race")
 ```
 
+Among 50 different destination states, white group people are the most likely to migrate. Moreover, white group people make up at least 75 percent of the total migration in each state, except Alabama, Florida, and Georgia. Asian and colored groups have relatively similar migration patterns in most states.
+
 ## Plot 4
 
 ```{r fig.height=15, fig.width=15}
@@ -96,3 +98,5 @@ o_MA %>%
   coord_polar(theta = "y")+
   labs(x="",y="",fill="Income (Q1=poorest,Q5=richest)")
 ```
+
+Among 50 states’ migration population, the Q1 income group ( poorest parental income quintile) has the lowest migrant population in most cases. Surprisingly, the migration pattern in 10 of the states is very similar: people from 5 different income groups contribute a relatively equal number of the migrating population.

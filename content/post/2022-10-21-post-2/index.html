@@ -49,8 +49,8 @@ o_MA &lt;- read_csv(here::here(&quot;dataset/o_MA.csv&quot;))</code></pre>
   geom_col(aes(x=reorder(Dest_state,sum_n),y=n,fill=race))+
   theme(axis.text.x = element_text(angle=45,vjust=1,hjust=1)) +
   labs(x = &quot;Destination State&quot;, y = &quot;Total Commute Population&quot;, color=&quot;race&quot;)</code></pre>
-<p><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
-<p>We found out that the most popular state that people are moving to is NewYork, which is also the top states that has large populations. Moreover, we found out that within the moving population, the largest race group is white people. Except Georgia, the second largest race group is Hispanic.</p>
+<p><img src="index_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
+<p>We found out that the most popular state that people are moving to is New York, which is also the top states that has large populations. Moreover, we found out that within the moving population, the largest race group is white people. Except Georgia, the second largest race group is Hispanic.</p>
 </div>
 <div id="plot-2" class="section level2">
 <h2>Plot 2</h2>
@@ -60,8 +60,8 @@ o_MA &lt;- read_csv(here::here(&quot;dataset/o_MA.csv&quot;))</code></pre>
   ggplot()+
   geom_bar(aes(x = Dest_CZ, fill=Dest_CZ))+
   coord_polar(theta=&#39;x&#39;)</code></pre>
-<p><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
-<p>The number of people who resided in Springfiled and the number of people who resided in Boston are relatively similar, and they their populations are the highest among all five community zone.
+<p><img src="index_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
+<p>The number of people who resided in Springfield and the number of people who resided in Boston are relatively similar, and they their populations are the highest among all five community zone.
 The number of people in Pittsburgh is the second largest among all five community zone; the number of people in Oak Bluffs is the third largest among all five community zone; the number of people in Nantucket is the least largest in all community zone.</p>
 </div>
 <div id="plot-3" class="section level2">
@@ -73,7 +73,8 @@ The number of people in Pittsburgh is the second largest among all five communit
   facet_wrap(~Dest_state) +  
   coord_polar(theta = &quot;y&quot;) +
   labs(x=&quot;&quot;,y=&quot;&quot;,fill=&quot;Race&quot;)</code></pre>
-<p><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-4-1.png" width="960" /></p>
+<p><img src="index_files/figure-html/unnamed-chunk-4-1.png" width="960" /></p>
+<p>Among 50 different destination states, white group people are the most likely to migrate. Moreover, white group people make up at least 75 percent of the total migration in each state, except Alabama, Florida, and Georgia. Asian and colored groups have relatively similar migration patterns in most states.</p>
 </div>
 <div id="plot-4" class="section level2">
 <h2>Plot 4</h2>
@@ -84,6 +85,7 @@ The number of people in Pittsburgh is the second largest among all five communit
   facet_wrap(~Dest_state) +  
   coord_polar(theta = &quot;y&quot;)+
   labs(x=&quot;&quot;,y=&quot;&quot;,fill=&quot;Income (Q1=poorest,Q5=richest)&quot;)</code></pre>
-<p><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-5-1.png" width="1440" /></p>
+<p><img src="index_files/figure-html/unnamed-chunk-5-1.png" width="1440" /></p>
+<p>Among 50 states’ migration population, the Q1 income group ( poorest parental income quintile) has the lowest migrant population in most cases. Surprisingly, the migration pattern in 10 of the states is very similar: people from 5 different income groups contribute a relatively equal number of the migrating population.</p>
 </div>
 </div>
