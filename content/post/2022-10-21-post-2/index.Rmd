@@ -14,30 +14,32 @@ featuredVideo: ~
 featuredImage: ~
 ---
 
-## Introduction
+# Introduction
 
-This week we tidy the data and use a subset of data for exploratory analysis. 
+This week we tidy the data and use a subset of data for exploratory analysis.
 
 In [load_and_clean_data.R](/load_and_clean_data.R), we made following changes:
 
-- remove all n = 0 entries (there is no one moving between two commute zone) and n = -1 entries (NA value)
+-   remove all n = 0 entries (there is no one moving between two commute zone) and n = -1 entries (NA value)
 
-- separate the pool variable into race and income 
+-   separate the pool variable into race and income
 
-- Use filter function to focus on the population of immigrants moving from Massachusetts
+-   Use filter function to focus on the population of immigrants moving from Massachusetts
 
-- Change the column names to make them easy to understand
+-   Change the column names to make them easy to understand
 
-- Change the NA probability to 0 (It was NA because the denominator is 0)
+-   Change the NA probability to 0 (It was NA because the denominator is 0)
 
-Our subset data o_MA is then saved in the dataset file. 
+Our subset data o_MA is then saved in the dataset file.
 
-## Examining o_MA
+# Examining o_MA
 
 ```{r message=FALSE, warning=FALSE}
 library(tidyverse)
 o_MA <- read_csv(here::here("dataset/o_MA.csv"))
 ```
+
+## Plot 1
 
 ```{r}
 
@@ -55,13 +57,31 @@ o_MA %>%
   
 ```
 
+We found out that the most popular state that people are moving to is NewYork, which is also the top states that has large populations. Moreover, we found out that within the moving population, the largest race group is white people. Except Gorigeia, the second largest race group is Hispanic.
+
+## Plot 2
 
 ```{r}
 o_MA %>%
   filter(Dest_state=="Massachusetts")%>% 
   filter(Original_CZ=="Boston") %>%
   ggplot()+
-  geom_bar(aes(x = Dest_CZ,fill=Dest_CZ))+
+  geom_bar(aes(x = Dest_CZ, fill=Dest_CZ))+
   coord_polar(theta='x')
 ```
 
+## Plot 3
+
+```{r fig.height=10, fig.width=10}
+ggplot(o_MA, aes(x = factor(1), fill = factor(race))) +
+  geom_bar(width = 1)  + 
+  facet_wrap(~Dest_state) +  
+  coord_polar(theta = "y")
+```
+
+## Plot 4
+
+```{r fig.height=10, fig.width=10}
+ggplot(o_MA, aes(x = factor(1), fill = factor(income))) +
+  geom_bar(width = 1)  + facet_wrap(~Dest_state) +  coord_polar(theta = "y")
+```
