@@ -32,41 +32,36 @@ In [load_and_clean_data.R](/load_and_clean_data.R), we made following changes:
 
 Our subset data o_MA is then saved in the dataset file. 
 
----
 ## Examining o_MA
 
-```{r}
+```{r message=FALSE, warning=FALSE}
 library(tidyverse)
 o_MA <- read_csv(here::here("dataset/o_MA.csv"))
 ```
 
 ```{r message=FALSE, warning=FALSE}
 
-top20 <- o_MA %>% 
+o_MA %>% 
   group_by(Dest_state) %>%
   mutate(sum_n = sum(n)) %>%
   filter(Dest_state != "Massachusetts") %>%
   ungroup() %>%
   arrange(desc(sum_n)) %>%
-  filter(sum_n > 1650)
-  
-```
-
-```{r}
-top20 %>% 
+  filter(sum_n > 1650) %>% 
   ggplot() +
   geom_col(aes(x=reorder(Dest_state,sum_n),y=n,fill=race))+
   theme(axis.text.x = element_text(angle=45,vjust=1,hjust=1)) +
   labs(x = "Destination State", y = "Total Commute Population", color="race")
+  
 ```
 
+
 ```{r}
-Boston_in<- o_MA %>%
-  filter(Dest_state=="Massachusetts")%>% filter(Original_CZ=="Boston")
-
-Boston_in
-
-ggplot(Boston_in)+geom_bar(aes(x = Dest_CZ,fill=Dest_CZ))+
+o_MA %>%
+  filter(Dest_state=="Massachusetts")%>% 
+  filter(Original_CZ=="Boston") %>%
+  ggplot()+
+  geom_bar(aes(x = Dest_CZ,fill=Dest_CZ))+
   coord_polar(theta='x')
 ```
 
