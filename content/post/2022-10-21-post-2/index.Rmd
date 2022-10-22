@@ -30,7 +30,7 @@ In [load_and_clean_data.R](/load_and_clean_data.R), we made following changes:
 - Change the NA probability to 0 (It was NA because the denominator is 0)
 
 Our subset data o_MA is then saved in the dataset file. 
-
+---
 ## Examining o_MA
 ```{r}
 library(tidyverse)
