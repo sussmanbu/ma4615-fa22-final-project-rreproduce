@@ -9,7 +9,9 @@ o_MA <- od_data %>%
            into = c("race","income"),
            sep = -2
   ) %>%
-  filter(n != 0 & n != -1) 
+  filter(n != 0 & n != -1) %>%
+  filter(n_tot_o != -1) %>%
+  filter(n_tot_d != -1)
 
 o_MA[is.na(o_MA)] = 0
 

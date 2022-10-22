@@ -63,27 +63,36 @@ We found out that the most popular state that people are moving to is NewYork, w
 
 ```{r}
 o_MA %>%
-  filter(Dest_state=="Massachusetts")%>% 
+  filter(Dest_state =="Massachusetts")%>% 
   filter(Original_CZ=="Boston") %>%
   ggplot()+
   geom_bar(aes(x = Dest_CZ, fill=Dest_CZ))+
   coord_polar(theta='x')
 ```
 
+The number of people who resided in Springfiled and the number of people who resided in Boston are relatively similar, and they their populations are the highest among all five community zone.
+The number of people in Pittsburgh is the second largest among all five community zone; the number of people in Oak Bluffs is the third largest among all five community zone; the number of people in Nantucket is the least largest in all community zone.
+
 ## Plot 3
 
 ```{r fig.height=10, fig.width=10}
-ggplot(o_MA, aes(x = factor(1), fill = factor(race))) +
-  geom_bar(width = 1)  + 
+o_MA %>%
+  filter(Dest_state!="Massachusetts") %>%
+  ggplot() +
+  geom_col(aes(x=1,y=n,fill=race),position = "fill") +
   facet_wrap(~Dest_state) +  
-  coord_polar(theta = "y")
+  coord_polar(theta = "y") +
+  labs(x="",y="",fill="Race")
 ```
 
 ## Plot 4
 
-```{r fig.height=10, fig.width=10}
-ggplot(o_MA, aes(x = factor(1), fill = factor(income))) +
-  geom_bar(width = 1)  + 
+```{r fig.height=15, fig.width=15}
+o_MA %>%
+  filter(Dest_state!="Massachusetts") %>%
+  ggplot() +
+  geom_col(aes(x=1,y=n,fill=income),position = "fill") +
   facet_wrap(~Dest_state) +  
-  coord_polar(theta = "y")
+  coord_polar(theta = "y")+
+  labs(x="",y="",fill="Income (Q1=poorest,Q5=richest)")
 ```
