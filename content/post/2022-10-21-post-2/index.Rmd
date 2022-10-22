@@ -14,7 +14,7 @@ featuredVideo: ~
 featuredImage: ~
 ---
 
-
+Tidy data
 ```{r}
 library(tidyverse)
 o_MA <- read_csv(here::here("dataset/o_MA.csv"))
