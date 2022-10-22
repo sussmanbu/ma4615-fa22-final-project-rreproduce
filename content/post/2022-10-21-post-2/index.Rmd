@@ -14,13 +14,13 @@ featuredVideo: ~
 featuredImage: ~
 ---
 
-## tidy data
+
 ```{r}
 library(tidyverse)
 o_MA <- read_csv(here::here("dataset/o_MA.csv"))
 ```
 
-```{r}
+```{r message=FALSE, warning=FALSE}
 
 top20 <- o_MA %>% 
   group_by(Dest_state) %>%
