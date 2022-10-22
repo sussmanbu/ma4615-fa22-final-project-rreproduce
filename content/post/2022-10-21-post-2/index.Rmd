@@ -18,7 +18,7 @@ featuredImage: ~
 
 This week we tidy the data and use a subset of data for exploratory analysis.
 
-In [load_and_clean_data.R](/load_and_clean_data.R), we made following changes:
+In **load_and_clean_data.R** file, we made following changes:
 
 -   remove all n = 0 entries (there is no one moving between two commute zone) and n = -1 entries (NA value)
 
@@ -30,7 +30,7 @@ In [load_and_clean_data.R](/load_and_clean_data.R), we made following changes:
 
 -   Change the NA probability to 0 (It was NA because the denominator is 0)
 
-Our subset data o_MA is then saved in the dataset file.
+Our subset data **o_MA** is then saved in the dataset file.
 
 # Examining o_MA
 
@@ -57,7 +57,7 @@ o_MA %>%
   
 ```
 
-We found out that the most popular state that people are moving to is NewYork, which is also the top states that has large populations. Moreover, we found out that within the moving population, the largest race group is white people. Except Gorigeia, the second largest race group is Hispanic.
+We found out that the most popular state that people are moving to is NewYork, which is also the top states that has large populations. Moreover, we found out that within the moving population, the largest race group is white people. Except Georgia, the second largest race group is Hispanic.
 
 ## Plot 2
 
@@ -83,5 +83,7 @@ ggplot(o_MA, aes(x = factor(1), fill = factor(race))) +
 
 ```{r fig.height=10, fig.width=10}
 ggplot(o_MA, aes(x = factor(1), fill = factor(income))) +
-  geom_bar(width = 1)  + facet_wrap(~Dest_state) +  coord_polar(theta = "y")
+  geom_bar(width = 1)  + 
+  facet_wrap(~Dest_state) +  
+  coord_polar(theta = "y")
 ```
