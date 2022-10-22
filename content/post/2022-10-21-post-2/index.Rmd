@@ -14,7 +14,24 @@ featuredVideo: ~
 featuredImage: ~
 ---
 
-Tidy data
+##Introduction
+This week we tidy the data and use a subset of data for exploratory analysis. 
+
+In [load_and_clean_data.R](/load_and_clean_data.R), we made following changes:
+
+- remove all n = 0 entries (there is no one moving between two commute zone) and n = -1 entries (NA value)
+
+- separate the pool variable into race and income 
+
+- Use filter function to focus on the population of immigrants moving from Massachusetts
+
+- Change the column names to make them easy to understand
+
+- Change the NA probability to 0 (It was NA because the denominator is 0)
+
+Our subset data o_MA is then saved in the dataset file. 
+
+## Examining o_MA
 ```{r}
 library(tidyverse)
 o_MA <- read_csv(here::here("dataset/o_MA.csv"))
@@ -37,6 +54,16 @@ top20 %>%
   ggplot() +
   geom_col(aes(x=reorder(Dest_state,sum_n),y=n,fill=race))+
   theme(axis.text.x = element_text(angle=45,vjust=1,hjust=1)) +
-  labs(x = "Destination State", y = "Total Commuting Population", color="race")
+  labs(x = "Destination State", y = "Total Commute Population", color="race")
+```
+
+```{r}
+Boston_in<- o_MA %>%
+  filter(Dest_state=="Massachusetts")%>% filter(Original_CZ=="Boston")
+
+Boston_in
+
+ggplot(Boston_in)+geom_bar(aes(x = Dest_CZ,fill=Dest_CZ))+
+  coord_polar(theta='x')
 ```
 
