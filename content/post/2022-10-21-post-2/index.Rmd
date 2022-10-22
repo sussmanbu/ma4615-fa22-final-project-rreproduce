@@ -39,7 +39,7 @@ library(tidyverse)
 o_MA <- read_csv(here::here("dataset/o_MA.csv"))
 ```
 
-```{r message=FALSE, warning=FALSE}
+```{r}
 
 o_MA %>% 
   group_by(Dest_state) %>%
