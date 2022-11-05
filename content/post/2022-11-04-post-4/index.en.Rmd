@@ -1,0 +1,76 @@
+---
+title: "Post 4"
+author: "Team Rreproduce"
+date: "2022-11-04"
+slug: []
+categories: []
+tags: []
+description: null
+toc: yes
+authors: []
+series: []
+lastmod: "2022-11-04T20:27:56-04:00"
+featuredVideo: null
+featuredImage: null
+---
+**Introduction**
+
+This week we use statistical models to analyze our primary dataset. We also had a discussion about which secondary dataset we should use. 
+
+**Statistical Analysis**
+
+*Chi-Square*
+
+We examine the difference of income quantile between different races.
+
+```{r message=FALSE, warning=FALSE}
+library(tidyverse)
+library(corrplot)
+load(here::here("dataset/o_MA.RData"))
+chisq_race_income <- chisq.test(o_MA$race, o_MA$income, correct=FALSE)
+round(chisq_race_income$residuals, 3)
+corrplot(chisq_race_income$residuals, is.cor = FALSE)
+```
+
+The graph demonstrates a significant difference of income levels between difference races among people who originally migrated from Massachusetts. The population of Black and Hispanic are the most in the lowest quantile of income (Q1), while the population of White is the lowest. In the highest income quantile (Q5), the population of White is the highest, while the population of Black is the lowest.
+
+*ANOVA*
+
+We examine the difference of migration destination between people with difference races and income levels, and their interactions.
+
+```{r}
+od_data <- read_csv(here::here("dataset-ignore", "od.csv"))
+my_data <- od_data %>%
+  filter(o_cz == d_cz) %>%
+  mutate(n_tot_d = n_tot_d - n) %>%
+  separate(pool,
+           into = c("race","income"),
+           sep = -2
+  )
+
+res.aov2 <- aov(n_tot_d ~ income + race, data = my_data)
+summary(res.aov2)
+
+my_data %>% select_if(is.factor)
+
+interaction.plot(x.factor = my_data$race, trace.factor = my_data$income, 
+                 response = my_data$n_tot_d, fun = mean, 
+                 type = "b", legend = TRUE, 
+                 xlab = "income", ylab="Migration population in Destinatioj",
+                 pch=c(1,19), col = c("#00AFBB", "#E7B800"))
+
+```
+
+- The graph demonstrates that White people with high income tend to migrate to the places with the highest amount of migrant. 
+
+- Asians tend to gather in places with the least amount of migrant. 
+
+- Blacks with the lowest income tend to migrate to places with high migrant population, while Blacks with highest income tend to migrate to places with lowest migrant.
+
+- Hispanics with the lowest income also tend to migrant to places with relatively high migrant population, while those with the highest income tend to migrate to places with low migrant 
+
+- For other races, people with the lowest income tend to move to places with the highest migrant.
+
+**Secondary Dataset**
+
+We also decide to explore the crime data as our secondary dataset. We will use FBI data (https://ucr.fbi.gov/crime-in-the-u.s/2010/crime-in-the-u.s.-2010/tables/10tbl04.xls) of different years matching with our migration data to investigate the influence of crime which drives the population to migrate from state to state. We will also examine how do factors of income and race affect migration with national crime. Next week we will start work on the exploratory data analysis of our secondary data as well as organizing our migration data so that it could be analyzed with the secondary dataset. 

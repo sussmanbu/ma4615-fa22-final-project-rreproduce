@@ -21,4 +21,3 @@ colnames(o_MA) <- c('Num_original_CZ','Original_CZ','Original_State','Num_dest_C
 write_csv(o_MA, file = here::here("dataset", "o_MA.csv"))
 
 save(o_MA, file = here::here("dataset/o_MA.RData"))
-
