@@ -55,7 +55,7 @@ mergedf<-mergedf %>%
   select(c(State,Robbery,Burglary)) %>%
   group_by(State) %>%
   summarize(meanRobbery = mean(Robbery),meanBurglary = mean(Burglary))
-
+write.csv(mergedf,file=here::here("dataset/10-17CrimeAvg.csv"), row.names = FALSE)
 save(mergedf, file = here::here("dataset/10-17CrimeAvg.RData"))
 
 # year2000
@@ -167,6 +167,6 @@ mergedf <- mergedf %>%
   summarize(meanRobbery = mean(as.numeric(Robbery)),meanBurglary = mean(Burglary))
 
 
-write.csv(mergedf,file=here::here("dataset/00-07CrimeAvg.RData"), row.names = FALSE)
-
+write.csv(mergedf,file=here::here("dataset/00-07CrimeAvg.csv"), row.names = FALSE)
+save(mergedf, file = here::here("dataset/00-07CrimAvg.RData"))
 

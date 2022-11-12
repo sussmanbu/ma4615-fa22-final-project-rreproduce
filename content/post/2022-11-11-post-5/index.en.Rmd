@@ -13,3 +13,54 @@ lastmod: '2022-11-11T21:23:04-05:00'
 featuredVideo: ~
 featuredImage: ~
 ---
+**Introduction**
+
+This week we work on tidying our secondary data sets 
+
+*Tidy the data*
+
+We merge 2000-2007 and 2010-2017 crime data into two datasets and select Robbery and Burglary data since others have missing values at different years. Then we compute the mean value of each for exploratory data analysis.
+
+*Explore secondary data*
+
+We combined the crime rate of every hundred-thousand people at the age of 16 and the age of 26 by state with the mean migration data of the United States during 2000-2007(except 2004) and 2010-2017. We aim to explore whether the state with the most migrants would have the highest crime rate. Additionally, we want to look at whether income and race would affect the association between the number of migrants and the crime rate. 
+
+```{r}
+crime0007 <- read_csv(here::here("dataset", "00-07CrimAvg.csv")) %>%
+crime0007 %>%  
+  arrange(desc(meanBurglary)) %>%
+  ggplot(aes(x=reorder(State, -meanBurglary),y=meanBurglary)) +
+  geom_histogram(stat="identity")+
+  theme(axis.text.x = element_text(angle=45,vjust=1,hjust=1)) +
+  labs(x='State', y='Burglary Mean')
+```
+
+```{r}
+crime0007 %>%  
+  arrange(desc(meanRobbery)) %>%
+  ggplot(aes(x=reorder(State, -meanRobbery),y=meanRobbery)) +
+  geom_histogram(stat="identity")+
+  theme(axis.text.x = element_text(angle=45,vjust=1,hjust=1)) +
+  labs(x='State', y='Robbery Mean')
+```
+
+```{r}
+crime1017<-read_csv(here::here("dataset", "10-17CrimAvg.csv"))
+crime1017 %>%
+  arrange(desc(meanBurglary)) %>%
+  ggplot(aes(x=reorder(State, -meanRobbery),y=meanRobbery)) +
+  geom_histogram(stat="identity")+
+  theme(axis.text.x = element_text(angle=45,vjust=1,hjust=1))+
+  labs(x='State', y='Robbery Mean')
+
+```
+
+```{r}
+crime1017 %>%
+  arrange(desc(meanBurglary)) %>%
+  ggplot(aes(x=reorder(State, -meanBurglary),y=meanBurglary)) +
+  geom_histogram(stat="identity")+
+  theme(axis.text.x = element_text(angle=45,vjust=1,hjust=1))+
+  labs(x='State', y='Burglary Mean')
+```
+
