@@ -7,52 +7,33 @@ featuredImage: images/data-import-cheatsheet-thumbs.png
 draft: false
 ---
 
+Data Link
+
+We care about the social justice in the United States. We hope to find out how migration would impact the change of the crime rate in the United States between (year1) and (year 2). Additionally, we are interested in find out whether other variables would moderate the association between migration pattern and crime rate, such as income levels and race.
+Our migration data is from the [XXX]. We assorted the data in to several different data set, including [XXX]. Specifically, we used [sub-dataset 1], which describes [XXX], and [sub-dataset 2], which describes [XXX] to construct our models. Our crime rate data is from the [XXX]. We assorted our data into the number of “rubbery” and “bulglary” cases during [Year] by the states in the US.
+Here are the links of the two data sets that we used: [Link].
+
+Variables
+
+The migration dataset contains # variables. We used # variables listed below:
+1.	resident number before migration by state (numeric)
+2.	resident number after migration by state (numeric)
+3.	original family income (categorical; from Q1 to Q5)
+4.	Race (categorical; [describe the race])
+5.	......
+
+The crime rate dataset contains 3 variables.
+1.	State (nominal; 50 in total)
+2.	Mean number of rubbery cases by states (numeric) in (year)
+3.	Mean number of bulglary cases by states in (year)
+
+Specific Created Variables
 
 
-This comes from the file `content/data.Rmd`.
-
-Your first steps in this project will be to find data to work on.
-
-I recommend trying to find data that interests you and that you are knowledgeable about. A bad example would be if you have no interest in video games but your data set is about video games. I also recommend finding data that is related to current events, social justice, and other areas that have an impact.
-
-You are __not__ allowed to work on COVID data.
-
-Initially, you will study _one dataset_ but later you will need to combine that data with another dataset. For this reason, I recommend finding data that has some date and/or location components. These types of data are conducive to interesting visualizations and analysis and you can also combine this data with other data that also has a date or location variable.
-Data from the census, weather data, economic data, are all relatively easy to combine with other data with time/location components.
+Data Import and Cleaning
 
 
-## Where to keep data?
 
-
-Below 50mb: In `dataset` folder
-
-Above 50mb: In `dataset_ignore` folder. This folder will be ignored by `git` so you'll have to manually sync these files across your team.
-
-### Sharing your data
-
-
-For small datasets (<50mb), you can use the `dataset` folder that is tracked by github. Add the files just like you would any other file.
-
-**Do not** use a folder named `data`.
-This folder is reserved by `hugo`.
-If you create a folder named `data` this will cause problems.
-
-For larger datasets, you'll need to create a new folder in the project root directory named `dataset-ignore`. This will be ignored by git (based off the `.gitignore` file in the project root directory) which will help you avoid issues with Github's size limits. Your team will have to manually make sure the data files in `dataset-ignore` are synced across team members.
-
-Your [load_and_clean_data.R](/load_and_clean_data.R) file is how you will load and clean your data. Here is a an example of a very simple one.
-
-```{r}
-source(
-  here::here("static", "load_and_clean_data.R"),
-  echo = TRUE # Use echo=FALSE or omit it to avoid code output  
-)
-```
-
-Note how I use the `here::here` function from the [`here` package](https://here.r-lib.org/articles/here.html) to avoid path problems.
-This function is used to specify directories within the project's root directory.
-You should never use absolute paths (eg. `/Users/danielsussman/path/to/project/` or `C:\\MA415\\Final_Project\\`) and using `here` ensures that it doesn't matter what the current working directory is as long as you have this RStudio Project open.
-
-----
 
 
 
