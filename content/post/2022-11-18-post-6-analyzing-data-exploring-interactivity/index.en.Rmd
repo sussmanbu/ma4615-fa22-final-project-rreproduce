@@ -1,0 +1,183 @@
+---
+title: 'Post 6: Analyzing data + Exploring Interactivity'
+author: Team Rreproduce
+date: '2022-11-18'
+slug: []
+categories: []
+tags: []
+description: ~
+toc: yes
+authors: []
+series: []
+lastmod: '2022-11-18T09:48:34-05:00'
+featuredVideo: ~
+featuredImage: ~
+---
+This week we worked on combining two datasets and analyzing the patterns of several parameters and their relationship with others. Some of them will be used for answering our research questions. 
+
+
+First, we explore the influence of state crime rate on the migration status. 
+
+
+```{r message=FALSE, warning=FALSE}
+##Organizing datas
+library(tidyverse)
+leave <-read_csv(here::here("dataset", "leave.csv"))
+movein <- read_csv(here::here("dataset", "movein.csv"))
+early <- read_csv(here::here("dataset","00-07CrimeAvg.csv"))
+later <- read_csv(here::here("dataset","10-17CrimeAvg.csv"))
+early<-early %>% arrange(meanRobbery)
+early1<- early %>% arrange(meanBurglary)
+later<-later %>% arrange(meanRobbery)
+later1<-later %>% arrange(meanBurglary)
+```
+
+```{r message=FALSE, warning=FALSE}
+par(mar=c(5, 4, 4, 6) + 0.1)
+plot(early$meanRobbery, pch=16, axes=FALSE, ylim=c(0,650), xlab="", ylab="", 
+   type="l",col="darkorchid4", main="Early years robbery rate vs people move out of the states")
+axis(2, ylim=c(0,1),col="darkorchid4",col.axis="darkorchid4",las=1)  ## las=1 makes horizontal labels
+mtext("Robbery rate per 100,000",side=2,col="darkorchid4",line=2.5)
+box()
+par(new=TRUE)
+plot(leave$prop_leave, pch=15,  xlab="", ylab="", ylim=c(0,0.6), 
+    axes=FALSE, type="l", col="gold1")
+mtext("Proportion of people left the state",side=4,col="gold1",line=4) 
+axis(4, ylim=c(0,7000), col="gold1",col.axis="gold1",las=1)
+mtext("states",side=1,col="darkorchid4",line=2.5)  
+legend("topright",legend=c("Robbery","Proportion left"),
+  text.col=c("darkorchid4","gold1"),pch=c(16,15),col=c("darkorchid4","gold1"))
+```
+This graph demonstrates the relationship between the average robbery rate in each state (from 2000-2007) vs. the proportion of people who left that state (ends up in other states in ~2017). No significant relationship is found. 
+
+
+```{r message=FALSE, warning=FALSE}
+par(mar=c(5, 4, 4, 6) + 0.1)
+plot(later$meanRobbery, pch=16, axes=FALSE, ylim=c(0,230), xlab="", ylab="", 
+   type="l",col="deepskyblue3", main="later years robbery rate vs people move into the states")
+axis(2, ylim=c(0,1),col="deepskyblue3",col.axis="deepskyblue3",las=1)  ## las=1 makes horizontal labels
+mtext("Robbery rate per 100,000",side=2,col="deepskyblue3",line=2.5)
+box()
+par(new=TRUE)
+plot(movein$prop_movein, pch=15,  xlab="", ylab="", ylim=c(0,0.7), 
+    axes=FALSE, type="l", col="darkorange1")
+mtext("Proportion of people moved into the states",side=4,col="darkorange1",line=4) 
+axis(4, ylim=c(0,7000), col="darkorange1",col.axis="darkorange1",las=1)
+mtext("states",side=1,col="deepskyblue3",line=2.5)  
+legend("topleft",legend=c("Robbery","Proportion moved in"),
+  text.col=c("deepskyblue3","darkorange1"),pch=c(16,15),col=c("deepskyblue3","darkorange1"))
+```
+
+This graph demonstrates the relationship between the average robbery rate in each state (from 2010-2017) vs. the proportion of people who are attracted to immigrate to that state (in ~2017). No significant relationship is found. 
+
+```{r message=FALSE, warning=FALSE}
+# for early/ left / Burglary
+par(mar=c(5, 4, 4, 6) + 0.1)
+plot(early1$meanBurglary, pch=16, axes=FALSE, ylim=c(250,1250), xlab="", ylab="", 
+   type="l",col="darkorchid4", main="Early years burglary rate vs people left the states")
+axis(2, ylim=c(0,1),col="darkorchid4",col.axis="darkorchid4",las=1)  ## las=1 makes horizontal labels
+mtext("Burglary rate per 100,000",side=2,col="darkorchid4",line=2.5)
+box()
+par(new=TRUE)
+plot(leave$prop_leave, pch=15,  xlab="", ylab="", ylim=c(0.1,0.5), 
+    axes=FALSE, type="l", col="firebrick1")
+mtext("Proportion of people left the state",side=4,col="firebrick1",line=4) 
+axis(4, ylim=c(0,7000), col="firebrick1",col.axis="firebrick1",las=1)
+mtext("states",side=1,col="darkorchid4",line=2.5)  
+legend("topleft",legend=c("Burglary","Proportion left"),
+  text.col=c("darkorchid4","firebrick1"),pch=c(16,15),col=c("darkorchid4","firebrick1"))
+```
+
+This graph demonstrates the relationship between the average burglary rate in each state (from 2000-2007) vs. the proportion of people who left that state (ends up in other states in ~2017). No significant relationship is found.
+
+```{r message=FALSE, warning=FALSE}
+# For later movein / Burglary
+par(mar=c(5, 4, 4, 6) + 0.1)
+plot(later1$meanBurglary, pch=16, axes=FALSE, ylim=c(300,1100), xlab="", ylab="", 
+   type="l",col="deepskyblue3", main="Later years burglary vs people moved into the states")
+axis(2, ylim=c(0,1),col="deepskyblue3",col.axis="deepskyblue3",las=1)  ## las=1 makes horizontal labels
+mtext("Burglary rate per 100,000",side=2,line=2.5,col = 'deepskyblue3')
+box()
+par(new=TRUE)
+plot(movein$prop_movein, pch=15,  xlab="", ylab="", ylim=c(0.1,0.5), 
+    axes=FALSE, type="l", col="darkolivegreen4")
+mtext("Proportion of people moved into the states",side=4,col="darkolivegreen4",line=4) 
+axis(4, ylim=c(0,7000), col="darkolivegreen4",col.axis="darkolivegreen4",las=1)
+mtext("states",side=1,col="deepskyblue3",line=2.5)  
+legend("topright",legend=c("Burglary","Proportion moved in"),
+  text.col=c("deepskyblue3","darkolivegreen4"),pch=c(16,15),col=c("deepskyblue3","darkolivegreen4"))
+```
+
+This graph demonstrates the relationship between the average burglary rate in each state (from 2010-2017) vs. the proportion of people who are attracted to immigrate to that state (in ~2017). No significant relationship is found. 
+
+
+Next, we explored the effect of rates of income on the crime rate of each state. We select the dominant income group (from Q1 to Q5) and inspect the relationship between state dominant income group and the crime rate(per 100,000). We also grouped the states by four geographical regions. 
+
+```{r message=FALSE, warning=FALSE}
+od_data <- read_csv(here::here("dataset-ignore", "od.csv")) %>%
+    separate(pool,
+           into = c("race","income"),
+           sep = -2
+  ) %>%
+  filter(n != 0 & n != -1) %>%
+  filter(n_tot_o != -1) %>%
+  filter(n_tot_d != -1)
+od_data[is.na(od_data)] = 0
+late_crime <- read.csv(here::here("dataset", "10-17CrimeAvg.csv"))
+mean_Robbery <- late_crime %>%
+  select(-meanBurglary)
+mean_Burglary <- late_crime %>%
+  select(-meanRobbery)
+state_inc <- od_data %>% 
+  group_by(o_state_name,income) %>%
+  summarize(inc_n = sum(n)) %>%
+  mutate(o_state_name = toupper(o_state_name))
+state_maxinc <- state_inc %>%
+  group_by(o_state_name) %>%
+  filter(inc_n == max(inc_n)) %>%
+  mutate(o_state_name = toupper(o_state_name)) %>%
+  rename('State' = 'o_state_name')
+state_maxinc[state_maxinc == 'DC'] <- 'WASHINGTON'
+state_maxinc$State <- gsub(' ','',state_maxinc$State)
+state_inc_Rob <- state_maxinc %>%
+  inner_join(mean_Robbery,by='State')
+state_inc_Bur <- state_maxinc %>%
+  inner_join(mean_Burglary,by='State') 
+state_inc_Bur$income <- gsub('Q','',state_inc_Bur$income)
+state_inc_Bur$income <- state_inc_Bur$income %>%as.integer()
+NA_State_Reigion<-data.frame(state =c( "Connecticut", "Maine", "Massachusetts", "NewHampshire", "RhodeIsland", "Vermont","NewJersey", "NewYork","Pennsylvania","Illinois", "Indiana", "Michigan", "Ohio", "Wisconsin","Iowa", "Kansas", "Minnesota", "Missouri", "Nebraska", "NorthDakota","SouthDakota","Delaware", "Florida","Georgia", "Maryland","North Carolina", "South Carolina","Virginia", "WashingtonD.C.", "WestVirginia","Alabama", "Kentucky", "Mississippi", "Tennessee","Arkansas", "Louisiana", "Oklahoma", "Texas","Arizona", "Colorado", "Idaho", "Montana", "Nevada", "NewMexico", "Utah", "Wyoming","Alaska", "California", "Hawaii", "Oregon", "Washington"),
+                region = c("Northeast","Northeast","Northeast","Northeast","Northeast","Northeast","Northeast","Northeast","Northeast","Midwest","Midwest","Midwest","Midwest","Midwest","Midwest","Midwest","Midwest","Midwest","Midwest","Midwest","Midwest"," South"," South"," South"," South"," South"," South"," South"," South"," South"," South"," South"," South"," South"," South"," South"," South"," South"," West"," West"," West"," West"," West"," West"," West"," West"," West"," West"," West"," West"," West"))
+
+NA_State_Reigion <- NA_State_Reigion %>% 
+  mutate(state = toupper(state)) %>%
+  rename('State' = 'state')
+
+state_inc_Bur %>%
+  inner_join(NA_State_Reigion, by='State') %>%
+  ggplot(aes(x = income,
+             y = meanBurglary)) +
+  geom_point(aes(color = region)) +
+  geom_smooth() +
+  labs(x = 'Income Quantile',y = 'Average Burglary Rate (per 100,000)')
+
+
+
+
+
+
+
+
+```
+
+From the plot, we find that Q1(the lowest income group) has high Robbery Rate and these states are located in the South region. Q2 dominates the least states which are in the West region. Q4 dominates the most states, it has moderate burglary rate and its dominated states spread acroos all regions. 
+
+**Interactivity Ideas**
+
+
+1.	Firstly we want to use one plot graph to show the relationship between crime rate and income level in each state. Specifically, we will use the majority income level to represent each state (for example, if the population of income level in Q1 is the biggest in the state, then A will be shown as Q1 income level). Most people will assume that the less the income level, the more crime rate. However, there is no significant relationship between those two variables
+
+
+2.	Then, we will use the crosstalk function to make users see the crime rate and migration rate in each state. Users can playing with the selection button on the map to filter different regions among five regions: Northeast, Midwest, South, and West; as well as coastal and noncoastal. Users can also choose the migration rate range in the Magnitude to find corresponding states
+
+
+3.	Finally, if users are interested in predicting their future living location, they can input their personal information on 16-years-old: state, income level, and race, and the website will return the prediction result. If users are elder than 26, they can also use this to check whether they follow the trend of migration. If wrong, we will ask users whether to provide their informations to help us improve our model.
