@@ -9,6 +9,8 @@ draft: false
 
 ## Data Link
 Primary: https://migrationpatterns.org/ (Migration Trend)
+
+
 Secondary: https://ucr.fbi.gov/hate-crime (Crime Data)
 
 
@@ -25,33 +27,38 @@ We care about social justice in the United States. We hope to find out how migra
 ## Variables
 
 The migration dataset contains 9 variables. 
+
+
 Geographic variables: 
-1. origin commuting zone (o_cz) : The numeric identifier of the commuting zone (CZ) in which the individual resided in childhood/at age 16 (referred to as origin CZ hereafter).
-2. O_state : The name of the state the origin CZ is in.
-3. destination commuting zone (d_cz): The numeric identifier of the CZ in which the individual resides in young adulthood/at age 26 (referred to as destination CZ hereafter).
-4. D_state: The name of the state the origin CZ is in.
+
+* origin commuting zone (o_cz) : The numeric identifier of the commuting zone (CZ) in which the individual resided in childhood/at age 16 (referred to as origin CZ hereafter).
+* O_state : The name of the state the origin CZ is in.
+* destination commuting zone (d_cz): The numeric identifier of the CZ in which the individual resides in young adulthood/at age 26 (referred to as destination CZ hereafter).
+* D_state: The name of the state the origin CZ is in.
 Migration variables : 
-5. parental income quintile(Q1-Q5)
-6. race
-7. number of people from o now living in d
-8. number of people living in d
-9. number of people from o
+* parental income quintile(Q1-Q5)
+* race
+* number of people from o now living in d
+* number of people living in d
+* number of people from o
 
 
 We used 4 variables listed below:
-1.	resident number before migration by state (numeric)
-2.	resident number after migration by state (numeric)
-3.	original family income (categorical; from Q1 to Q5)
-4.	Race (categorical:Asian, Black, Hispanic, White, Other)
+
+*	resident number before migration by state (numeric)
+*	resident number after migration by state (numeric)
+*	original family income (categorical; from Q1 to Q5)
+*	Race (categorical:Asian, Black, Hispanic, White, Other)
 
 
 The crime dataset contains 13 variables, including different kinds of hate crime, such as violent crime, property crime,robbery, burglary, etc. 
 
 
 We used 3 variables from the dataset: 
-1.	State (nominal; 50 in total)
-2.	Mean number of robbery cases by states (numeric) in two year range : 2000- 2008, 2010-2018.
-3.	Mean number of burglary cases by states from year 2000 to year 2008 , and from year 2010 to year 2018. 
+
+*	State (nominal; 50 in total)
+*	Mean number of robbery cases by states (numeric) in two year range : 2000- 2008, 2010-2018.
+*	Mean number of burglary cases by states from year 2000 to year 2008 , and from year 2010 to year 2018. 
 
 
 
