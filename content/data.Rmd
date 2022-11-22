@@ -7,30 +7,55 @@ featuredImage: images/data-import-cheatsheet-thumbs.png
 draft: false
 ---
 
-Data Link
+## Data Link
+Primary: https://migrationpatterns.org/ (Migration Trend)
+Secondary: https://ucr.fbi.gov/hate-crime (Crime Data)
 
-We care about the social justice in the United States. We hope to find out how migration would impact the change of the crime rate in the United States between (year1) and (year 2). Additionally, we are interested in find out whether other variables would moderate the association between migration pattern and crime rate, such as income levels and race.
-Our migration data is from the [XXX]. We assorted the data in to several different data set, including [XXX]. Specifically, we used [sub-dataset 1], which describes [XXX], and [sub-dataset 2], which describes [XXX] to construct our models. Our crime rate data is from the [XXX]. We assorted our data into the number of “rubbery” and “bulglary” cases during [Year] by the states in the US.
-Here are the links of the two data sets that we used: [Link].
 
-Variables
+When we first started the project, we tried to explore what parameters influence the immigration decisions (race, parents income, other datasets maybe education level, marriage, city GDP, government policy, tax rate, weather). There are lots of dataset that study the migration trend. We specifically focus on the young adult migration trend. The dataset is mainly constructed by three organizations: Policy Impacts, Opportunity Insights and United States Census Bureau to analyze the trend people migrate between childhood and young adulthood and further analyze how much one's location during childhood determines the labor markets that one is exposed to in young adulthood,etc. 
+Looking more closely into the data collection process, the data about location at age 16 and 26 is assigned using Census, tax, and HUD information. Child race is measured using information from the 2010 Decennial Census and American Community Survey (ACS). Parental income is measured as a 5-year average of family income when the children are aged 14-18 based on the tax form 1040 of the parent who claims them as a dependent.  
 
-The migration dataset contains # variables. We used # variables listed below:
+
+The second data set is about crime rate data. This dataset is from the FBI website in the hate crime category. The dataset is collected and constructed by the US government.
+
+
+We care about social justice in the United States. We hope to find out how migration would impact the change of the crime rate in the United States between two ranges: year 2000 - year 2008, year 2010 - year 2018. Additionally, we are interested in finding out whether other variables would moderate the association between migration pattern and crime rate, such as income levels, race,and the geographic locations.By combining two dataset and the variables we want to use, we finalize our research question: how different parameters affect the migration pattern and their relationship with others. 
+
+
+## Variables
+
+The migration dataset contains 9 variables. 
+Geographic variables: 
+1. origin commuting zone (o_cz) : The numeric identifier of the commuting zone (CZ) in which the individual resided in childhood/at age 16 (referred to as origin CZ hereafter).
+2. O_state : The name of the state the origin CZ is in.
+3. destination commuting zone (d_cz): The numeric identifier of the CZ in which the individual resides in young adulthood/at age 26 (referred to as destination CZ hereafter).
+4. D_state: The name of the state the origin CZ is in.
+Migration variables : 
+5. parental income quintile(Q1-Q5)
+6. race
+7. number of people from o now living in d
+8. number of people living in d
+9. number of people from o
+
+
+We used 4 variables listed below:
 1.	resident number before migration by state (numeric)
 2.	resident number after migration by state (numeric)
 3.	original family income (categorical; from Q1 to Q5)
-4.	Race (categorical; [describe the race])
-5.	......
+4.	Race (categorical:Asian, Black, Hispanic, White, Other)
 
-The crime rate dataset contains 3 variables.
+
+The crime dataset contains 13 variables, including different kinds of hate crime, such as violent crime, property crime,robbery, burglary, etc. 
+
+
+We used 3 variables from the dataset: 
 1.	State (nominal; 50 in total)
-2.	Mean number of rubbery cases by states (numeric) in (year)
-3.	Mean number of bulglary cases by states in (year)
-
-Specific Created Variables
+2.	Mean number of robbery cases by states (numeric) in two year range : 2000- 2008, 2010-2018.
+3.	Mean number of burglary cases by states from year 2000 to year 2008 , and from year 2010 to year 2018. 
 
 
-##Data Import and Cleaning
+
+## Data Import and Cleaning
 
 After importing our primary dataset od.csv, we first separate the "pool" column into "race" and "income"
 
@@ -97,21 +122,7 @@ And the merged dataset is now ready for analysis.
 link to [loaddata.R](https://rreproduce.netlify.app/loaddata.R)
 
 
-## Files in static
-
-### `load_and_clean_data.R`
-
-The idea behind this file is that someone coming to your website could largely replicate your analyses after running this script on the original data sets to clean them.
-This file might create a derivative data set that you then use for your subsequent analysis.
-Note that you don't need to run this script from every post/page.
-Instead, you can load in the results of this script, which could be plain text files or `.RData` files. In your data page you'll describe how these results were created. If you have a very large data set, you might save smaller data sets that you can use for exploration purposes.
-To link to this file, you can use `[cleaning script](/loaddata.R)`. 
-
-
-When you are loading in data, I recommend using the `here::here` function to specify the file path. This function is used to specify a path relative to your project's root directory. Hence, you can read a file using eg, `read_csv(here::here("dataset/data_file.csv"))`.
-
-
-### Shiny Interactive
+## Shiny Interactive
 
 We have not developed the Shiny interactive yet but we have our ideas listed below:
 
