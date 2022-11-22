@@ -1,6 +1,7 @@
 library(tidyverse)
 library(readxl)
 ## Primary Data: Commute Zone Population
+## Import and Clean
 od_data <- read_csv(here::here("dataset-ignore", "od.csv")) %>%
   separate(pool,
            into = c("race","income"),
@@ -28,7 +29,7 @@ write_csv(leave, file = here::here("dataset", "leave.csv"))
 movein <- mig %>% filter(o_state_name != d_state_name) %>% group_by(d_state_name) %>% 
   summarise(prop_movein = sum(n)/sum(unique(n_tot_d)))
 write_csv(movein, file = here::here("dataset", "movein.csv"))
-#Sub-data: Origin from MA
+#Sub-data: Origin from MA (EDA)
 o_MA <- od_data %>% 
   filter(o_state_name == "Massachusetts") %>%
   separate(pool,

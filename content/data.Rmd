@@ -32,10 +32,63 @@ Specific Created Variables
 
 Data Import and Cleaning
 
+After importing our primary dataset od.csv, we first separate the "pool" column into "race" and "income"
+
+```{r}
+## pool     ->    race    |   income
+## WhiteQ1  ->   White    |     Q1
+```
+
+Next we filter out 0 values from 'n' column (indicating that the path has no immigrants) and -1 and NA values from all cells (invalid number)
+
+```{r}
+##   filter(n != 0 & n != -1) 
+##   filter(n_tot_o != -1) 
+##   filter(n_tot_d != -1)
+##   od_data[is.na(od_data)] = 0
+```
 
 
+Our secondary data is separated in multiple files range from different years and each row represents different information by state. 
+Therefore, we only extracted the row indicating the total cases of crime categories of all states.
+Crime categories do not have data for every year except for "Robbery" and "Burglary". For the consistency of the analysis, we only use case numbers of "Robbery" and "Burglary" for analysis.
+```{r}
+## For instance: 2010 Crime Data import:
+## data2010<- data2010 %>% fill(State) %>% fill(Area) %>% filter(Area == 'State Total') %>% 
+## filter(...3== 'Rate per 100,000 inhabitants') %>% select(-Population,-...3)
+## data2010 <- data2010[, colSums(is.na(data2010)) < nrow(data2010)]
 
+## Crime data from 2000-2003 use different formats:
+## data2003 <- read_csv(here::here("dataset", "2003.csv"),skip = 4)%>% 
+##   filter(Area!= 'Metropolitan Statistical Area'&
+##           Area!='Area actually reporting'&
+##           Area!='Estimated totals'&
+##           Area!='Cities outside metropolitan areas'&
+##           Area!='Rural'&
+##           Area!='State Total'&
+##           Area!='Total'&
+##           Area!='Nonmetropolitan counties'&
+##           Area!='Estimated total') %>% 
+##   select(c(Area,Robbery,Burglary))
+## data2003$Area <- gsub('Rate per 100,000 inhabitants', NA, data2003$Area) 
+## data2003 <- data2003 %>% 
+##   fill(Area) %>%
+##   drop_na(Robbery, Burglary)
+```
 
+Then we merged crime data from 2000-2007 and 2010-2017 into two datasets, each dataset is composed of state name and average crime cases.
+
+```{r}
+## Combine 2000-2007 crime data
+## df_list <- list(data2000, data2001, data2002,data2003,data2005,data2006,data2007)
+## mergedf <- Reduce(function(x, y) merge(x, y, all=TRUE), df_list)
+## mergedf$Area <- gsub('[0-9., ]', '', mergedf$Area)
+## mergedf <- mergedf %>%
+##   group_by(Area) %>%
+##   summarize(meanRobbery = mean(as.numeric(Robbery)),meanBurglary = mean(Burglary))
+```
+
+And the merged dataset is now ready for analysis. 
 
 ## Files in static
 
