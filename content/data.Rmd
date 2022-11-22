@@ -94,7 +94,7 @@ Then we merged crime data from 2000-2007 and 2010-2017 into two datasets, each d
 
 And the merged dataset is now ready for analysis. 
 
-link to [load_and_clean_data.R](here::here("load_and_clean_data.R"))
+link to [load_and_clean_data.R](here::here("dataset","load_and_clean_data.R"))
 
 
 ## Files in static
