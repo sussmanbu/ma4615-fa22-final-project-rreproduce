@@ -80,7 +80,7 @@ Crime categories do not have data for every year except for “Robbery” and �
 This file might create a derivative data set that you then use for your subsequent analysis.
 Note that you don’t need to run this script from every post/page.
 Instead, you can load in the results of this script, which could be plain text files or <code>.RData</code> files. In your data page you’ll describe how these results were created. If you have a very large data set, you might save smaller data sets that you can use for exploration purposes.
-To link to this file, you can use <code>[cleaning script](/load_and_clean_data.R)</code>.</p>
+To link to this file, you can use <code>[cleaning script](/loaddata.R)</code>.</p>
 <p>When you are loading in data, I recommend using the <code>here::here</code> function to specify the file path. This function is used to specify a path relative to your project’s root directory. Hence, you can read a file using eg, <code>read_csv(here::here("dataset/data_file.csv"))</code>.</p>
 </div>
 <div id="shiny-interactive" class="section level3">
