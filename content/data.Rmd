@@ -30,7 +30,7 @@ The crime rate dataset contains 3 variables.
 Specific Created Variables
 
 
-Data Import and Cleaning
+##Data Import and Cleaning
 
 After importing our primary dataset od.csv, we first separate the "pool" column into "race" and "income"
 
@@ -49,9 +49,13 @@ Next we filter out 0 values from 'n' column (indicating that the path has no imm
 ```
 
 
+To explore the data structure and out interests in the dataset, we have also created a sub dataset that contains people moved from MA to other states/stayed in MA. (see o_MA)
+
+
 Our secondary data is separated in multiple files range from different years and each row represents different information by state. 
 Therefore, we only extracted the row indicating the total cases of crime categories of all states.
-Crime categories do not have data for every year except for "Robbery" and "Burglary". For the consistency of the analysis, we only use case numbers of "Robbery" and "Burglary" for analysis.
+Crime categories do not have data for every year except for "Robbery" and "Burglary". For the consistency of the analysis, we only use case numbers of "Robbery" and "Burglary" for analysis. 
+
 ```{r}
 ## For instance: 2010 Crime Data import:
 ## data2010<- data2010 %>% fill(State) %>% fill(Area) %>% filter(Area == 'State Total') %>% 
@@ -76,7 +80,7 @@ Crime categories do not have data for every year except for "Robbery" and "Burgl
 ##   drop_na(Robbery, Burglary)
 ```
 
-Then we merged crime data from 2000-2007 and 2010-2017 into two datasets, each dataset is composed of state name and average crime cases.
+Then we merged crime data from 2000-2007 and 2010-2017 into two datasets, each dataset is composed of state name and average crime cases. This is because this data is collected when these people were at age 16 and 26 and they were born between between 1984-1992. So we have calculated the time period of these people at age 16 and 26 to seperate the datasets. Note that crime data for year 2004 is missing on the website so we skiped that year during the analysis(since we are using the average it should not be an issue).
 
 ```{r}
 ## Combine 2000-2007 crime data
@@ -89,6 +93,9 @@ Then we merged crime data from 2000-2007 and 2010-2017 into two datasets, each d
 ```
 
 And the merged dataset is now ready for analysis. 
+
+link to [load_and_clean_data.R](here::here("load_and_clean_data.R"))
+
 
 ## Files in static
 
@@ -106,15 +113,19 @@ When you are loading in data, I recommend using the `here::here` function to spe
 
 ### Shiny Interactive
 
-If you are using a shiny interactive, you'll need to keep that in a separate folder (i.e. not in `static` or `content`). For the shiny interactive you'll need to publish the app on `shinyapps.io` where the app can be run. When you publish, make sure to include any data sets you are loading in among the files you publish since those datasets will need to be loaded by your app. 
+We have not developed the Shiny interactive yet but we have our ideas listed below:
 
+1. Firstly we want to use one plot graph to show the relationship between crime rate and income level in each state. Specifically, we will use the majority income level to represent each state (for example, if the population of income level in Q1 is the biggest in the state, then A will be shown as Q1 income level). Most people will assume that the less the income level, the more crime rate. However, there is no significant relationship between those two variables
+2. Then, we will use the crosstalk function to make users see the crime rate and migration rate in each state. Users can playing with the selection button on the map to filter different regions among five regions: Northeast, Midwest, South, and West; as well as coastal and noncoastal. Users can also choose the migration rate range in the Magnitude to find corresponding states
+3. Finally, if users are interested in predicting their future living location, they can input their personal information on 16-years-old: state, income level, and race, and the website will return the prediction result. 
+Or if users are elder than 26, they can also use this to check whether they follow the trend of migration. If wrong, we will ask users whether to provide their informations to help us improve our model.
 
 
 
 
 ----
 
-## Rubric: On this page
+## Rubric: On this page (kept for reference)
 
 you will
 
