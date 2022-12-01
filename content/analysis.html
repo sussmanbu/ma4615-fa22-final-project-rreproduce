@@ -34,7 +34,21 @@ draft: false
 </div>
 <div id="immigration-status-within-massachusetts" class="section level2">
 <h2><strong>Immigration Status within Massachusetts</strong></h2>
-<p>TBD</p>
+<p>Firstly, we zoom in to look at the migration trend within Massachusetts. The state of Massachusetts can be categorized into five commute zones: Boston, Nantucket, Oak Bluffs, Pittsfield and Springfield. We set the departure commute zone to be Boston. Therefore, we are trying to figure out which commute zone in Massachusetts that Boston people tend to migrate to.</p>
+<p><img src="/analysis_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
+<p>Based on the graph above, we can find out that the number of people who resided in Springfield and the number of people who stayed in Boston are relatively similar, and their populations are the highest among all five community zones. This implies that still the largest percentage of Boston residents tends to stay in Boston. This might be because Boston is the city with the largest population in Massachusetts and seemed to be the most developed. Boston people also are very likely to move to Springfield. This might be because Springfield also has a relatively large population( the third largest city in Massachusetts).</p>
+<p>Moreover The number of people in Pittsburgh is the second largest among all five community zones; the number of people in Oak Bluffs is the third largest among all five community zones; the number of people in Nantucket is the least largest in all community zones. To sum up, the migration trend in Boston is very similar to the total population number in each commute zone.</p>
+<p><strong><em>Migration Persona</em></strong></p>
+<pre><code>##           o_MA$income
+## o_MA$race      Q1     Q2     Q3     Q4     Q5
+##   Asian    -2.945  0.747  0.459  0.059  1.737
+##   Black     4.954  2.658 -0.836 -2.617 -4.448
+##   Hispanic  4.886  1.426 -0.585 -2.357 -3.595
+##   Other     1.896  0.180 -0.067 -1.075 -1.001
+##   White    -5.271 -2.618  0.626  3.305  4.254</code></pre>
+<p><img src="/analysis_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
+<p>For the chi-square above, we try to investigate the relationship between race groups and their income level. The graph demonstrates a significant difference of income levels between different races among people who originally migrated from Massachusetts. The result is very informative. The income group can be divided into five levels : Q1( lowest) , Q2, Q3,Q4,and Q5( highest).
+We specifically analyze the race group for Q1 and Q5 income groups. For the Q1 group, it’s mainly occupied by the population of Black and Hispanic, and the population of White has the lowest percentage in Q1. In the highest income quintile (Q5), it’s mainly occupied by White population group, while the population of Black takes the lowest percentage. Interestly, these two results are perfectly opposite. Moreover, for Asian race group, the population in different income levels are almost equally distributed. For Q1, it has the second lowest percentage of population. Generally, the white race group has higher income and black and hispanic group has the lower income.</p>
 </div>
 <div id="race-and-income-vs.-immigration-pattern-by-state" class="section level2">
 <h2><strong>Race and Income vs. Immigration Pattern By State</strong></h2>
@@ -46,16 +60,19 @@ draft: false
 </div>
 <div id="state-income-vs.-crime-rate" class="section level2">
 <h2><strong>State Income vs. Crime Rate</strong></h2>
-<p>TBD</p>
+<p>Next, we are curious about whether the crime rate has the relationship with race and income.Specifically, we explored the effect of rates of income on the crime rate of each state. We select the dominant income group (from Q1 to Q5) and inspect the relationship between state dominant income group and the crime rate(per 100,000). At the same time, we grouped the states by four geographical regions: Northeast, Midwest, South, and West</p>
+<p><img src="/analysis_files/figure-html/unnamed-chunk-6-1.png" width="672" />
+From the plot, we find that Q1(the lowest income group) has high Robbery Rate and these states are located in the South region. Q2 dominates the least states which are in the West region. Q4 dominates the most states, it has moderate burglary rate and its dominated states spread acroos all regions.</p>
+<p>The regression result indicates that for 1 increase in the income level(such as from Q1 to Q2), the burglary rate(per 100,000) will decrease by -93.66. The P-value is 1,978e-09, indicating that our linear regression model is appropriate.</p>
 </div>
 <div id="crime-rate-vs.-immigration-patterns" class="section level2">
 <h2><strong>Crime Rate vs. Immigration Patterns</strong></h2>
 <p>To explore the correlation between crime rate and immigration decision overall, we started using four subsets of the two datasets. We have subset “leave” representing the proportion of people moved out of each state, subset “movein” representing the proportion of people moved into each state, and subset “early” and “later” containing the average rate of robbery and burglary in the early years and later years. Then we made four plots to explore the correlations.</p>
-<p><img src="/analysis_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
-<p><img src="/analysis_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+<p><img src="/analysis_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
+<p><img src="/analysis_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
 <p>Looking at these two figures, we can see that states with higher robbery rates do not usually have a higher moving in/moving out rate. As the robbery rate goes up by different states, the curve for moving in/moving out rate oscillates around the rate of approximately 0.25.</p>
-<p><img src="/analysis_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
-<p><img src="/analysis_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
+<p><img src="/analysis_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
+<p><img src="/analysis_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
 <p>From these two figures above about the effect of burglary on people’s moving decisions, we can see that states with higher burglary rates do not usually have a higher moving in/moving out rate. As the robbery rate goes up by different states, the curve for the moving in/moving out rate oscillates. Compared to the robbery graphs, the graphs of burglary comparison show more variability for the proportion of people moving in/out.</p>
 <p>In conclusion, from the four graphs shown above, we can say that there is no correlation between robbery and burglary rates and immigration decisions overall if we only look at the migration pattern between states. The graphs do not show any obvious migration pattern as the crime rates go up. This is different from what we expected since our original hypothesis was the higher the crime rates are, the higher the moving-out rate it would be(the lower the moving-in rate would be). We would normally assume that higher robbery and burglary rate meaning people would not feel safe to live there. But in this case we ignored some key factors. For example, we used states as unit to explore the correlation between crime rate and immigration decision overall. However crime rate and migration pattern between cities can be very different as well. People might choose to move within the state if they find the crime rate in their cities are too high. Also, there are more factors that could affect both crime rate and immigration decisions that we are not considering such as the economic development level, work opportunities and tourism.</p>
 </div>
