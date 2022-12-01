@@ -10,7 +10,7 @@ draft: false
 library(tidyverse)
 library(corrplot)
 library(readr)
-
+library(knitr)
 ```
 
 **Big Question**
@@ -60,7 +60,7 @@ Moreover The number of people in Pittsburgh is the second largest among all five
 ```{r echo=FALSE, message=FALSE, warning=FALSE, paged.print=TRUE}
 load(here::here("dataset/o_MA.RData"))
 chisq_race_income <- chisq.test(o_MA$race, o_MA$income, correct=FALSE)
-round(chisq_race_income$residuals, 3)
+kable(round(chisq_race_income$residuals, 3))
 corrplot(chisq_race_income$residuals, is.cor = FALSE)
 ```
 
