@@ -6,64 +6,197 @@ featuredVideo:
 featuredImage: https://upload.wikimedia.org/wikipedia/commons/7/77/Pebbleswithquarzite.jpg
 draft: false
 ---
-
-This comes from the file `content/analysis.Rmd`.
-
-We describe here our detailed data analysis.
-
-
-```{r}
+```{r message=FALSE, warning=FALSE, include=FALSE}
 library(tidyverse)
-print(getwd())
-data <- read_csv(here::here("dataset/loan_refusal_clean.csv"))
-load(here::here("dataset/loan_refusal.RData"))
-print(ls())
-```
-
-## Note on Attribution
-
-If you are directly quoting from a source, please make that clear. You can show quotes using `>` like this
+library(corrplot)
+library(readr)
 
 ```
-> To be or not to be.
-```
 
-> To be or not to be.
+**Big Question**
+------------
+We are curious about the potential relationships between several variables from the migration and crime datasets. Our big question for this project is: 
 
-Also, make sure to provide a link or citation to where you are quoting from.
+***What factors affect the immigration status in the United States and how do they affect it?***
 
+The variables we investigated as potential influential factors are：
+
+* Income Quantile (Q1-Poor to Q5-Rich)
+* Race (Non-hispanic White and other races)
+* Average Robbery and Burglary Rate from 2000-2007 
+* Average Robbery and Burglary Rate from 2010-2017
+
+Our hypotheses are:
+
+* States with higher income are more attractive to immigrants.
+* Race doesn't affect state's immigration status of the states.
+* State income is inversely associated with crime rate.
+* States with higher crime rate at early years tend to have more people moving out of their home states.
+* States with lower crime in recent years are more attractive to immigrants
+
+**Immigration Status within Massachusetts**
 -------
+TBD
+
+**Race and Income vs. Immigration Pattern By State**
+-------
+After exploring the the association between race and income and the immigration pattern of Massachusetts, we wondered if the race and income variables would influence the immigration patterns to a larger scope. Thus, we expanded our exploration, focusing on the entire population of the United States.
 
 
-## Rubric: On this page
+We conducted analysis of variance (ANOVA) to examine the difference between race in the number of destination migrants, the difference between income levels in the number of destination migrants, and the interaction effect between race and income on the the number of destination migrants. 
+```{r message=FALSE, warning=FALSE, include=FALSE}
+od_data <- read_csv(here::here("dataset-ignore", "od.csv"))
+my_data <- od_data %>%
+  filter(o_cz == d_cz) %>%
+  mutate(n_tot_d = n_tot_d - n) %>%
+  separate(pool,
+           into = c("race","income"),
+           sep = -2
+  )
 
-you will
+res.aov2 <- aov(n_tot_d ~ income + race, data = my_data)
+summary(res.aov2)
+
+my_data %>% select_if(is.factor)
+```
+
+```{r ANOVA, echo=FALSE, message=FALSE, warning=FALSE}
+interaction.plot(x.factor = my_data$race, trace.factor = my_data$income, 
+                 response = my_data$n_tot_d, fun = mean, 
+                 type = "b", legend = TRUE, 
+                 xlab = "Income", ylab="Migration population in Destinatioj", 
+                 trace.label = "Income",
+                 pch=c(1,19), col = c("#00AFBB", "#E7B800"))
+```
 
 
-* Introduce what motivates your Data Analysis (DA)
-  * Which variables and relationships are you most interested in?
-  * What questions are you interested in answering?
-* Breadth of the DA
-  * Make sure that you ask enough initial questions to explore the different variables in your data.
-  * i.e. Do you explore more than just one or two variables? Do you explore a few different relationships or many?
-* Depth of the DA
-  * When you answer one question, usually more questions arise as well. 
-  * The depth of the DA is about coming up with and exploring the answers to these questions, often iterating the process a few times.
-* Modeling and Inference 
-  * You should also include some kind of formal statistical model and/or inference. This could be a linear regression, logistic regression, hypothesis testing etc.
-  * Explain the techniques you used for validating your results.
-  * Describe the results of your modelling and make sure to give a sense of the uncertainty in your estimates and conclusions.
-* Explain the flaws and limitations of your analysis
-  * Are there some assumptions that you needed to make that might not hold? Is there other data that would help to answer your questions? ...
-* Clarity Figures
-  * Are your figures/tables/results easy to read, informative, without problems like overplotting, hard-to-read labels, etc?
-  * Each figure should provide a key insight. Too many figures or other data summaries can detract from this.
-* Clarity of Explanations
-  * Do you introduce why you are doing each analysis?
-  * How well do you explain each figure/result?
-  * Do you provide interpretations that suggest further analysis or explanations for observed phenomenon?
-* Organization and cleanliness.
-  * Make sure to remove excessive warnings, use clean easy-to-read code, organize with sections or multiple pages, use bullets, etc.
-  
-  
-**NOTE**: Your Data Analysis can be broken up into multiple pages if that helps with your organization.
+After visualizing the data using a scatter plot, we found that White people with high income tend to migrate to the places with the highest amount of migrant. Asians, regardless of income, tend to gather in places with the least amount of migrant. In addition, Blacks with the lowest income tend to migrate to places with high migrant population, while those with highest income tend to migrate to places with lowest migrant. Hispanics with the lowest income also tend to migrant to places with relatively high migrant population, while those with the highest income tend to migrate to places with low migrants. For Other Races, people with the lowest income tend to move to places with the highest migrant.
+
+
+To sum up, the places with the most immigrants are likely to be consisted of high income Whites, low income Blacks, low income Hispanics, and people with low income from other races. The places with the least immigrants are likely to be consisted of high income Blacks, high income Hispanics, and Asians. In conclusion, on the premises of people with the similar characteristics and socioeconomic status tend to aggregate, wealthy White people would gather in destinations, which might produce more opportunities for employment, attracting people from other races with low income. On the other hand, places with the majority of wealthy Black and Hispanics might contains less Whites because of the decreased likelihood of finding people of the same kind. Regarding Asians, the majority of them tend to aggregate regardless of income, which might be explained by the collective cultural norm.
+
+
+**State Income vs. Crime Rate**
+-----
+TBD
+
+**Crime Rate vs. Immigration Patterns**
+-----
+
+```{r include=FALSE}
+leave <-read_csv(here::here("dataset", "leave.csv"))
+movein <- read_csv(here::here("dataset", "movein.csv"))
+early <- read_csv(here::here("dataset","00-07CrimeAvg.csv"))
+later <- read_csv(here::here("dataset","10-17CrimeAvg.csv"))
+early<-early %>% arrange(meanRobbery)
+early1<- early %>% arrange(meanBurglary)
+later<-later %>% arrange(meanRobbery)
+later1<-later %>% arrange(meanBurglary)
+```
+
+To explore the correlation between crime rate and immigration decision overall, we started using four subsets of the two datasets. We have subset “leave” representing the proportion of people moved out of each state, subset “movein” representing the proportion of people moved into each state, and subset “early” and “later” containing the average rate of robbery and burglary in the early years and later years. Then we made four plots to explore the correlations.
+
+```{r echo=FALSE}
+par(mar=c(5, 4, 4, 6) + 0.1)
+
+plot(early$meanRobbery, pch=16, axes=FALSE, ylim=c(0,650), xlab="", ylab="", 
+   type="l",col="darkorchid4", main="Early years robbery rate vs people move out of the states")
+axis(2, ylim=c(0,1),col="darkorchid4",col.axis="darkorchid4",las=1)  ## las=1 makes horizontal labels
+mtext("Robbery rate per 100,000",side=2,col="darkorchid4",line=2.5)
+box()
+par(new=TRUE)
+plot(leave$prop_leave, pch=15,  xlab="", ylab="", ylim=c(0.05,0.45), 
+    axes=FALSE, type="l", col="coral")
+
+mtext("Proportion of people left the state",side=4,col="coral",line=4) 
+axis(4, ylim=c(0,7000), col="coral",col.axis="coral",las=1)
+
+mtext("states",side=1,col="darkorchid4",line=2.5)  
+
+legend("topleft",legend=c("Robbery","Proportion left"),
+  text.col=c("darkorchid4","coral"),pch=c(16,15),col=c("darkorchid4","coral"))
+```
+
+```{r echo=FALSE}
+par(mar=c(5, 4, 4, 6) + 0.1)
+
+plot(later$meanRobbery, pch=16, axes=FALSE, ylim=c(0,230), xlab="", ylab="", 
+   type="l",col="deepskyblue3", main="later years robbery rate vs people move into the states")
+axis(2, ylim=c(0,1),col="deepskyblue3",col.axis="deepskyblue3",las=1)  ## las=1 makes horizontal labels
+mtext("Robbery rate per 100,000",side=2,col="deepskyblue3",line=2.5)
+box()
+
+par(new=TRUE)
+
+plot(movein$prop_movein, pch=15,  xlab="", ylab="", ylim=c(0,0.5), 
+    axes=FALSE, type="l", col="darkorange1")
+
+mtext("Proportion of people moved into the states",side=4,col="darkorange1",line=4) 
+axis(4, ylim=c(0,7000), col="darkorange1",col.axis="darkorange1",las=1)
+
+mtext("states",side=1,col="deepskyblue3",line=2.5)  
+
+legend("topleft",legend=c("Robbery","Proportion moved in"),
+  text.col=c("deepskyblue3","darkorange1"),pch=c(16,15),col=c("deepskyblue3","darkorange1"))
+```
+
+Looking at these two figures, we can see that states with higher robbery rates do not usually have a higher moving in/moving out rate. As the robbery rate goes up by different states, the curve for moving in/moving out rate oscillates around the rate of approximately 0.25. 
+
+```{r echo=FALSE}
+par(mar=c(5, 4, 4, 6) + 0.1)
+
+plot(early1$meanBurglary, pch=16, axes=FALSE, ylim=c(250,1250), xlab="", ylab="", 
+   type="l",col="darkorchid4", main="Early years burglary rate vs people left the states")
+axis(2, ylim=c(0,1),col="darkorchid4",col.axis="darkorchid4",las=1)  ## las=1 makes horizontal labels
+mtext("Burglary rate per 100,000",side=2,col="darkorchid4",line=2.5)
+box()
+
+par(new=TRUE)
+
+plot(leave$prop_leave, pch=15,  xlab="", ylab="", ylim=c(0.1,0.45), 
+    axes=FALSE, type="l", col="firebrick1")
+
+mtext("Proportion of people left the state",side=4,col="firebrick1",line=4) 
+axis(4, ylim=c(0,7000), col="firebrick1",col.axis="firebrick1",las=1)
+
+mtext("states",side=1,col="darkorchid4",line=2.5)  
+
+legend("topleft",legend=c("Burglary","Proportion left"),
+  text.col=c("darkorchid4","firebrick1"),pch=c(16,15),col=c("darkorchid4","firebrick1"))
+```
+
+```{r echo=FALSE}
+par(mar=c(5, 4, 4, 6) + 0.1)
+
+plot(later1$meanBurglary, pch=16, axes=FALSE, ylim=c(300,1100), xlab="", ylab="", 
+   type="l",col="deepskyblue3", main="Later years burglary vs people moved into the states")
+axis(2, ylim=c(0,1),col="deepskyblue3",col.axis="deepskyblue3",las=1)  ## las=1 makes horizontal labels
+mtext("Burglary rate per 100,000",side=2,line=2.5,col = 'deepskyblue3')
+box()
+
+par(new=TRUE)
+
+plot(movein$prop_movein, pch=15,  xlab="", ylab="", ylim=c(0.1,0.5), 
+    axes=FALSE, type="l", col="darkolivegreen4")
+
+mtext("Proportion of people moved into the states",side=4,col="darkolivegreen4",line=4) 
+axis(4, ylim=c(0,7000), col="darkolivegreen4",col.axis="darkolivegreen4",las=1)
+
+mtext("states",side=1,col="deepskyblue3",line=2.5)  
+
+legend("topright",legend=c("Burglary","Proportion moved in"),
+  text.col=c("deepskyblue3","darkolivegreen4"),pch=c(16,15),col=c("deepskyblue3","darkolivegreen4"))
+```
+
+From these two figures above about the effect of burglary on people’s moving decisions, we can see that states with higher burglary rates do not usually have a higher moving in/moving out rate. As the robbery rate goes up by different states, the curve for the moving in/moving out rate oscillates. Compared to the robbery graphs, the graphs of burglary comparison show more variability for the proportion of people moving in/out.
+
+
+In conclusion, from the four graphs shown above, we can say that there is no correlation between robbery and burglary rates and immigration decisions overall if we only look at the migration pattern between states. The graphs do not show any obvious migration pattern as the crime rates go up. This is different from what we expected since our original hypothesis was the higher the crime rates are, the higher the moving-out rate it would be(the lower the moving-in rate would be). We would normally assume that higher robbery and burglary rate meaning people would not feel safe to live there. But in this case we ignored some key factors. For example, we used states as unit to explore the correlation between crime rate and immigration decision overall. However crime rate and migration pattern between cities can be very different as well. People might choose to move within the state if they find the crime rate in their cities are too high. Also, there are more factors that could affect both crime rate and immigration decisions that we are not considering such as the economic development level, work opportunities and tourism.
+
+**Discussion And Future Research**
+-------
+Our results indicate that certain patterns exists between race, income, and immigration status of the state, but the robbery and burglary rate have no influence on immigration patterns. This research only explore the correlation between two variables. In future research, we can study the reason behind these correlations. e.g. income vs. satisfaction/life quality etc. 
+
+We try to avoid making conclusions for races because samples population are dominated by white in the dataset, thus the result may be biased. Sample number of non-white immigrants in the dataset is not sufficient to become representative for their races. Our future study would required dataset with more balanced race percentages. 
+
+Besides race, income, and crime rate, there are many other factors that could affect the immigration status of the state. Instead of finding patterns from a single variable, we could perform multivariate analysis to examine more sophiscated factors that could affect the immigration status. 
