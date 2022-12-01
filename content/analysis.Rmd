@@ -45,7 +45,8 @@ o_MA %>%
   filter(Original_CZ=="Boston") %>%
   ggplot()+
   geom_bar(aes(x = Dest_CZ, fill=Dest_CZ))+
-  coord_polar(theta='x')
+  coord_polar(theta='x') +
+  labs(x="Destination",fill="Destination")
 ```
 
 Based on the graph above, we can find out that the number of people who resided in Springfield and the number of people who stayed in Boston are relatively similar, and their populations are the highest among all five community zones. This implies that still the largest percentage of Boston residents tends to stay in Boston. This might be because Boston is the city with the largest population in Massachusetts and seemed to be the most developed. Boston people also are very likely to move to Springfield. This might be because Springfield also has a relatively large population( the third largest city in Massachusetts). 
