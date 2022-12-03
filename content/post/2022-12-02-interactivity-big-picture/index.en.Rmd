@@ -1,0 +1,30 @@
+---
+title: Interactivity, Big Picture
+author: Team Rreproduce
+date: '2022-12-02'
+slug: []
+categories: []
+tags: []
+description: ~
+toc: yes
+authors: []
+series: []
+lastmod: '2022-12-02T20:42:54-05:00'
+featuredVideo: ~
+featuredImage: ~
+---
+
+This week we began to write big picture and design our interactive applications. 
+
+
+**Interactivity**
+----
+For our interactive applications, we will first build a shiny app which allow user to input state names, and the app will output the state income proportion and state crime trend from 2000-2017. Our second app will be using crosstalk to build an interactive map. States will be labeled and contain the number of people who immigrate out of the state and number of people who move to that state. We hope to get this done by the end of next week. 
+
+**Big Picture**
+----
+Our tentative thesis developed from our analysis is that immigration is a decision driven by state's economy and life quality; however, safety is not a major factor immigrants would take consider of. Our data has shown that state income is a big driver on immigration status, but robbery and burglary rate of each state isn't significantly associated with the immigration status. We will elaborate on this tentative thesis in our Big Picture and will have our data to support it in next week. 
+
+**Polishing**
+----
+We plan to polish our website, plots, and tables. We will reorganize the paragraphs to make them more organized and clear. We will also explore htmlwidgets for good visual representation and try to apply some on our dataset. At last, we wish to decorate our website by changing its layout so it doesn't look identical as other groups' websites. 
