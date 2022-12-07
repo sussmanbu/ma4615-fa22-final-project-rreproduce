@@ -196,3 +196,12 @@ mergedf <- mergedf %>%
 write.csv(mergedf,file=here::here("dataset/00-07CrimeAvg.csv"), row.names = FALSE)
 save(mergedf, file = here::here("dataset/00-07CrimAvg.RData"))
 
+
+####INCOME BY STATE######
+state_inc <- od_data %>% 
+  group_by(o_state_name,income) %>%
+  summarize(inc_n = sum(n)) %>%
+  mutate(o_state_name = toupper(o_state_name))
+write.csv(state_inc,file=here::here("dataset/state_inc.csv"))
+
+
