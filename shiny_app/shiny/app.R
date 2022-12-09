@@ -13,7 +13,7 @@ library(leaflet)
 library(sf)
 library(tidyverse)
 library(htmltools)
-
+library(plotly)
 
 # Build UI
 ui <- fluidPage(
@@ -28,16 +28,22 @@ ui <- fluidPage(
       column(8, leafletOutput("map")
       ),
       column(4, 
-             span("Select "), span(style="color:green", "State"), 
-             span(" from the map:"),
+             span(style = "font-weight: 600; font-size:18px","Select "), span(style="font-weight: 600; font-size:18px; color:green", "State"), 
+             span(style = "font-weight: 600; font-size:18px"," from the map:"),
              br(),br(),
              htmlOutput("name"),
+             br(),br(),
+             htmlOutput("explanation"),
+             actionButton("leave","Leave"),
+             actionButton("movein","Move-in"),
+             br(),
+             span(),
              hr()
       )),
     br(),br(),
     hr(),
     fluidRow(
-      column(5, plotOutput("plot", width = "120%", height = "400px")
+      column(5, plotlyOutput("income_plot", width = "120%", height = "400px")
     ))
   )
 
@@ -48,21 +54,31 @@ server <- function(input, output, session) {
   ####### GLOBAL VARIABLE #########
   click_count <- 0 ###COUNTING CLICKs
   sn <- " "
+  mode <- ""
   ###############
   ####INPUT DATASET#####
   movein <- read_csv(here::here("dataset","movein.csv")) %>%
     rename(NAME=d_state_name)
-  state <- st_read(here::here("dataset/cb_2019_us_state_20m/cb_2019_us_state_20m.shp")) %>%
-    inner_join(movein,by='NAME')
+  leave <- read_csv(here::here("dataset","leave.csv")) %>%
+    rename(NAME=o_state_name)
+  
+  state <- st_read(here::here("dataset/cb_2019_us_state_20m/cb_2019_us_state_20m.shp"))
+  movein_state <- state %>% inner_join(movein,by='NAME')
+  leave_state <- state %>% inner_join(leave,by='NAME')
+  
+  
   state_inc <- read_csv(here::here("dataset","state_inc.csv"))
   ##MAP ELEMENTS###
   bins <- c(0, 0.05, 0.1, 0.15, 0.2, 0.25, 0.3, 0.35, 0.4, 0.45, 0.5)
-  pal <- colorBin("YlOrRd", domain = state$prop_movein, bins = bins)
+  pal <- colorBin("YlOrRd", domain = state$proportion, bins = bins)
   labels <- sprintf(
-    "<strong>%s</strong><br/>%g percent",
-    state$NAME, state$prop_movein
+    "<strong>%s</strong>",
+    state$NAME
   ) %>% 
     lapply(htmltools::HTML)
+  
+  
+## 
   
   ########MAP###########
   output$map <- renderLeaflet({
@@ -70,10 +86,7 @@ server <- function(input, output, session) {
     setView(-96, 37.8, 4) %>%
     addTiles() %>%
     addPolygons(layerId = ~NAME,
-                fillColor = ~pal(prop_movein),
-                opacity=0.5,
                 weight=2,
-                fillOpacity=1,
                 highlight = highlightOptions(weight = 5,
                                              color = "#666",
                                              fillOpacity = 0.7,
@@ -82,9 +95,91 @@ server <- function(input, output, session) {
                 labelOptions = labelOptions(style = list("font-weight" = "normal", 
                                                          padding = "3px 8px"),
                                             textsize = "15px",
-                                            direction = "auto")) %>%
-    addLegend(pal = pal, values = ~density, opacity = 0.7, 
-              title = NULL, position = "bottomright")})
+                                            direction = "auto"))}) 
+  observeEvent(input$movein, {
+    labels <- sprintf(
+      "<strong>%s</strong><br/>%g percent",
+      movein_state$NAME,movein_state$proportion
+    ) %>% 
+      lapply(htmltools::HTML)
+    
+    mode <<- "M"
+    
+    leafletProxy("map", data = movein_state) %>%
+      clearShapes() %>%
+      clearTiles() %>%
+      clearControls() %>%
+      addTiles() %>%
+      addPolygons(layerId = ~NAME,
+                  fillColor = ~pal(proportion),
+                  opacity=0.5,
+                  weight=2,
+                  fillOpacity=1,
+                  highlight = highlightOptions(weight = 5,
+                                               color = "#666",
+                                               fillOpacity = 0.7,
+                                               bringToFront = TRUE),
+                  label = labels,
+                  labelOptions = labelOptions(style = list("font-weight" = "normal", 
+                                                           padding = "3px 8px"),
+                                              textsize = "15px",
+                                              direction = "auto")) %>%
+      addLegend(pal = pal, values = ~density, opacity = 0.7, 
+                title = NULL, position = "bottomright")
+  })
+  
+  observeEvent(input$leave, {
+    labels <- sprintf(
+      "<strong>%s</strong><br/>%g percent",
+      leave_state$NAME,leave_state$proportion
+    ) %>% 
+      lapply(htmltools::HTML)
+    
+    mode <<- "L"
+    
+    leafletProxy("map", data = leave_state) %>%
+      clearShapes() %>%
+      clearTiles() %>%
+      clearControls() %>%
+      addTiles() %>%
+      addPolygons(layerId = ~NAME,
+                  fillColor = ~pal(proportion),
+                  opacity=0.5,
+                  weight=2,
+                  fillOpacity=1,
+                  highlight = highlightOptions(weight = 5,
+                                               color = "#666",
+                                               fillOpacity = 0.7,
+                                               bringToFront = TRUE),
+                  label = labels,
+                  labelOptions = labelOptions(style = list("font-weight" = "normal", 
+                                                           padding = "3px 8px"),
+                                              textsize = "15px",
+                                              direction = "auto")) %>%
+      addLegend(pal = pal, values = ~density, opacity = 0.7, 
+                title = NULL, position = "bottomright")
+      })
+  
+########################################  
+  output$explanation <- renderText({
+    click <- input$map_shape_click$id
+    explain = ""
+    percentage = ""
+    name <- ""
+    if (mode == "L"){
+      selection <- leave_state %>% filter(NAME == click)
+      name <- selection$NAME
+      percentage <- selection$proportion
+      explain <- " at the age of 16 left this state"
+    }
+    if (mode == "M"){
+      selection <- movein_state %>% filter(NAME == click)
+      name <- selection$NAME
+      percentage <- selection$proportion
+      explain <- " at the age of 26 are the immigrants from other states"
+    }
+    paste(percentage,"% of the population in ",name, explain)
+  })
   
   observeEvent(input$map_shape_click, {
     click_count <<- click_count+1
@@ -94,24 +189,25 @@ server <- function(input, output, session) {
     click <- input$map_shape_click$id
     selection <- state %>% filter(NAME == click)
     sn <<- selection$NAME
-    paste("<strong> <span style = \'font-weight: 700;\'> Origin:            </span> </strong> 
+    paste("<strong> <span style = \'font-weight: 700;\'> State:            </span> </strong> 
         <strong> <span style = \'font-weight: 500;\'> ",sn, "</span> </strong>")
   })
   
-  output$plot <- renderPlot({
+  output$income_plot <- renderPlotly({
+    m <- list(l = 3, r = 10, b = 30, t = 80, pad = 4)
     click <- input$map_shape_click$id
     selection <- state_inc %>% filter(o_state_name==toupper(click))
     selection %>%
-      ggplot() +
-      geom_col(aes(x="",y=inc_n,fill=income),position="stack")+
-      coord_polar(theta="y")+
-      labs(x="Population",y="",fill="Income Quantile")+
-      ggtitle("State Income Quantile Proportion")+
-      theme(plot.title=element_text(size=18,hjust=0.5,face="bold"))
+      plot_ly(labels = ~income, values = ~ inc_n, type = 'pie',sort=F,
+              width = 350, height = 300) %>%
+      layout(title="State Income Quantile Proportion",
+             font = list(family='Arial', size = 11), margin = m ,
+             legend = list(orientation = 'h', x=0, font = list(family = 'Arial', size = 10)),
+             paper_bgcolor='transparent',
+             xaxis = list(showgrid = FALSE, zeroline = FALSE, showticklabels = FALSE),
+             yaxis = list(showgrid = FALSE, zeroline = FALSE, showticklabels = FALSE))
   })
   }
-   
-  
 
 
 

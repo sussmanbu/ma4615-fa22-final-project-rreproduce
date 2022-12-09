@@ -28,13 +28,10 @@ The variables we investigated as potential influential factors are：
 
 Our hypotheses are:
 
-* States with higher income are more attractive to immigrants.
-* Race doesn't affect state's immigration status of the states.
-* State income is inversely associated with crime rate.
-* States with higher crime rate at early years tend to have more people moving out of their home states.
-* States with lower crime in recent years are more attractive to immigrants
 
-**Immigration Status within Massachusetts**
+***State crime rate is inversely associated with state immigration rate***
+
+**Immigration Rate within One State (Massachusetts)**
 -------
 Firstly, we zoom in to look at the migration trend within Massachusetts. The state of Massachusetts can be categorized into five commute zones: Boston, Nantucket, Oak Bluffs, Pittsfield and Springfield. We set the departure commute zone to be Boston. Therefore, we are trying to figure out which commute zone in Massachusetts that Boston people tend to migrate to. 
 
