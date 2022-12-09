@@ -6,6 +6,9 @@ featuredImage: https://images.unsplash.com/photo-1606373664971-bf9b25eb508d?ixli
 featuredVideo:
 draft: false
 ---
+Interactive: https://chenkaiyao2000.shinyapps.io/shiny/
+
+
 
 This comes from the file `content/big_picture.Rmd`.
 

@@ -15,6 +15,8 @@ library(tidyverse)
 library(htmltools)
 library(plotly)
 
+
+
 # Build UI
 ui <- fluidPage(
     tags$style(type="text/css",".shiny-output-error { visibility: hidden; }",".shiny-output-error:before { visibility: hidden; }"), 
@@ -57,17 +59,17 @@ server <- function(input, output, session) {
   mode <- ""
   ###############
   ####INPUT DATASET#####
-  movein <- read_csv(here::here("dataset","movein.csv")) %>%
+  movein <- read_csv("movein.csv") %>%
     rename(NAME=d_state_name)
-  leave <- read_csv(here::here("dataset","leave.csv")) %>%
+  leave <- read_csv("leave.csv") %>%
     rename(NAME=o_state_name)
   
-  state <- st_read(here::here("dataset/cb_2019_us_state_20m/cb_2019_us_state_20m.shp"))
+  state <- st_read("cb_2019_us_state_20m/cb_2019_us_state_20m.shp")
   movein_state <- state %>% inner_join(movein,by='NAME')
   leave_state <- state %>% inner_join(leave,by='NAME')
   
   
-  state_inc <- read_csv(here::here("dataset","state_inc.csv"))
+  state_inc <- read_csv("state_inc.csv")
   ##MAP ELEMENTS###
   bins <- c(0, 0.05, 0.1, 0.15, 0.2, 0.25, 0.3, 0.35, 0.4, 0.45, 0.5)
   pal <- colorBin("YlOrRd", domain = state$proportion, bins = bins)
@@ -166,19 +168,22 @@ server <- function(input, output, session) {
     explain = ""
     percentage = ""
     name <- ""
+    a<-""
     if (mode == "L"){
       selection <- leave_state %>% filter(NAME == click)
       name <- selection$NAME
-      percentage <- selection$proportion
+      percentage <- selection$proportion %>% round(digits=2)
       explain <- " at the age of 16 left this state"
+      a<- "% of the population in "
     }
     if (mode == "M"){
       selection <- movein_state %>% filter(NAME == click)
       name <- selection$NAME
-      percentage <- selection$proportion
-      explain <- " at the age of 26 are the immigrants from other states"
+      percentage <- selection$proportion %>% round(digits=2)
+      explain <- " at the age of 26 are from other states"
+      a<- "% of the population in "
     }
-    paste(percentage,"% of the population in ",name, explain)
+    paste(percentage,a,name, explain)
   })
   
   observeEvent(input$map_shape_click, {
