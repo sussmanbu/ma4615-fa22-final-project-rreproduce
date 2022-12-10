@@ -1,0 +1,132 @@
+---
+title: "trytry"
+author: "Ziyi Jia"
+date: "2022-12-09"
+output: html_document
+---
+
+```{r }
+
+suppressMessages(library(plotly))
+
+
+# crime rate vs leave proportion by year
+leave_crime <- read_csv(here::here('dataset','00-07Crime.csv')) %>%
+  rename(State=Area)%>%
+  inner_join(leave,by='State')
+leave_crime %>% 
+  pivot_longer(c(Robbery,Burglary),names_to="crime",values_to="value")%>%
+  ggplot(aes(x=value,y=proportion,color=crime)) +
+  geom_point() +
+  facet_grid(vars(year))
+
+leave_crime<- leave_crime %>% 
+  pivot_longer(c(Robbery,Burglary),names_to="crime",values_to="value")
+g <- ggplot(leave_crime, aes(x = value, y = proportion, color = crime,
+  text = paste('population left',leave_pop, "<br>", 'total population',total_pop))) +
+  geom_point(position = "jitter")+
+  facet_grid(vars(year))
+ggplotly(g, tooltip = "text")
+
+
+# crime rate vs movein proportion by year
+movein_crime <- read_csv(here::here('dataset','10-17Crime.csv')) %>%
+  inner_join(movein,by='State')
+movein_crime %>% 
+  pivot_longer(c(Robbery,Burglary),names_to="crime",values_to="value")%>%
+  ggplot(aes(x=value,y=proportion,color=crime)) +
+  geom_point() +
+  facet_grid(vars(year))
+
+
+movein_crime<- movein_crime %>% 
+  pivot_longer(c(Robbery,Burglary),names_to="crime",values_to="value")
+f <- ggplot(movein_crime, aes(x = value, y = proportion, color = crime,
+  text = paste('population moved in',movein_pop, "<br>", 'total population',total_pop))) +
+  geom_point(position = "jitter")+
+  facet_grid(vars(year))
+ggplotly(f, tooltip = "text")
+
+
+
+
+```
+
+
+
+```{r}
+library(leaflet)
+library(tidyverse)
+library(plotly)
+library(DT)
+library(readr)
+library(crosstalk)
+
+movein1 <- read_csv("dataset/movein.csv")
+leave1 <- read_csv("dataset/leave.csv")
+movein1$d_state_name <- toupper(movein1$d_state_name)
+leave1$o_state_name <- toupper(leave1$o_state_name)
+early <- read_csv(here::here('dataset','00-07CrimeAvg.csv')) 
+early<- early %>% filter(Area!= 'DISTRICTOFCOLUMBIA')
+later <- read_csv(here::here('dataset','10-17CrimeAvg.csv'))
+
+
+colnames(movein1)[1] <- "Area"
+colnames(leave1)[1] <- "Area"
+colnames(early)[2] <- "early_meanRobbery"
+colnames(early)[3] <- "early_meanBurglary"
+colnames(later)[2] <- "later_meanRobbery"
+colnames(later)[3] <- "later_meanBurglary"
+colnames(later)[1] <- "Area"
+movein1 <- movein %>% filter(Area != 'DC') %>% select(Area,proportion)
+leave1 <- leave1 %>% filter(Area != 'DC')%>% select(Area,proportion)
+colnames(movein1)[2] <- "prop_movein"
+colnames(leave1)[2] <- "prop_leave"
+
+aa<- read_csv('/Users/fredaaa/Desktop/us map.csv')
+colnames(aa)[1] <- "Area"
+aa$Area <- gsub("(.*),.*", "\\1", aa$Area) %>% toupper()
+
+
+aa<- aa %>% inner_join(movein1,by = 'Area')
+aa<- aa %>% inner_join(leave1,by = 'Area')
+aa$Area<-str_replace_all(aa$Area, " ", "")
+aa<- aa %>% inner_join(early,by = 'Area')
+aa<- aa %>% inner_join(later,by = 'Area') 
+
+
+d <- SharedData$new(aa[sample(nrow(aa), 50),])
+# Create a filter input
+filter_slider("prop_movein", "movein", d, column=~prop_movein, step=0.1, width=250)
+# Use SharedData like a dataframe with Crosstalk-enabled widgets
+bscols(
+leaflet(d) %>% addTiles() %>% addMarkers(),
+datatable(d, extensions="Scroller", style="bootstrap", class="compact", width="100%",
+options=list(deferRender=TRUE, scrollY=300, scroller=TRUE))
+)
+
+write.csv(aa,file=here::here("dataset/aa.csv"),row.names=FALSE)
+write.csv(aa,file=here::here("crosstalk/aa.csv"),row.names=FALSE)
+
+```
+
+
+```{r}
+
+a1 <- aa %>% pivot_longer(c(early_meanRobbery,early_meanBurglary),names_to = 'crimeType',values_to = 'crimeRate')
+plot_ly(a1, type = "scatter", mode = "markers",
+  x = ~jitter(crimeRate, 2), y = ~jitter(prop_leave,2), color = ~crimeType,
+  text = ~paste(Area, "<br>", prop_leave),
+  hovertemplate = "%{text}") %>%
+  layout(xaxis = list(title = "Early years crime rate"), yaxis = list(title = "proportion of people moved out of State"))
+
+a1 <- aa %>% pivot_longer(c(later_meanRobbery,later_meanBurglary),names_to = 'crimeType',values_to = 'crimeRate')
+plot_ly(a1, type = "scatter", mode = "markers",
+  x = ~jitter(crimeRate, 2), y = ~jitter(prop_movein,2), color = ~crimeType,
+  text = ~paste(Area, "<br>", prop_movein),
+  hovertemplate = "%{text}") %>%
+  layout(xaxis = list(title = "Later years crime rate"), yaxis = list(title = "proportion of people moved into the State"))
+
+```
+```
+
