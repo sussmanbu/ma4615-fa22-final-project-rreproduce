@@ -1,0 +1,40 @@
+---
+title: Finishing Interactives+Polishing Plots+New Complimentary Dataset
+author: Team Rreproduce
+date: '2022-12-09'
+slug: []
+categories: []
+tags: []
+description: ~
+toc: yes
+authors: []
+series: []
+lastmod: '2022-12-09T21:44:41-05:00'
+featuredVideo: ~
+featuredImage: ~
+---
+
+**Interactive**
+
+
+Now we have built two interactives for the project. One is published on shiny.io and the other one is still in progress. 
+
+
+link to shiny: https://chenkaiyao2000.shinyapps.io/shiny/
+
+
+The app is composed of a leaflet map with polygon layers on top of it. Each polygon is a state and has its id. By clicking on the polygon, the server reads which state it is clicking and send this information to search in the dataset for information of this state. We then use this to create plots of state incomes and state crime rate displayed beneath the map. On the right side has two modes of the map. By clicking them, the server changes the leaflet using one with the colorfilled polygons by a proportion of population. This proportion indicates the percentage of population at the age of 16 left this state for "leave" mode and percentage of population at the age of 26 moved in from other states for "movein" mode. 
+
+-----
+
+**Polishing Plots**
+
+
+From the review of our analysis page, we decide to polish our image with better choice on types of plots, using clear axis, titles,and legends, and switching from ggplot to plotly so the plots look nice overall and have interactives. 
+
+-----
+
+**Complimentary dataset**
+
+
+Since we could not find association between state migration pattern and crime rate, we decide to use a complimentary dataset with universities in each state. We want to use this dataset to see whether the educational environment in each state would affect the immigration decesions of people at the age 16-26.
