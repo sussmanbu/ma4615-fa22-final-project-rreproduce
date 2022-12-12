@@ -3,6 +3,10 @@
 
 library(shiny)
 library(readr)
+library(tidyverse)
+library(crosstalk)
+library(DT)
+library(leaflet)
 aa <- read_csv("aa.csv")
 aa <- aa %>%  select(Area, prop_movein,prop_leave,early_meanRobbery,
                      early_meanBurglary,later_meanRobbery,
