@@ -44,6 +44,31 @@ o_MA <- od_data %>%
   filter(o_state_name == "Massachusetts") 
 write_csv(o_MA, file = here::here("dataset", "o_MA.csv"))
 
+##Complimentary Data: 
+Uni <- read_delim(here::here('dataset','us-colleges-and-universities.csv'),delim=';') %>%
+  filter(COUNTRY == 'USA') %>%
+  select(NAME,CITY,STATE,NAICS_DESC) 
+write_csv(Uni, file = here::here("dataset", "Uni.csv"))
+
+StateUni <- Uni %>%
+  group_by(NAICS_DESC,STATE) %>%
+  summarize(n=n())%>%
+  pivot_wider(names_from = NAICS_DESC, values_from = 1) %>%
+  rename(Business='BUSINESS AND SECRETARIAL SCHOOLS',
+         General='COLLEGES, UNIVERSITIES, AND PROFESSIONAL SCHOOLS',
+         Computer='COMPUTER TRAINING',
+         Cosme_Barber='COSMETOLOGY AND BARBER SCHOOLS',
+         EduServ='EDUCATIONAL SUPPORT SERVICES',
+         Arts='FINE ARTS SCHOOLS',
+         Flight='FLIGHT TRAINING',
+         Junior='JUNIOR COLLEGES',
+         Other='OTHER TECHNICAL AND TRADE SCHOOLS') %>%
+  pivot_longer(c(Business,General,Computer,Cosme_Barber,EduServ,Arts,Flight,Junior,Other),names_to = 'type',values_to='value') %>%
+  drop_na() %>%
+  select(STATE,type,n)
+write_csv(StateUni, file = here::here("dataset", "StateUni.csv"))
+  
+
 ##Secondary Data: Crime at AGE 16(average of 2000-200) and at AGE 26(average from 2010-2017)
 data2010 <- read_csv(here::here("dataset/crime2010-2017", "2010-table-5.csv"),skip = 3)
 data2011 <- read_csv(here::here("dataset/crime2010-2017", "2011-table-5.csv"),skip = 3)
@@ -104,6 +129,31 @@ write.csv(mergedf,file=here::here("dataset/00-07Crime.csv"), row.names = FALSE)
 write.csv(average_merge,file=here::here("dataset/00-07AvgCrime.csv"),row.names=FALSE)
 
 
-
+## Combined State variables
+uni <- read_csv(here::here("dataset/StateUni.csv")) %>%
+  group_by(STATE) %>%
+  mutate(state_sum = sum(n)) %>% 
+  pivot_wider(names_from = type,values_from=n)
+uni[is.na(uni)] <- 0
+state <- st_read(here::here("dataset","cb_2019_us_state_20m/cb_2019_us_state_20m.shp")) %>%
+  select(STUSPS,NAME) %>% rename(STATE = STUSPS)
+state_uni <- inner_join(uni,state,by='STATE') %>%
+  ungroup() %>%
+  select(-'STATE')
+movein_crime <- read_csv(here::here("dataset/10-17CrimeAvg.csv")) %>% rename(NAME = State)
+leave_crime <- read_csv(here::here("dataset/00-07CrimeAvg.csv")) %>% rename(NAME = Area)
+leave <- read_csv(here::here("dataset","leave.csv")) %>%
+  select(-total_pop) %>%
+  rename(NAME = o_state_name,leave_prop=proportion) 
+movein <- read_csv(here::here("dataset","movein.csv")) %>%
+  select(-total_pop) %>%
+  rename(NAME = d_state_name,movein_prop=proportion)
+state <- inner_join(state_uni,leave,by="NAME") %>%
+  inner_join(movein,by="NAME") %>% ungroup() %>% mutate(NAME=toupper(NAME)) 
+state$NAME <- gsub(' ','',state$NAME)
+state <- state_full %>% inner_join(movein_crime,by='NAME') %>%
+  rename(Robbery10=meanRobbery,Burglary10=meanBurglary) %>%
+  inner_join(leave_crime,by='NAME') %>%
+  rename(Robbey00=meanRobbery,Burglary00=meanBurglary)
 
 
