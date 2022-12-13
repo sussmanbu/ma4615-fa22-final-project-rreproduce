@@ -7,7 +7,7 @@ featuredImage: https://news.miami.edu/_assets/images-stories/2020/05/migrationsy
 draft: false
 ---
 
-**Introduction to Our Datasets**
+<font size="5"><b>Introduction to Our Datasets</b></font>
 
 
 Primary: https://migrationpatterns.org/ (Migration Trend)
@@ -35,13 +35,11 @@ Third: https://hifld-geoplatform.opendata.arcgis.com/datasets/colleges-and-unive
 
 ----
 
-**Variables**
+<font size="5"><b>Variables</b></font>
 
 The migration dataset contains 11 variables. 
 
-
 Geographic variables: 
-
 
 * origin commuting zone (o_cz) : commuting zone (CZ) in which the individual resided /at age 16
 * O_state : The name of the state the origin CZ is in.
@@ -50,7 +48,6 @@ Geographic variables:
 
 
 Migration variables : 
-
 
 * n: The number of individuals from origin o living in destination d.
 * n_tot_o: Total number of individuals from origin o. 
@@ -61,29 +58,25 @@ Migration variables :
 
 Categorical variables:
 
-
 * parental income quantile (Q1-Q5)
 * race (Asian, Black, Hispanic, White, Other)
 
 
 The crime dataset contains 13 variables, including different kinds of hate crime, such as violent crime, property crime,robbery, burglary, etc. 
 
-
 We use 3 variables from the dataset: 
-
 
 *	State (50 in total)
 *	Number of robbery cases by states (numeric) in two ranges: 2000- 2007 (except 2004), 2010-2017.
 *	Number of burglary cases by states (numeric) in two ranges: 2000- 2007 (except 2004), 2010-2017.
-
 
 We specifically choose robbery and burglary from all hate crimes because they are measured in every years, whereas other crime types have missing data that may influence the consistency of statistical analysis.
 
 
 The US colleges and Universities dataset contains 45 variables, including name of schools, geographical information of each schools, the NAICS_DESC(different type of schools), school website, valid date, number of enrolled students, number of employees, number of housing, etc. Overall, this data layer covers all 50 states, as well as Puerto Rico and other assorted U.S. territories.
 
-The main variables we use for our project are:
 
+The main variables we use for our project are:
 
 * State, County, Country, which are are all geographic information of the school
 * NAICS_DESC represents the school type defined by National Center for Education Statistics(NCES)
