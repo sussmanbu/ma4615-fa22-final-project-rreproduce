@@ -155,6 +155,7 @@ Then we merged crime data from 2000-2007 and 2010-2017 into two datasets, each d
 ##   group_by(Area) %>%
 ##   summarize(meanRobbery = mean(as.numeric(Robbery)),meanBurglary = mean(Burglary))
 ```
+We are able to combine the migration dataset and the crime rate datasets because the time period(year) of crime rate and migration data are consistent. 
 
 Finally, we read our third dataset: US colleges and University dataset. Firstly, we only keep the rows which country is  `USA`. After that, this dataset’s state is consisting with other two dataset. Then, to be more concise, we only select the columns: NAME,STATE,NAICS_DESC,COUNTRY
 
@@ -183,12 +184,89 @@ To be more concise and easy to read, we renamed NAICS_DESC type of schools short
   ##drop_na() %>%
   ##select(c(type,STATE,n))
 ```
+The university data set is now ready for analysis.
 
-And the merged dataset is now ready for analysis. 
+To simplify the process of reading data when analyzing, we combine leave, movein, crime rates in early and later years, and university data to make a new collective dataset called state. we use inner join by state names to combine the datasets. 
 
-We are able to combine the migration dataset and the crime rate datasets because the time period(year) of crime rate and migration data are consistent. 
+```{r}
+uni <- read_csv(here::here("dataset/StateUni.csv")) %>%
+  group_by(STATE) %>%
+  mutate(state_sum = sum(n)) %>% 
+  pivot_wider(names_from = type,values_from=n)
+uni[is.na(uni)] <- 0
+state <- st_read(here::here("dataset","cb_2019_us_state_20m/cb_2019_us_state_20m.shp")) %>%
+  select(STUSPS,NAME) %>% rename(STATE = STUSPS)
+state_uni <- inner_join(uni,state,by='STATE') %>%
+  ungroup() %>%
+  select(-'STATE')
+movein_crime <- read_csv(here::here("dataset/10-17CrimeAvg.csv")) %>% rename(NAME = State)
+leave_crime <- read_csv(here::here("dataset/00-07CrimeAvg.csv")) %>% rename(NAME = Area)
+leave <- read_csv(here::here("dataset","leave.csv")) %>%
+  select(-total_pop) %>%
+  rename(NAME = o_state_name,leave_prop=proportion) 
+movein <- read_csv(here::here("dataset","movein.csv")) %>%
+  select(-total_pop) %>%
+  rename(NAME = d_state_name,movein_prop=proportion)
+state <- inner_join(state_uni,leave,by="NAME") %>%
+  inner_join(movein,by="NAME") %>% ungroup() %>% mutate(NAME=toupper(NAME)) 
+state$NAME <- gsub(' ','',state$NAME)
+state <- state_full %>% inner_join(movein_crime,by='NAME') %>%
+  rename(Robbery10=meanRobbery,Burglary10=meanBurglary) %>%
+  inner_join(leave_crime,by='NAME') %>%
+  rename(Robbey00=meanRobbery,Burglary00=meanBurglary)
+
+```
+And the new collective dataset is now ready for analysis. 
+
+For the interactive plots, we combined movein and moveout proportion and crime rates in early years and later years with the us map dataset which contains the state name and longitude and latitude of the states. We name this new dataset used for interactive plots for_interactive.
+
+```{r}
+movein1 <- read_csv("dataset/movein.csv")
+leave1 <- read_csv("dataset/leave.csv")
+movein1$d_state_name <- toupper(movein1$d_state_name)
+leave1$o_state_name <- toupper(leave1$o_state_name)
+early <- read_csv(here::here('dataset','00-07CrimeAvg.csv')) 
+early<- early %>% filter(Area!= 'DISTRICTOFCOLUMBIA')
+later <- read_csv(here::here('dataset','10-17CrimeAvg.csv'))
+
+
+colnames(movein1)[1] <- "Area"
+colnames(leave1)[1] <- "Area"
+colnames(early)[2] <- "early_meanRobbery"
+colnames(early)[3] <- "early_meanBurglary"
+colnames(later)[2] <- "later_meanRobbery"
+colnames(later)[3] <- "later_meanBurglary"
+colnames(later)[1] <- "Area"
+movein1 <- movein1 %>% filter(Area != 'DC') %>% select(Area,proportion)
+leave1 <- leave1 %>% filter(Area != 'DC')%>% select(Area,proportion)
+colnames(movein1)[2] <- "prop_movein"
+colnames(leave1)[2] <- "prop_leave"
+
+for_interactive <- read_csv("dataset/us map.csv")
+colnames(for_interactive)[1] <- "Area"
+for_interactive$Area <- gsub("(.*),.*", "\\1", for_interactive$Area) %>% toupper()
+
+
+for_interactive<- for_interactive %>% inner_join(movein1,by = 'Area')
+for_interactive<- for_interactive %>% inner_join(leave1,by = 'Area')
+for_interactive$Area<-str_replace_all(for_interactive$Area, " ", "")
+for_interactive<- for_interactive %>% inner_join(early,by = 'Area')
+for_interactive<- for_interactive %>% inner_join(later,by = 'Area') 
+
+```
+
+To combine these data, we first read the datasets we already have which are the average crime rate in early/later years, movein/leave datasets. Then we change the column names and filtered out the DC area to make all the datasets consistent. Then we inner joined the datasets by state names (variable Area). Thus the dataset for_interactive is now ready to be used in the interactive plots.
+
+
+
 
 link to [loaddata.R](https://rreproduce.netlify.app/loaddata.R)
+
+
+
+
+
+
 
 
 ## Shiny Interactive
