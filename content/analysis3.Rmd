@@ -1,0 +1,103 @@
+---
+title: Analysis
+description:
+toc: true
+authors: []
+tags: []
+categories: []
+series: []
+date: 2022-12-13T23:24:50-05:00
+lastmod: 2022-12-13T23:24:50-05:00
+featuredVideo:
+featuredImage:
+draft: false
+---
+```{r message=FALSE, warning=FALSE, include=FALSE}
+library(tidyverse)
+library(plotly)
+od_data <- read_csv(here::here("dataset-ignore/od_data.csv")) 
+```
+
+<font size="5"><b>Model Analysis on Demographics</font></b>
+
+
+Guided by our initial exploratory analysis, we then ran several models to illustrate the association between race and the migration pattern, and whether income levels would moderate such an association. We ran chi-square tests to see if there are significant differences in income quantiles among our participants from different racial groups. Our graphs indicated that indeed there are significant differences, with white people dominating the highest income quantile, and most white people were aggregated at the highest two income quantile. Additionally, 1/4 of the Asians were at the highest income quantile. On the contrary, a significant amount of the people from Black, Hispanic, or other races were at the lowest two income quantile. 
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+within_income <- od_data %>%  
+  group_by(race,income) %>%
+  summarize(inc_race_pop=sum(n)) %>%
+  ungroup() %>%
+  group_by(income) %>%
+  mutate(inc_pop = sum(inc_race_pop)) %>%
+  pivot_wider(names_from=(race),values_from=(inc_race_pop)) %>%
+  mutate(Asian_prop = Asian/inc_pop) %>%
+  mutate(Black_prop = Black/inc_pop) %>%
+  mutate(White_prop = White/inc_pop) %>%
+  mutate(Hispanic_prop = Hispanic/inc_pop) %>%
+  mutate(Other_prop = Other/inc_pop)
+
+within_income %>% plot_ly(x=~income,y=~White_prop,type='bar',name='White') %>%
+  add_trace(y=~Black_prop,name='Black') %>%
+  add_trace(y=~Asian_prop,name='Asian') %>%
+  add_trace(y=~Hispanic_prop,name='Hispanic') %>%
+  add_trace(y=~Other_prop,name='Other') %>%
+  layout(xaxis=list(title="Income Quantile"),
+         yaxis=list(title="Race Percentage"),
+         barmode='stack')
+```
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+within_race <- od_data %>%
+  group_by(race,income) %>%
+  summarize(inc_race_pop=sum(n)) %>%
+  ungroup() %>%
+  group_by(race) %>%
+  mutate(race_pop = sum(inc_race_pop)) %>%
+  pivot_wider(names_from=(income),values_from=(inc_race_pop)) %>%
+  mutate(Q1_prop = Q1/race_pop) %>%
+  mutate(Q2_prop = Q2/race_pop) %>%
+  mutate(Q3_prop = Q3/race_pop) %>%
+  mutate(Q4_prop = Q4/race_pop) %>%
+  mutate(Q5_prop = Q5/race_pop)
+
+within_race %>% plot_ly(x=~race,y=~Q1_prop,type='bar',name='Q1-poorest') %>%
+  add_trace(y=~Q2_prop,name='Q2') %>%
+  add_trace(y=~Q3_prop,name='Q3') %>%
+  add_trace(y=~Q4_prop,name='Q4') %>%
+  add_trace(y=~Q5_prop,name='Q5-richest') %>%
+  layout(xaxis=list(title="Race"),
+         yaxis=list(title="Income Quantile Percentage"),
+         barmode='stack')
+```
+
+After investigating the demographics of our participants, we found it was possible to further explore our analysis by starting with the migration pattern in Massachusetts. By composing a bar graph, we could identify that Boston had the most residents during 2010-2017, with Springfield following up. Interestingly, most migrant populations in Boston during 2010-2017 were originally from Springfield. Likewise, most migrant populations in Spring during 2010-2017 were originally from Boston. We thought the reason for this migration pattern distribution is that Boston and Springfield are large cities with better socioeconomic environment, public security, and more overall living resources, thus attracting more migrants. The reason for people who were originally from Springfield to move to Boston might be that they hoped to pursue a life in a larger city with better working and leisure opportunities. For people who originally resided in Boston subsequently migrated to Springfield, they might enjoy tranquil life in the countryside more.
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+o_MA <- read_csv(here::here("dataset/o_MA.csv")) %>%
+  filter(d_state_name == "Massachusetts") %>%
+  filter(o_cz_name != d_cz_name) %>%
+  group_by(o_cz_name,d_cz_name) %>%
+  summarize(mig = sum(n)) %>%
+  ungroup() %>%
+  pivot_wider(names_from=(o_cz_name),values_from=(mig)) %>%
+  rename(OakBluffs='Oak Bluffs')
+
+o_MA %>%  plot_ly(y=~d_cz_name,x=~Nantucket,type='bar',name='Nantucket') %>%
+  add_trace(x=~OakBluffs,name='Oak Bluffs') %>%
+  add_trace(x=~Pittsfield,name='Pittsfield') %>%
+  add_trace(x=~Springfield,name='Springfield') %>%
+  add_trace(x=~Boston,name='Boston') %>%
+  layout(title = "Migration Patterns Withinin CZ in MA From Age 16 to 26",
+         xaxis = list(title="Population From Other CZs in MA at 26"),
+         yaxis = list(title="Destination State"),
+         legend = list(title="State From",orientation='h'),barmode = 'stack'
+         )
+```
+
+We could clearly see the association between race, income, and the migration pattern at that stage. The reason for such associations might be complicated, but we concluded several potential explanations. On the premise that people with the similar characteristics and socioeconomic status tend to aggregate, wealthy White people would gather in destinations, which might produce more opportunities for employment, attracting people from other races with low income. On the other hand, places with the majority of wealthy Black and Hispanics might contain less Whites because of the decreased likelihood of finding people of the same kind. Regarding Asians, the majority of them tend to aggregate regardless of income, which might be explained by the collective cultural norm.
+
+
+[Previous Page: Exploratory Data Analysis](/analysis2/)
+
+[Next Page: Crime Association Analysis](/analysis4/)
+
