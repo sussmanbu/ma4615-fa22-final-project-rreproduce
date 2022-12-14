@@ -1,0 +1,96 @@
+---
+title: Analysis
+description:
+toc: true
+authors: []
+tags: []
+categories: []
+series: []
+date: 2022-12-14T00:53:34-05:00
+lastmod: 2022-12-14T00:53:34-05:00
+featuredVideo:
+featuredImage:
+draft: false
+---
+```{r message=FALSE, warning=FALSE, include=FALSE}
+library(tidyverse)
+```
+
+<font size="5"><b>Model Analysis on Migration Factors</font></b>
+
+
+While we did not find direct associations between the crime rate and the migration patterns, we assumed that the number of educational institutions would be associated with both the crime rate and the migration pattern; thus, we should adjust the number of educational institutions as a covariate. In this way, we can also investigate whether the covariate is significantly associated with the migration patterns. We used a linear exhaustive search model in forward direction to see which predictor fitted the model best, and our model confirmed that the number of educational institution was worth to investigate. 
+
+```{r message=FALSE, warning=FALSE, include=FALSE}
+state<-read_csv(here::here("dataset/state.csv")) %>%
+  rename(sum_uni = state_sum)
+moveinsearch <- state %>%
+  select(sum_uni,movein_prop,Robbery10,Burglary10) %>%
+  rename(meanRobbery=Robbery10,meanBurglary=Burglary10)
+
+moveinsearch2 <- state %>%
+  select(-c(sum_uni,NAME,movein_pop,leave_pop,leave_prop,Robbey00,Burglary00)) %>%
+  rename(meanRobbery=Robbery10,meanBurglary=Burglary10)
+
+leavesearch <- state %>%
+  select(sum_uni,leave_prop,Robbey00,Burglary00) %>%
+  rename(meanRobbery=Robbey00,meanBurglary=Burglary00)
+
+leavesearch2 <- state %>%
+  select(-c(sum_uni,NAME,movein_pop,leave_pop,movein_prop,Robbery10,Burglary10)) %>%
+  rename(meanRobbery=Robbey00,meanBurglary=Burglary00)
+
+```
+
+
+We found that the number of educational institutions within a state was significantly associated with the proportion of people moved into the state. However, the association was negative, meaning that the more educational institutions within a state, the less people were likely to move into the state. At the first glance, this result might be surprising and contradictory to conventional perspectives, as states with numerous educational institutions would attract more people, especially for our participants, who were at the age of seeking education. Nevertheless, we can still argue that since the outcome we looked at was the proportion of the migrants in terms of the entire state population, it is plausible that local residents would not move out of the states for educational purposes. Thus, the higher the number of educational institutions a state had, the higher proportion of people who would like to stay in the state, which rendered the move-in proportion low. 
+
+```{r echo=FALSE, message=FALSE, warning=FALSE, paged.print=TRUE}
+forward <- leaps::regsubsets(movein_prop~.,data=moveinsearch,method="forward")
+forward_summary <- summary(forward)
+forward_summary$which
+forward_summary$cp
+model <- lm(movein_prop~sum_uni+1,data=moveinsearch)
+summary(model)
+```
+
+We then further divided the educational institutions into specific types, such as business school, computer science school, etc. Once again, we used a linear exhaustive search model in forward direction, and generated several predictors that fit the model the best as demonstrated in the below graph. We found that the mean burglary rate was still not significantly associated with the proportion of moved-in people. However, the number of business schools, computer science schools, and general education schools were significantly associated with the proportion of moved-in people. However, only the number of computer schools was positively associated with the proportion of moved-in people. One reasonable explanation is that computer science and related majors have become increasingly popular in recent years, and people were likely to migrate based on the decision of seeking quality computer science-related education. Still, this model also demonstrated that the burglary rate was not significantly associated with the proportion of moved-in people, confirming the graph we made above. 
+
+```{r echo=FALSE, message=FALSE, warning=FALSE, paged.print=TRUE}
+forward2 <- leaps::regsubsets(movein_prop~.,data=moveinsearch2,method="forward")
+forward2_summary <- summary(forward2)
+forward2_summary$which
+forward2_summary$cp
+model2 <- lm(movein_prop~Business+Computer+EduServ+General+meanBurglary+1,data=moveinsearch2)
+summary(model2)
+```
+
+
+We then changed our outcome variable into the proportion of people moved-out. Implemented the same method of analysis, we found the mean burglary rate and the number of the educational institutions were significantly associated with the moved-out proportion. It is to our surprise that the crime rate was significantly, but inversely associated with the proportion of the people moved-out, meaning that the higher the crime rate of a state, the lower the proportion of people who moved out. We discussed this scenario more in our discussion section. 
+
+```{r echo=FALSE, message=FALSE, warning=FALSE, paged.print=TRUE}
+forwardleave <- leaps::regsubsets(leave_prop~.,data=leavesearch,method="forward")
+forwardleave_summary <- summary(forwardleave)
+forwardleave_summary$which
+forwardleave_summary$cp
+
+modelleave <- lm(leave_prop~sum_uni+meanBurglary+1,data=leavesearch)
+summary(modelleave)
+```
+
+When using specific types of educational institutions, including the number of schools of general education, and the number of cosmetic schools as covariates, we again found significant associations between the mean burglary rate and the proportion of people moved out. Nonetheless, the association was still negative. Meanwhile, the number of the specific educational institutions were not significantly associated with the proportion of people moved out of the state. 
+
+```{r echo=FALSE, message=FALSE, warning=FALSE, paged.print=TRUE}
+forwardleave2 <- leaps::regsubsets(leave_prop~.,data=leavesearch2,method="forward")
+forwardleave2_summary <- summary(forwardleave2)
+forwardleave2_summary$which
+forwardleave2_summary$cp
+
+modelleave2 <- lm(leave_prop~General+Cosme_Barber+meanBurglary+1,data=leavesearch2)
+summary(modelleave2)
+```
+
+[Previous Page: Crime Association Analysis](/analysis4/)
+
+[Next Page: Discussion](/analysis6/)
+
