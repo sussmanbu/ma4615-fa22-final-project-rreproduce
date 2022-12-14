@@ -78,4 +78,4 @@ o_MA %>%
 
 [Previous Page: Introduction](/analysis/)
 
-[Next Page: Model Analysis](/analysis3/)
+[Next Page: Model Analysis on Demographics](/analysis3/)
