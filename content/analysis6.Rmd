@@ -1,0 +1,35 @@
+---
+title: Analysis
+description:
+toc: true
+authors: []
+tags: []
+categories: []
+series: []
+date: 2022-12-14T00:53:42-05:00
+lastmod: 2022-12-14T00:53:42-05:00
+featuredVideo:
+featuredImage:
+draft: false
+---
+
+<font size="5"><b>Discussion</font></b>
+
+
+In this study we mainly aimed to address whether the crime rates of the states in the US would be associated with the migration patterns of the participants at their age of 16 and 26. Unfortunately, we did not find significant associations between the two specific crime rates we looked at: robbery and burglary, and the combined move-in and move-out rate of our participants at two different time points of their life. It is possible that the crime rate would not be fundamental when considering migration for our participants because of their age and related demographic characteristics.
+
+
+Nevertheless, after we divided the specific migration patterns, including move-in and move-out, and adjusting for the total number of educational institutions and the number of specific educational institutions, we found significant associations between burglary rate and the proportion of people moved-out. However, the burglary rates were inversely associated with the migration patterns after adjusting for covariates. The results demonstrated that the higher the burglary rate of a state, the less the proportion of people who would move out. Additionally we also found that the burglary rates were not significantly associated with the proportion of people moved in after adjusting for covariates. Regarding the educational institutions, some of the specific types of the institutions were significantly associated with the proportion of people moved-in, but the directions of the associations were different. Specifically, the higher the number of computer science institutions in a state, the higher the proportion of people moved into the state. As the computer science major has become increasingly popular over the recent years, it is understandable that people would migrate to a different state for pursuing better computer-science related educational resources, especially among our participants at the age of 16 and 26. 
+
+
+Still, our results should be considered in the light of several limitations. We did not further analyzed other types of crime rates, such as murder and fraud. It would be ideal to analyze the prevalence of the crime rate at first and then decide which specific crime rate we should look at. Crime rates with high prevalence might be more associated with the migration patterns, as they might contribute more on deciding the destination and whether to move out. The inverse association between the burglary rate and the proportion of people moved out might be caused by the outliers of the burglary rate variable in our data. 
+
+
+Additionally, although we found that there were significant differences in income levels among people from different races, we did not further investigate whether they would moderate the associations between the crime rate and the migration patterns. Due to the nature of our data set that the race and income variables did not correspond to individual participants, but the route of the migration, we could not analyze them successfully.
+
+
+Potentially, people with higher income would consider more on their safety, thus demonstrating a higher migration rate. It is also possible that people with higher income would have more monetary resources to maintain their security, thus they might also be less likely to migrate out of their original residence. In addition, we did not analyze the race variable further, which left the gap in investigating whether race would moderate the associations between crime rate and migration rate. Possibly, black people would aggregate at the southern states, and white oriole would gather at the northern states because of historical reasons. Understanding how race would impact our investigated association would bring us a more integrated picture.
+
+[Previous Page: Model Analysis on Migration Factors](/analysis5/)
+
+
