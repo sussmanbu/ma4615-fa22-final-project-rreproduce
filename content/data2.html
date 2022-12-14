@@ -55,8 +55,10 @@ movein &lt;- od_data %&gt;%
   summarise(movein_pop = sum(n),total_pop = total,proportion = sum(n)/total) %&gt;%
   distinct(d_state_name,.keep_all = T)
 write_csv(movein, file = here::here(&quot;dataset&quot;, &quot;movein.csv&quot;))</code></pre>
-<p>Our secondary dataset is separated in multiple files by different years. We only extract the row indicating the Rate per 100,000 inhabitants of crime categories of all states so that each row represents different information by state.
-Crime categories do not have data for every year except for “Robbery” and “Burglary”. For the consistency of the analysis, we only use crime rate of “Robbery” and “Burglary” for analysis.</p>
+<p>Our secondary dataset is separated in multiple files by different years.</p>
+<p>For crime rate datasets of 2000-2003: We first filter out all rows excepting the Rate per 100,000 inhabitants of crime categories of all states. Then we replace the Area column name to the name of different different states.</p>
+<p>For crime rate datasets of 2010-2017 and 2005-2007: We first use fill() to fill State and Area variable for all the rows since the original dataset only has the first row indicating the state and area. The variable Area indicates the list of information about crimes, eg. state total number of crime. We only want to extract the row indicating the Rate per 100,000 inhabitants of crime categories of all states. We filter out every other rows. so each row represents the crime rates by state.</p>
+<p>Crime categories do not have data for every year except for “Robbery” and “Burglary”. For the consistency of the analysis, we only use crime rate of “Robbery” and “Burglary” for analysis.</p>
 <pre class="r"><code>## Use the following method for cleaning crime dataset 2010-2017 and 2005-2007
 data2010 &lt;- read_csv(here::here(&quot;dataset/crime2010-2017&quot;, &quot;2010-table-5.csv&quot;),skip = 3)%&gt;% fill(State) %&gt;% fill(Area) %&gt;% filter(Area == &#39;State Total&#39;) %&gt;% filter(...3== &#39;Rate per 100,000 inhabitants&#39;) %&gt;% select(-Population,-...3)
 data2010 &lt;- data2010[, colSums(is.na(data2010)) &lt; nrow(data2010)] %&gt;% mutate(year = &#39;2010&#39;)
