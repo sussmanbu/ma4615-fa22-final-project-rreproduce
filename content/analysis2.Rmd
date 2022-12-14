@@ -39,7 +39,7 @@ o_MA %>%
   ggplot() +
   geom_col(aes(x=reorder(d_state_name,sum_n),y=state_race_pop,fill=race))+
   theme(axis.text.x = element_text(angle=45,vjust=1,hjust=1)) +
-  labs(title = "Population And Race Proportion Moved From MA to Other States in the U.S. Between Age 16-26",
+  labs(title = "Population(Age 16-26) Moved From MA to Other States in the U.S.",
        x = "Destination State", y = "Population From MA to Other States", color="race") + 
   theme(plot.title = element_text(hjust = 0.5))
 ```
