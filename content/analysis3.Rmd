@@ -90,7 +90,7 @@ o_MA %>%  plot_ly(y=~d_cz_name,x=~Nantucket,type='bar',name='Nantucket') %>%
   layout(title = "Migration Patterns Withinin CZ in MA From Age 16 to 26",
          xaxis = list(title="Population From Other CZs in MA at 26"),
          yaxis = list(title="Destination State"),
-         legend = list(title="State From",orientation='h'),barmode = 'stack'
+         legend = list(title="State From"),barmode = 'stack'
          )
 ```
 
