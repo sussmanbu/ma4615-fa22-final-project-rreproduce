@@ -22,7 +22,7 @@ To analyze our hypothesis, we select our variables from Migration Patterns and F
 
 
 We started our analysis by exploring the demographic characteristics and migration patterns. The first bar chart illustrated the proportion of different races within each state. From the graph, we can identify that Whites were dominant among all states, with Blacks and Hispanics following up. It correctly reflects the demographics of our participants at the age of 26, with Whites being dominant. New York and California are the top two destination where people tend to move to at age 16-26.
-```{r echo=FALSE, fig.height=5, fig.width=5, message=FALSE, warning=FALSE}
+```{r echo=FALSE, message=FALSE, warning=FALSE}
 o_MA <- read_csv(here::here("dataset","o_MA.csv"))
 o_MA %>%
   group_by(d_state_name) %>%
@@ -39,7 +39,7 @@ o_MA %>%
   ggplot() +
   geom_col(aes(x=reorder(d_state_name,sum_n),y=state_race_pop,fill=race))+
   theme(axis.text.x = element_text(angle=45,vjust=1,hjust=1)) +
-  labs(title = "Population(Age 16-26) Moved From MA to Other States in the U.S.",
+  labs(title = "Population(16-26) Moved From MA to Other States",
        x = "Destination State", y = "Population From MA to Other States", color="race") + 
   theme(plot.title = element_text(hjust = 0.5))
 ```
