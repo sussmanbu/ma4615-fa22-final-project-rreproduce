@@ -201,4 +201,6 @@ To combine these data, we first read the datasets we already have which are the 
 
 link to [loaddata.R](https://rreproduce.netlify.app/loaddata.R)
 
+[First Page: Introduction to Our Data](/data/)
+
 
