@@ -154,6 +154,7 @@ state$NAME <- gsub(' ','',state$NAME)
 state <- state_full %>% inner_join(movein_crime,by='NAME') %>%
   rename(Robbery10=meanRobbery,Burglary10=meanBurglary) %>%
   inner_join(leave_crime,by='NAME') %>%
-  rename(Robbey00=meanRobbery,Burglary00=meanBurglary)
+  rename(Robbey00=meanRobbery,Burglary00=meanBurglary) %>%
+  select(-geometry)
 
-
+write.csv(state,file=here::here("dataset/state.csv"),row.names=FALSE)
