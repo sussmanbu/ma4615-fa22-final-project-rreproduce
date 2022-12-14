@@ -1,0 +1,82 @@
+---
+title: Big Picture
+description:
+toc: true
+authors: []
+tags: []
+categories: []
+series: []
+date: 2022-12-14T02:02:32-05:00
+lastmod: 2022-12-14T02:02:32-05:00
+featuredVideo:
+featuredImage:
+draft: false
+---
+```{r message=FALSE, warning=FALSE, include=FALSE}
+library(tidyverse)
+library(plotly)
+for_interactive<-read_csv(here::here("dataset/for_interactive.csv"))
+uni<-read_csv(here::here("dataset/Uni.csv"))
+stateuni<-read_csv(here::here("dataset/StateUni.csv"))
+```
+
+
+<font size="5"><b>Question 3 + Conclusion</font></b>
+
+
+After knowing the TOP five migration destinations generally, we started to analyze <b>what features are affecting people’s migration decision from age 16 to age 26.</b> 
+ 
+ 
+<b>First, we look at how the crime rate is going to affect the migration decision.</b>
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+a1 <- for_interactive %>% pivot_longer(c(early_meanRobbery,early_meanBurglary),names_to = 'crimeType',values_to = 'crimeRate')
+plot_ly(a1, type = "scatter", mode = "markers",
+  x = ~jitter(crimeRate, 2), y = ~jitter(prop_leave,2), color = ~crimeType,
+  text = ~paste(Area, "<br>", prop_leave),
+  hovertemplate = "%{text}") %>%
+  layout(xaxis = list(title = "Early years crime rate"), yaxis = list(title = "proportion of people moved out of State"))
+```
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+a1 <- for_interactive %>% pivot_longer(c(later_meanRobbery,later_meanBurglary),names_to = 'crimeType',values_to = 'crimeRate')
+plot_ly(a1, type = "scatter", mode = "markers",
+  x = ~jitter(crimeRate, 2), y = ~jitter(prop_movein,2), color = ~crimeType,
+  text = ~paste(Area, "<br>", prop_movein),
+  hovertemplate = "%{text}") %>%
+  layout(xaxis = list(title = "Later years crime rate"), yaxis = list(title = "proportion of people moved into the State"))
+```
+
+In these two graphs above, the y-axis is the proportion of people that move in/ move out to the states. The x-axis is the number of burglary and robbery cases in each year. Our hypothesis is that a high crime rate will affect people moving out of the state. However, the data are randomly distributed in the graph, showing no significant relationship between.
+ 
+ 
+According to the graph, there is no apparent relation between the number of burglary and robbery cases  and the number of people moving out or moving in. We guess this might be because burglary and robbery are very extreme conditions and doesn’t not happen very commonly among families. Therefore, we cannot provide insights to Amy based on the crime rate.
+Then we find another dataset looking at the number of colleges in each state. People between the ages of 16- 26 are exactly the period of study for schools. By knowing the number of colleges in each state, we will be able to find the <b>relation between how the number of colleges in the states affect people’s migration decision between age 16 to age 26.</b>
+
+```{r echo=FALSE, fig.height=6, fig.width=6, message=FALSE, warning=FALSE}
+uni %>% group_by(STATE) %>% summarize(n=n()) %>%
+  ggplot(aes(x=reorder(STATE,desc(n)),y=n)) + geom_col() +
+  labs(x="State",y="Number of Schools")
+```
+
+In this graph, the x-axis represents the name of each state in the US.  The y-axis represents the total number of colleges in the state. Based on the graph above, we can see that California(CA) contains  the largest number of colleges among all states. New York State has the second highest number. More generally, the Top 5 are: CA, NY, TX, FL, PA. 
+
+```{r echo=FALSE, fig.height=8, fig.width=8, message=FALSE, warning=FALSE}
+stateuni %>% ggplot(aes(y=STATE,x=n)) + geom_col() + facet_grid(~type) + labs(x="Number of Schools",y="State")
+```
+
+Then, we zoom in to look at the number of each type of college among every state. Since the numbers of Fine Arts School(Arts), Business Secretarial School(Business), Computer Training(Computer), Educational Support Services(Eduserv), and Flight Training(Flights) are small, we decided to only focus on the categories with conspicuous result:
+
+```{r echo=FALSE, fig.height=8, fig.width=8, message=FALSE, warning=FALSE}
+stateuni %>% filter(type %in% c('Cosme_Barber','General','Junior','Other')) %>%
+  ggplot(aes(y=STATE,x=n)) + geom_col() + facet_grid(~type) + labs(x="Number of Schools",y="State")
+```
+
+California has the most schools in General, Junior, and Other types of schools. Among New York State, the General types of schools are the largest number with 228 schools. For Taxes, it has similar numbers of schools in Cosme_Barber, General, and Junior types.
+
+
+Therefore, if Amy wants to go to a graduate school, California seems to be her best choice.
+
+
+In conclusion, we pick several options for Amy to choose after graduating from Boston University. The Top 3 option is : California, New York and Florida. 
+
