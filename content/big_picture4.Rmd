@@ -1,0 +1,54 @@
+---
+title: Big Picture
+description:
+toc: true
+authors: []
+tags: []
+categories: []
+series: []
+date: 2022-12-14T01:56:17-05:00
+lastmod: 2022-12-14T01:56:17-05:00
+featuredVideo:
+featuredImage:
+draft: false
+---
+```{r message=FALSE, warning=FALSE, include=FALSE}
+library(tidyverse)
+```
+
+<font size="5"><b>Question 2</font></b>
+
+
+After looking specifically at Massachusetts' migration trend, we shift our focus to the broader picture: <b>The migration trend among all states.</b>
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+o_MA <- read_csv(here::here("dataset","o_MA.csv"))
+o_MA %>%
+  group_by(d_state_name) %>%
+  mutate(sum_n = sum(n)) %>%
+  ungroup() %>%
+  group_by(d_state_name,race) %>%
+  mutate(state_race_pop = sum(n)) %>%
+  summarize(sum_n=sum_n,state_race_pop=state_race_pop) %>%
+  distinct(d_state_name,race,.keep_all = T) %>%
+  filter(d_state_name != "Massachusetts") %>%
+  ungroup() %>%
+  arrange(desc(sum_n)) %>%
+  filter(sum_n > 1650) %>% 
+  ggplot() +
+  geom_col(aes(x=reorder(d_state_name,sum_n),y=state_race_pop,fill=race))+
+  theme(axis.text.x = element_text(angle=45,vjust=1,hjust=1)) +
+  labs(title = "Population(16-26) Moved From MA to Other States",
+       x = "Destination State", y = "Population From MA to Other States", color="race") + 
+  theme(plot.title = element_text(hjust = 0.5))
+```
+
+According to the graph above, the top five migration states have very distinct results compared to all other states. They are : New York, California, New Hampshire, Rhode Island and Florida. We also noticed that the white group population that migrates into the top five destinations are even larger than the total move in migration for the remaining states. 
+ 
+ 
+Based on the demographic picture for Amy, we think if Amy likes warm weather, California and Florida can both be a good option for her to move. If Amy likes to stay in the east-coast, New York is always an option. If Amy doesn’t want very crowded city life, New Hampshire, Connecticut and DC can also be put into the migration list. 
+
+
+[Previous Page: Question 1](/big_picture3/)
+
+[Next Page: Question 3 + Conclusion](/big_picture5/)
