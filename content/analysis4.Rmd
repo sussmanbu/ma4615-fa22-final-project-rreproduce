@@ -17,6 +17,7 @@ draft: false
 library(plotly)
 library(tidyverse)
 library(readr)
+for_interactive<-read_csv(here::here("dataset/for_interactive.csv"))
 ```
 
 <font size="5"><b>Crime Association Analysis</font></b>
@@ -64,6 +65,28 @@ ggplotly(f, tooltip = "text")
 ```
 
 The non-significant associations are due to the population characteristics. Our selected population were around 16 and 26 years old at two different time points, so the crime rate might not be one of the fundamental reasons that drove them to migrate. We assume that seeking further education and working opportunities might contribute more to the decision making process of migration among people of those age groups. 
+
+
+Subsequently, we designed interactive plots to better illustrate the associations between the two selected crime rates (robbery and burglary) and proportion of people moved in and out of the state. By clicking the specific points on our interactive plots, one would see the exact proportion of people moved in or out of the state corresponding to the crime rate. Again, as there were no distinct patterns on our plot, we did not find evidence to support our hypothesis that the crime rate is associated with the migration patterns of the residents in the United States. 
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+a1 <- for_interactive %>% pivot_longer(c(early_meanRobbery,early_meanBurglary),names_to = 'crimeType',values_to = 'crimeRate')
+plot_ly(a1, type = "scatter", mode = "markers",
+  x = ~jitter(crimeRate, 2), y = ~jitter(prop_leave,2), color = ~crimeType,
+  text = ~paste(Area, "<br>", prop_leave),
+  hovertemplate = "%{text}") %>%
+  layout(xaxis = list(title = "Early years crime rate"), yaxis = list(title = "proportion of people moved out of State"))
+```
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+a1 <- for_interactive %>% pivot_longer(c(later_meanRobbery,later_meanBurglary),names_to = 'crimeType',values_to = 'crimeRate')
+plot_ly(a1, type = "scatter", mode = "markers",
+  x = ~jitter(crimeRate, 2), y = ~jitter(prop_movein,2), color = ~crimeType,
+  text = ~paste(Area, "<br>", prop_movein),
+  hovertemplate = "%{text}") %>%
+  layout(xaxis = list(title = "Later years crime rate"), yaxis = list(title = "proportion of people moved into the State"))
+```
+
 
 [Previous Page: Model Analysis on Demographics](/analysis3/)
 
