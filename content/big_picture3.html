@@ -1,0 +1,39 @@
+---
+title: Big Picture
+description:
+toc: true
+authors: []
+tags: []
+categories: []
+series: []
+date: 2022-12-14T01:47:50-05:00
+lastmod: 2022-12-14T01:47:50-05:00
+featuredVideo:
+featuredImage:
+draft: false
+---
+
+<script src="/rmarkdown-libs/htmlwidgets/htmlwidgets.js"></script>
+<script src="/rmarkdown-libs/plotly-binding/plotly.js"></script>
+<script src="/rmarkdown-libs/typedarray/typedarray.min.js"></script>
+<script src="/rmarkdown-libs/jquery/jquery.min.js"></script>
+<link href="/rmarkdown-libs/crosstalk/css/crosstalk.min.css" rel="stylesheet" />
+<script src="/rmarkdown-libs/crosstalk/js/crosstalk.min.js"></script>
+<link href="/rmarkdown-libs/plotly-htmlwidgets-css/plotly-htmlwidgets.css" rel="stylesheet" />
+<script src="/rmarkdown-libs/plotly-main/plotly-latest.min.js"></script>
+
+<div id="TOC">
+
+</div>
+
+<p><font size="5"><b>Question 1</font></b></p>
+<p>We came up with our first question: <b>How do people migrate to other commuter zones within Massachusetts at the age of 26?</b></p>
+<p>Our hypothesis is that Boston will have the largest migration population.</p>
+<div id="htmlwidget-1" style="width:672px;height:480px;" class="plotly html-widget"></div>
+<script type="application/json" data-for="htmlwidget-1">{"x":{"visdat":{"dac87d97173a":["function () ","plotlyVisDat"]},"cur_data":"dac87d97173a","attrs":{"dac87d97173a":{"y":{},"x":{},"name":"Nantucket","alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"bar"},"dac87d97173a.1":{"y":{},"x":{},"name":"Oak Bluffs","alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"bar","inherit":true},"dac87d97173a.2":{"y":{},"x":{},"name":"Pittsfield","alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"bar","inherit":true},"dac87d97173a.3":{"y":{},"x":{},"name":"Springfield","alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"bar","inherit":true},"dac87d97173a.4":{"y":{},"x":{},"name":"Boston","alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"bar","inherit":true}},"layout":{"margin":{"b":40,"l":60,"t":25,"r":10},"title":"Migration Patterns Withinin CZ in MA From Age 16 to 26","xaxis":{"domain":[0,1],"automargin":true,"title":"Population From Other CZs in MA at 26"},"yaxis":{"domain":[0,1],"automargin":true,"title":"Destination State","type":"category","categoryorder":"array","categoryarray":["Boston","Nantucket","Oak Bluffs","Pittsfield","Springfield"]},"legend":{"title":"State From"},"barmode":"stack","hovermode":"closest","showlegend":true},"source":"A","config":{"modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"data":[{"y":["Oak Bluffs","Pittsfield","Springfield","Boston"],"x":[8,1,8,132],"name":"Nantucket","type":"bar","orientation":"h","marker":{"color":"rgba(31,119,180,1)","line":{"color":"rgba(31,119,180,1)"}},"error_y":{"color":"rgba(31,119,180,1)"},"error_x":{"color":"rgba(31,119,180,1)"},"xaxis":"x","yaxis":"y","frame":null},{"y":["Nantucket","Pittsfield","Springfield","Boston"],"x":[4,0,6,280],"name":"Oak Bluffs","type":"bar","orientation":"h","marker":{"color":"rgba(255,127,14,1)","line":{"color":"rgba(255,127,14,1)"}},"error_y":{"color":"rgba(255,127,14,1)"},"error_x":{"color":"rgba(255,127,14,1)"},"xaxis":"x","yaxis":"y","frame":null},{"y":["Nantucket","Oak Bluffs","Springfield","Boston"],"x":[3,5,490,1345],"name":"Pittsfield","type":"bar","orientation":"h","marker":{"color":"rgba(44,160,44,1)","line":{"color":"rgba(44,160,44,1)"}},"error_y":{"color":"rgba(44,160,44,1)"},"error_x":{"color":"rgba(44,160,44,1)"},"xaxis":"x","yaxis":"y","frame":null},{"y":["Nantucket","Oak Bluffs","Pittsfield","Boston"],"x":[13,17,411,6383],"name":"Springfield","type":"bar","orientation":"h","marker":{"color":"rgba(214,39,40,1)","line":{"color":"rgba(214,39,40,1)"}},"error_y":{"color":"rgba(214,39,40,1)"},"error_x":{"color":"rgba(214,39,40,1)"},"xaxis":"x","yaxis":"y","frame":null},{"y":["Nantucket","Oak Bluffs","Pittsfield","Springfield"],"x":[118,217,372,3558],"name":"Boston","type":"bar","orientation":"h","marker":{"color":"rgba(148,103,189,1)","line":{"color":"rgba(148,103,189,1)"}},"error_y":{"color":"rgba(148,103,189,1)"},"error_x":{"color":"rgba(148,103,189,1)"},"xaxis":"x","yaxis":"y","frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+<p>We came up with the graph above. In this graph, the x-axis represents the population in that commuter zone from other commuter zones in Massachusetts at the age of 26. The y-axis represents their destination commuter zones.</p>
+<p>We start the analysis with a broader picture: Apparently, Boston has the largest population among five computer zones. The second largest population is springfield. The commuter zone with the least population within the dataset is Nantucket. Then, we dive deeper to look at the construction of the migration population. We exclude the population that stays in its original commuter zone from age 16 to 26.</p>
+<p>Most of the moving population in Springfield is from Boston. Additionally, Springfield has the second largest migration population and Boston has the largest migration population. Moreover, Boston has the largest population for both migrate in and migrate out. Then we zoom in to look at the composition of the population that is moving to Boston: We find out that it’s mainly from Springfield’s people. And the population that is moving from Springfield to Boston is even larger than the total population that is moving into Springfield from other commuter zones in Massachusetts.</p>
+<p>Therefore, if Amy decides to move within Massachusetts, Springfield might be her first choice since it is a hot pick and very near to Boston.</p>
+<p><a href="/big_picture2/">Previous Page: Dig Into Data</a></p>
+<p><a href="/big_picture4/">Next Page: Question 2</a></p>

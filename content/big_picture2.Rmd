@@ -1,0 +1,95 @@
+---
+title: Big Picture
+description:
+toc: true
+authors: []
+tags: []
+categories: []
+series: []
+date: 2022-12-14T01:39:32-05:00
+lastmod: 2022-12-14T01:39:32-05:00
+featuredVideo:
+featuredImage:
+draft: false
+---
+```{r message=FALSE, warning=FALSE, include=FALSE}
+library(tidyverse)
+library(plotly)
+od_data <- read_csv(here::here("dataset-ignore/od_data.csv")) 
+```
+
+<font size="5"><b>Dig Into Data</font></b>
+
+
+The first dataset we focus on the population with two categorical variables: family income level and race. Therefore, as a starter of the process, <b>we want to get some basic insights about how our sample population looks demographically.</b>  
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+within_income <- od_data %>%  
+  group_by(race,income) %>%
+  summarize(inc_race_pop=sum(n)) %>%
+  ungroup() %>%
+  group_by(income) %>%
+  mutate(inc_pop = sum(inc_race_pop)) %>%
+  pivot_wider(names_from=(race),values_from=(inc_race_pop)) %>%
+  mutate(Asian_prop = Asian/inc_pop) %>%
+  mutate(Black_prop = Black/inc_pop) %>%
+  mutate(White_prop = White/inc_pop) %>%
+  mutate(Hispanic_prop = Hispanic/inc_pop) %>%
+  mutate(Other_prop = Other/inc_pop)
+
+within_income %>% plot_ly(x=~income,y=~White_prop,type='bar',name='White') %>%
+  add_trace(y=~Black_prop,name='Black') %>%
+  add_trace(y=~Asian_prop,name='Asian') %>%
+  add_trace(y=~Hispanic_prop,name='Hispanic') %>%
+  add_trace(y=~Other_prop,name='Other') %>%
+  layout(xaxis=list(title="Income Quantile"),
+         yaxis=list(title="Race Percentage"),
+         barmode='stack')
+```
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+within_race <- od_data %>%
+  group_by(race,income) %>%
+  summarize(inc_race_pop=sum(n)) %>%
+  ungroup() %>%
+  group_by(race) %>%
+  mutate(race_pop = sum(inc_race_pop)) %>%
+  pivot_wider(names_from=(income),values_from=(inc_race_pop)) %>%
+  mutate(Q1_prop = Q1/race_pop) %>%
+  mutate(Q2_prop = Q2/race_pop) %>%
+  mutate(Q3_prop = Q3/race_pop) %>%
+  mutate(Q4_prop = Q4/race_pop) %>%
+  mutate(Q5_prop = Q5/race_pop)
+
+within_race %>% plot_ly(x=~race,y=~Q1_prop,type='bar',name='Q1-poorest') %>%
+  add_trace(y=~Q2_prop,name='Q2') %>%
+  add_trace(y=~Q3_prop,name='Q3') %>%
+  add_trace(y=~Q4_prop,name='Q4') %>%
+  add_trace(y=~Q5_prop,name='Q5-richest') %>%
+  layout(xaxis=list(title="Race"),
+         yaxis=list(title="Income Quantile Percentage"),
+         barmode='stack')
+```
+
+
+In graph 1, the x-axis is the income level which has been divided into five quantiles:  Q1 represents the lowest family income group and Q5 represents the highest.  The y-axis represents the percentage of population for different races in each income group. We use the percentage instead of the actual population number since the total population in each group is different and the percentage makes the comparison clearer.
+
+
+As we can see in the graph, in the Q1 family income quantile group, the population for white group and the black group is relatively similar. Besides that, from Q2 to Q5, as the family income level increases, the white population starts to dominate the percentage while other race groups’ population diminish. 
+For graph 2 ( on the right),  axes are switched. The x-axis is the race group, the y axis represents the percentage of each income group. Then we look carefully into each column: 
+For Asian race group and the white race group, the population percentage in each five income quantile are almost equally distributed. The Q1 income quantile takes the least percentage and Q5 quantile takes the largest percentage among the five. For the other three race group ( Black, Hispanic & Other), they are more dominant in the Q1 and Q2 income level group.
+ 
+ 
+Therefore, we assume Amy belongs to the white race group and Q3 income level. 
+ 
+ 
+At the beginning of the exploratory process, in order to get the basic understanding of what migration trends look like, we start with a small subset which specifically focuses on migration trends within Massachusetts. The reason we chose Massachusetts is because all the group members are students in Boston University. After staying here for four years, some of us have strong intentions to leave Boston while some of us love the city and want to stay. Therefore, Massachusetts is the most relatable choice and provides some insights for people that tend to migrate after graduation. 
+ 
+ 
+Moreover, starting with this small subset helps us to better interpret the idea behind the number “ n” - which refers to the number of people that are in one particular migration route. ( for example, one migration route can be moving from Boston to Springfield, n represent the number of people in this route )
+
+
+[Previous Page: Big Question](/big_picture/)
+
+[Next Page: Question 1](/big_picture3/)
+
+

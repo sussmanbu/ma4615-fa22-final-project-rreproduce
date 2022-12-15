@@ -154,6 +154,43 @@ state$NAME <- gsub(' ','',state$NAME)
 state <- state_full %>% inner_join(movein_crime,by='NAME') %>%
   rename(Robbery10=meanRobbery,Burglary10=meanBurglary) %>%
   inner_join(leave_crime,by='NAME') %>%
-  rename(Robbey00=meanRobbery,Burglary00=meanBurglary)
+  rename(Robbey00=meanRobbery,Burglary00=meanBurglary) %>%
+  select(-geometry)
+
+write.csv(state,file=here::here("dataset/state.csv"),row.names=FALSE)
 
 
+###For Interactive
+movein1 <- read_csv("dataset/movein.csv")
+leave1 <- read_csv("dataset/leave.csv")
+movein1$d_state_name <- toupper(movein1$d_state_name)
+leave1$o_state_name <- toupper(leave1$o_state_name)
+early <- read_csv(here::here('dataset','00-07CrimeAvg.csv')) 
+early<- early %>% filter(Area!= 'DISTRICTOFCOLUMBIA')
+later <- read_csv(here::here('dataset','10-17CrimeAvg.csv'))
+
+
+colnames(movein1)[1] <- "Area"
+colnames(leave1)[1] <- "Area"
+colnames(early)[2] <- "early_meanRobbery"
+colnames(early)[3] <- "early_meanBurglary"
+colnames(later)[2] <- "later_meanRobbery"
+colnames(later)[3] <- "later_meanBurglary"
+colnames(later)[1] <- "Area"
+movein1 <- movein1 %>% filter(Area != 'DC') %>% select(Area,proportion)
+leave1 <- leave1 %>% filter(Area != 'DC')%>% select(Area,proportion)
+colnames(movein1)[2] <- "prop_movein"
+colnames(leave1)[2] <- "prop_leave"
+
+for_interactive <- read_csv("dataset/us map.csv")
+colnames(for_interactive)[1] <- "Area"
+for_interactive$Area <- gsub("(.*),.*", "\\1", for_interactive$Area) %>% toupper()
+
+
+for_interactive<- for_interactive %>% inner_join(movein1,by = 'Area')
+for_interactive<- for_interactive %>% inner_join(leave1,by = 'Area')
+for_interactive$Area<-str_replace_all(for_interactive$Area, " ", "")
+for_interactive<- for_interactive %>% inner_join(early,by = 'Area')
+for_interactive<- for_interactive %>% inner_join(later,by = 'Area') 
+
+write.csv(for_interactive,file=here::here("dataset/for_interactive.csv"),row.names=FALSE)

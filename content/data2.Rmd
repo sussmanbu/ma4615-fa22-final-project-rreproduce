@@ -1,5 +1,5 @@
 ---
-title: Data2
+title: Data
 description:
 toc: true
 authors: []
@@ -13,100 +13,129 @@ featuredImage:
 draft: false
 ---
 
-## Data Import and Cleaning
+<font size="5"><b>Data Import and Cleaning</b></font>
 
-After importing our primary dataset od.csv, we first separate the "pool" column into "race" and "income"
-
-```{r}
-## pool     ->    race    |   income
-## WhiteQ1  ->   White    |     Q1
+We save our migration dataset "od.csv" in the folder "dataset-ignore" since it is a large file (>1GB). After importing "od.csv", we separate the "pool" column into "race" and "income". Next we filter out -1 and NA values (missing data) from all cells. We did not filter out 0 because a lack of migration might also be interesting and meaningful. 
+```{r eval=FALSE, message=FALSE, warning=FALSE}
+od_data <- read_csv(here::here("dataset-ignore", "od.csv")) %>%
+  separate(pool,
+           into = c("race","income"),
+           sep = -2
+  ) %>%
+  filter(n != -1) %>%
+  filter(n_tot_o != -1) %>%
+  filter(n_tot_d != -1) 
+od_data[is.na(od_data)] <- 0
+write.csv(od_data,file=here::here("dataset-ignore/od_data.csv"),row.names=FALSE)
 ```
 
-Next we filter out -1 and NA values from 'n' column (indicating that the path has no immigrants) from all cells (invalid number). We did not filter out 0 because a lack of migration might also interesting and meaningful. 
 
-```{r}
-##   filter(n != 0 & n != -1) 
-##   filter(n_tot_o != -1) 
-##   filter(n_tot_d != -1)
-##   od_data[is.na(od_data)] = 0
+To explore the data structure and our interests in migration pattern, we have also created a sub-dataset that contains people whose origin in MA. (see o_MA below). This method can be applied to other states as well.   
+
+```{r eval=FALSE, message=FALSE, warning=FALSE}
+o_MA <- od_data %>% 
+  filter(o_state_name == "Massachusetts")   #Can change "Massachusetts" to other state names
+write_csv(o_MA, file = here::here("dataset", "o_MA.csv"))
 ```
 
 
-To explore the data structure and out interests in the dataset, we have also created a sub dataset that contains people moved from MA to other states/stayed in MA. (see o_MA)
+Since observations in our secondary and third datasets are measured by state, we decide to combine the commuter zones into states. We make two datasets: 'leave' and 'movein'. 'leave' contains the state number and proportion of 16 year-old population who are in other states at the age of 26. 'movein' contain the state number and proportion of 26 year-old population who are in other state at the age of 16. 
 
 
-Our secondary data is separated in multiple files range from different years. We only extracted the row indicating the Rate per 100,000 inhabitants of crime categories of all states so each row represents different information by state. 
+To obtain 'leave' data, we group by the origin state name and calculate the total state population measured when they were at the origin (at age 16). Then we filter out the observation which have the same origin and destination state. By doing so, we exclude the observation who did not migrate to other states. We group by origin state again and calculate the total population who left the state. We calculate the leave proportion by dividing the leaving population by total population.
+
+Similarly, for 'movein' data, we group by the destination state and calculate the total state population measured when they were at the destination (at  age 26). Then we filter out the observation which have the same origin and destination state. By doing so, we exclude the observation who are from the same state. We group by destination state again and calculate the total population who move into this state. We calculate the move in proportion by dividing the moving in population by total population.
+```{r eval=FALSE, message=FALSE, warning=FALSE}
+## LEAVE FROM STATE ##
+leave <-od_data %>% 
+  group_by(o_state_name) %>%
+  mutate(total = sum(n)) %>%
+  ungroup() %>%
+  filter(o_state_name != d_state_name) %>% group_by(o_state_name) %>% 
+  summarise(leave_pop = sum(n),total_pop = total, proportion = sum(n)/total) %>%
+  distinct(o_state_name,.keep_all = T) 
+write_csv(leave, file = here::here("dataset", "leave.csv"))
+
+## MOVE INTO STATE ##
+movein <- od_data %>% 
+  group_by(d_state_name) %>%
+  mutate(total = sum(n)) %>%
+  filter(o_state_name != d_state_name) %>% group_by(d_state_name) %>% 
+  summarise(movein_pop = sum(n),total_pop = total,proportion = sum(n)/total) %>%
+  distinct(d_state_name,.keep_all = T)
+write_csv(movein, file = here::here("dataset", "movein.csv"))
+```
+
+
+
+Our secondary dataset is separated in multiple files by different years. 
+
+For crime rate datasets of 2000-2003: We first filter out all rows excepting the Rate per 100,000 inhabitants of crime categories of all states. Then we replace the Area column name to the name of different different states. 
+
+For crime rate datasets of 2010-2017 and 2005-2007: We first use fill() to fill State and Area variable for all the rows since the original dataset only has the first row indicating the state and area. The variable Area indicates the list of information about crimes, eg. state total number of crime. We only want to extract the row indicating the Rate per 100,000 inhabitants of crime categories of all states. We filter out every other rows. so each row represents the crime rates by state. 
+
+
 Crime categories do not have data for every year except for "Robbery" and "Burglary". For the consistency of the analysis, we only use crime rate of "Robbery" and "Burglary" for analysis. 
 
-```{r}
-## For instance: 2010 Crime Data import:
-## data2010<- data2010 %>% fill(State) %>% fill(Area) %>% filter(Area == 'State Total') %>% 
-## filter(...3== 'Rate per 100,000 inhabitants') %>% select(-Population,-...3)
-## data2010 <- data2010[, colSums(is.na(data2010)) < nrow(data2010)]
+```{r eval=FALSE, message=FALSE, warning=FALSE}
+## Use the following method for cleaning crime dataset 2010-2017 and 2005-2007
+data2010 <- read_csv(here::here("dataset/crime2010-2017", "2010-table-5.csv"),skip = 3)%>% fill(State) %>% fill(Area) %>% filter(Area == 'State Total') %>% filter(...3== 'Rate per 100,000 inhabitants') %>% select(-Population,-...3)
+data2010 <- data2010[, colSums(is.na(data2010)) < nrow(data2010)] %>% mutate(year = '2010')
 
-## Crime data from 2000-2003 use different formats:
-## data2003 <- read_csv(here::here("dataset", "2003.csv"),skip = 4)%>% 
-##   filter(Area!= 'Metropolitan Statistical Area'&
-##           Area!='Area actually reporting'&
-##           Area!='Estimated totals'&
-##           Area!='Cities outside metropolitan areas'&
-##           Area!='Rural'&
-##           Area!='State Total'&
-##           Area!='Total'&
-##           Area!='Nonmetropolitan counties'&
-##           Area!='Estimated total') %>% 
-##   select(c(Area,Robbery,Burglary))
-## data2003$Area <- gsub('Rate per 100,000 inhabitants', NA, data2003$Area) 
-## data2003 <- data2003 %>% 
-##   fill(Area) %>%
-##   drop_na(Robbery, Burglary)
+## Crime data from 2000-2003 use different methods:
+data2000 <- read_csv(here::here("dataset/crime2000-2007", "2000.csv"),skip = 3)%>% 
+  filter(!Area%in% c('Metropolitan Statistical Area','Area actually reporting','Estimated totals','Cities outside metropolitan areas','Rural','State Total','Total'))%>%select(c(Area,Robbery,Burglary))
+data2000$Area <- gsub('Rate per 100,000 inhabitants', NA, data2000$Area) 
+data2000 <- data2000 %>% fill(Area) %>% drop_na(Robbery, Burglary)%>% mutate(year='2000')
 ```
 
-Then we merged crime data from 2000-2007 and 2010-2017 into two datasets, each dataset is composed of state name and average crime cases. This is because this data is collected when these people were at age 16 and 26 and they were born between between 1984-1992. So we have calculated the time period of these people at age 16 and 26 to seperate the datasets. Note that crime data for year 2004 is missing on the website so we skiped that year during the analysis(since we are using the average it should not be an issue).
 
-```{r}
-## Combine 2000-2007 crime data
-## df_list <- list(data2000, data2001, data2002,data2003,data2005,data2006,data2007)
-## mergedf <- Reduce(function(x, y) merge(x, y, all=TRUE), df_list)
-## mergedf$Area <- gsub('[0-9., ]', '', mergedf$Area)
-## mergedf <- mergedf %>%
-##   group_by(Area) %>%
-##   summarize(meanRobbery = mean(as.numeric(Robbery)),meanBurglary = mean(Burglary))
+Then we merged crime data from 2000-2007 and 2010-2017 into two lists, use reduce() to iterate dataframes in list, and use merge(x,y) functions to combine dataframes by common column names. Then we use gsub() to remove extra numbers and space in States column, select "State", "Robbery", "Burglary", and "year" columns, and arrange rows by years. We also use group_by() and summarize() to calculate the mean robbery and mean burglary cases. 
+
+```{r eval=FALSE, message=FALSE, warning=FALSE}
+df_list <- list(data2010, data2011, data2012,data2013,data2014,data2015,data2016,data2017)
+mergedf <- Reduce(function(x, y) merge(x, y, all=TRUE), df_list)
+mergedf$State <- gsub('[0-9., ]', '', mergedf$State)
+crime1017 <- mergedf %>% select(c(State,Robbery,Burglary,year)) %>% arrange(year)
+averagecrime1017<-crime1017 %>% group_by(State) %>%summarize(meanRobbery = mean(Robbery),meanBurglary = mean(Burglary))
 ```
-We are able to combine the migration dataset and the crime rate datasets because the time period(year) of crime rate and migration data are consistent. 
 
-Finally, we read our third dataset: US colleges and University dataset. Firstly, we only keep the rows which country is  `USA`. After that, this dataset’s state is consisting with other two dataset. Then, to be more concise, we only select the columns: NAME,STATE,NAICS_DESC,COUNTRY
+Migration data is collected when these people were at age 16 and 26. These people were born between 1984-1992. We calculate the time period of these people at age 16 and 26 and find the crime data corresponding two time periods. Note that crime data for year 2004 is missing on the website so we skipped that year for the analysis(since we are using the average it should not be an issue).
 
-```{r}
+
+Our third dataset is the US colleges and University dataset. First, we filter the observation so that only schools within the U.S. are kept. Next, we select the columns: NAME,STATE,NAICS_DESC,COUNTRY (School name, school types, and school locations)
+
+```{r eval=FALSE, message=FALSE, warning=FALSE}
 ## Read US colleges and University dataset and select variables
-##Education<- read_delim(here::here('dataset','us-colleges-and-universities.csv'),delim=';')
-##Education<-Education%>% filter(COUNTRY=="USA")%>%select(NAME,STATE,NAICS_DESC,COUNTRY)
+Uni <- read_delim(here::here('dataset','us-colleges-and-universities.csv'),delim=';') %>%
+  filter(COUNTRY == 'USA') %>%
+  select(NAME,CITY,STATE,NAICS_DESC) 
+write_csv(Uni, file = here::here("dataset", "Uni.csv"))
 ```
 
-To be more concise and easy to read, we renamed NAICS_DESC type of schools shorter format
-```{r}
-##ed_cat <- Education %>%
- ## group_by(NAICS_DESC,STATE) %>%
- ## summarize(n=n())%>%
- ## pivot_wider(names_from = NAICS_DESC, values_from = 1) %>%
-  ##rename(Business='BUSINESS AND SECRETARIAL SCHOOLS',
-         ##General='COLLEGES, UNIVERSITIES, AND PROFESSIONAL SCHOOLS',
-         ##Computer='COMPUTER TRAINING',
-         ##Cosme_Barber='COSMETOLOGY AND BARBER SCHOOLS',
-         ##EduServ='EDUCATIONAL SUPPORT SERVICES',
-         ##Arts='FINE ARTS SCHOOLS',
-         ##Flight='FLIGHT TRAINING',
-         ##Junior='JUNIOR COLLEGES',
-         ##Other='OTHER TECHNICAL AND TRADE SCHOOLS') %>%
-  ##pivot_longer(c(Business,General,Computer,Cosme_Barber,EduServ,Arts,Flight,Junior,Other),names_to = 'type',values_to='value') %>%
-  ##drop_na() %>%
-  ##select(c(type,STATE,n))
+We want to analyze schools by state, so we further clean the university dataset. We first group by different states and different types of school to calculate the number of schools in different categories in each state. Then we pivot_wider NAICS_DESC type of schools into columns so that we could rename the types using shorter names. We pivot them back into the "type" column. 
+```{r eval=FALSE, message=FALSE, warning=FALSE}
+StateUni <- Uni %>%
+  group_by(NAICS_DESC,STATE) %>%
+  summarize(n=n())%>%
+  pivot_wider(names_from = NAICS_DESC, values_from = 1) %>%
+  rename(Business='BUSINESS AND SECRETARIAL SCHOOLS',
+         General='COLLEGES, UNIVERSITIES, AND PROFESSIONAL SCHOOLS',
+         Computer='COMPUTER TRAINING',
+         Cosme_Barber='COSMETOLOGY AND BARBER SCHOOLS',
+         EduServ='EDUCATIONAL SUPPORT SERVICES',
+         Arts='FINE ARTS SCHOOLS',
+         Flight='FLIGHT TRAINING',
+         Junior='JUNIOR COLLEGES',
+         Other='OTHER TECHNICAL AND TRADE SCHOOLS') %>%
+  pivot_longer(c(Business,General,Computer,Cosme_Barber,EduServ,Arts,Flight,Junior,Other),names_to = 'type',values_to='value') %>%
+  drop_na() %>%
+  select(STATE,type,n)
+write_csv(StateUni, file = here::here("dataset", "StateUni.csv"))
 ```
-The university data set is now ready for analysis.
 
-To simplify the process of reading data when analyzing, we combine leave, movein, crime rates in early and later years, and university data to make a new collective dataset called state. we use inner join by state names to combine the datasets. 
-
-```{r}
+To simplify the process of analyzing data by state, we combine 'leave', 'movein', crime rates in early (2000-2007) and later (2010-2017) years, and university data to make a new collective dataset called 'state'. we use inner join by state names to combine the datasets. 
+```{r eval=FALSE, message=FALSE, warning=FALSE}
 uni <- read_csv(here::here("dataset/StateUni.csv")) %>%
   group_by(STATE) %>%
   mutate(state_sum = sum(n)) %>% 
@@ -134,11 +163,11 @@ state <- state_full %>% inner_join(movein_crime,by='NAME') %>%
   rename(Robbey00=meanRobbery,Burglary00=meanBurglary)
 
 ```
-And the new collective dataset is now ready for analysis. 
 
-For the interactive plots, we combined movein and moveout proportion and crime rates in early years and later years with the us map dataset which contains the state name and longitude and latitude of the states. We name this new dataset used for interactive plots for_interactive.
 
-```{r}
+For one of our interactives, we combined movein and moveout proportion and crime rates in early years and later years with the us map dataset which contains the state name and longitude and latitude of the states. We name this new dataset used for interactive plots 'for_interactive'.
+
+```{r eval=FALSE, message=FALSE, warning=FALSE}
 movein1 <- read_csv("dataset/movein.csv")
 leave1 <- read_csv("dataset/leave.csv")
 movein1$d_state_name <- toupper(movein1$d_state_name)
@@ -176,24 +205,8 @@ for_interactive<- for_interactive %>% inner_join(later,by = 'Area')
 To combine these data, we first read the datasets we already have which are the average crime rate in early/later years, movein/leave datasets. Then we change the column names and filtered out the DC area to make all the datasets consistent. Then we inner joined the datasets by state names (variable Area). Thus the dataset for_interactive is now ready to be used in the interactive plots.
 
 
-
-
 link to [loaddata.R](https://rreproduce.netlify.app/loaddata.R)
 
-
-
-
-
-
-
-
-## Shiny Interactive
-
-We have not developed the Shiny interactive yet but we have our ideas listed below:
-
-1. Firstly we want to use one plot graph to show the relationship between crime rate and income level in each state. Specifically, we will use the majority income level to represent each state (for example, if the population of income level in Q1 is the biggest in the state, then A will be shown as Q1 income level). Most people will assume that the less the income level, the more crime rate. However, there is no significant relationship between those two variables
-2. Then, we will use the crosstalk function to make users see the crime rate and migration rate in each state. Users can playing with the selection button on the map to filter different regions among five regions: Northeast, Midwest, South, and West; as well as coastal and noncoastal. Users can also choose the migration rate range in the Magnitude to find corresponding states
-3. Finally, if users are interested in predicting their future living location, they can input their personal information on 16-years-old: state, income level, and race, and the website will return the prediction result. 
-Or if users are elder than 26, they can also use this to check whether they follow the trend of migration. If wrong, we will ask users whether to provide their informations to help us improve our model.
+[First Page: Introduction to Our Data](/data/)
 
 

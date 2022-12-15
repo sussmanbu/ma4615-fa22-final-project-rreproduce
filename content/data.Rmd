@@ -91,5 +91,5 @@ The main variables we use for our project are:
    *Technical and Trade Schools.  
 
 
-[second data page](/data2/)
+[Second Page: Cleaning Data](/data2/)
 

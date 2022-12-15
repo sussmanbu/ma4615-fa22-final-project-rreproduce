@@ -22,7 +22,7 @@ ui <- fluidPage(
     tags$style(type="text/css",".shiny-output-error { visibility: hidden; }",".shiny-output-error:before { visibility: hidden; }"), 
     # Application title
     span(style = "font-weight: 600; font-size: 25px; width: 100%;
-         color: #022DB7;", "State Immigration Status, Income, Crime Rate"),
+         color: #022DB7;", "State Migration Pattern, Income, Crime Rate"),
     # Line Breaks
     br(),br(),
     # Map
@@ -34,19 +34,27 @@ ui <- fluidPage(
              span(style = "font-weight: 600; font-size:18px"," from the map:"),
              br(),br(),
              htmlOutput("name"),
-             br(),br(),
-             htmlOutput("explanation"),
+             br(),
+             htmlOutput("Linfo"),
+             htmlOutput("Minfo"),
+             br(),
              actionButton("leave","Leave"),
              actionButton("movein","Move-in"),
              br(),
-             span(),
              hr()
       )),
     br(),br(),
     hr(),
     fluidRow(
-      column(5, plotlyOutput("income_plot", width = "120%", height = "400px")
-    ))
+      column(4, plotlyOutput("income_plot", width = "100%", height = "250px")),
+      column(4, plotlyOutput("robplot00", width = "100%", height = "250px")),
+      column(4, plotlyOutput("burplot00", width = "100%", height = "250px"))
+    ),
+    fluidRow(
+      column(4),
+      column(4, plotlyOutput("robplot10", width = "100%", height = "250px")),
+      column(4, plotlyOutput("burplot10", width = "100%", height = "250px"))
+    )
   )
 
 
@@ -101,7 +109,7 @@ server <- function(input, output, session) {
   observeEvent(input$movein, {
     labels <- sprintf(
       "<strong>%s</strong><br/>%g percent",
-      movein_state$NAME,movein_state$proportion
+      movein_state$NAME,movein_state$proportion*100
     ) %>% 
       lapply(htmltools::HTML)
     
@@ -133,7 +141,7 @@ server <- function(input, output, session) {
   observeEvent(input$leave, {
     labels <- sprintf(
       "<strong>%s</strong><br/>%g percent",
-      leave_state$NAME,leave_state$proportion
+      leave_state$NAME,leave_state$proportion*100
     ) %>% 
       lapply(htmltools::HTML)
     
@@ -163,27 +171,20 @@ server <- function(input, output, session) {
       })
   
 ########################################  
-  output$explanation <- renderText({
+  output$Linfo <- renderText({
     click <- input$map_shape_click$id
-    explain = ""
-    percentage = ""
-    name <- ""
-    a<-""
-    if (mode == "L"){
-      selection <- leave_state %>% filter(NAME == click)
-      name <- selection$NAME
-      percentage <- selection$proportion %>% round(digits=2)
-      explain <- " at the age of 16 left this state"
-      a<- "% of the population in "
-    }
-    if (mode == "M"){
-      selection <- movein_state %>% filter(NAME == click)
-      name <- selection$NAME
-      percentage <- selection$proportion %>% round(digits=2)
-      explain <- " at the age of 26 are from other states"
-      a<- "% of the population in "
-    }
-    paste(percentage,a,name, explain)
+    selection <- leave_state %>% filter(NAME == click)
+    name <- selection$NAME
+    percentage <- selection$proportion %>% round(digits=2)*100
+    paste(percentage,"% population left this state at 16")
+    })
+
+  output$Minfo <- renderText({
+    click <- input$map_shape_click$id
+    selection <- movein_state %>% filter(NAME == click)
+    name <- selection$NAME
+    percentage <- selection$proportion %>% round(digits=2)*100
+    paste(percentage,"% population moved in this state at 26")
   })
   
   observeEvent(input$map_shape_click, {
@@ -199,18 +200,60 @@ server <- function(input, output, session) {
   })
   
   output$income_plot <- renderPlotly({
-    m <- list(l = 3, r = 10, b = 30, t = 80, pad = 4)
     click <- input$map_shape_click$id
     selection <- state_inc %>% filter(o_state_name==toupper(click))
     selection %>%
       plot_ly(labels = ~income, values = ~ inc_n, type = 'pie',sort=F,
               width = 350, height = 300) %>%
       layout(title="State Income Quantile Proportion",
-             font = list(family='Arial', size = 11), margin = m ,
+             font = list(family='Arial', size = 11),
              legend = list(orientation = 'h', x=0, font = list(family = 'Arial', size = 10)),
              paper_bgcolor='transparent',
              xaxis = list(showgrid = FALSE, zeroline = FALSE, showticklabels = FALSE),
              yaxis = list(showgrid = FALSE, zeroline = FALSE, showticklabels = FALSE))
+  })
+  
+  crime00<-read_csv("00-07Crime.csv")
+  crime10<-read_csv("10-17Crime.csv")
+  output$robplot00 <- renderPlotly({
+    click <- input$map_shape_click$id 
+    click <- sub(' ','',click)
+    selection <- crime00 %>% filter(Area == toupper(click))
+    selection %>%
+      plot_ly(x=~year) %>%
+      add_trace(y=~Robbery,name='Robbery',mode='lines+markers',color='red') %>%
+      layout(title="State Robbery Cases From 2000-2007",
+             font = list(family='Arial', size = 11))
+  })
+  output$robplot10 <- renderPlotly({
+    click <- input$map_shape_click$id 
+    click <- sub(' ','',click)
+    selection <- crime10 %>% filter(State == toupper(click))
+    selection %>%
+      plot_ly(x=~year) %>%
+      add_trace(y=~Robbery,name='Robbery',mode='lines+markers',color='red') %>%
+      layout(title="State Robbery Cases From 2010-2017",
+             font = list(family='Arial', size = 11))
+  })
+  output$burplot00 <- renderPlotly({
+    click <- input$map_shape_click$id 
+    click <- sub(' ','',click)
+    selection <- crime00 %>% filter(Area == toupper(click))
+    selection %>%
+      plot_ly(x=~year) %>%
+      add_trace(y=~Burglary,name='Burglary',mode='lines+markers') %>%
+      layout(title="State Burglary Cases From 2000-2007",
+             font = list(family='Arial', size = 11))
+  })
+  output$burplot10 <- renderPlotly({
+    click <- input$map_shape_click$id 
+    click <- sub(' ','',click)
+    selection <- crime10 %>% filter(State == toupper(click))
+    selection %>%
+      plot_ly(x=~year) %>%
+      add_trace(y=~Burglary,name='Burglary',mode='lines+markers') %>%
+      layout(title="State Burglary Cases From 2010-2017",
+             font = list(family='Arial', size = 11))
   })
   }
 
