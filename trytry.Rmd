@@ -18,6 +18,7 @@ movein <- read_csv(here::here('dataset','movein.csv')) %>%
   rename(State = d_state_name) %>% 
   mutate(State = toupper(State))
 movein$State <- gsub(' ','',movein$State)
+
 # crime rate vs leave proportion by year
 leave_crime <- read_csv(here::here('dataset','00-07Crime.csv')) %>%
   rename(State=Area)%>%
@@ -52,10 +53,8 @@ movein_crime<- movein_crime %>%
 f <- ggplot(movein_crime, aes(x = value, y = proportion, color = crime,
   text = paste('population moved in',movein_pop, "<br>", 'total population',total_pop))) +
   geom_point(position = "jitter")+
-  facet_grid(vars(year))
+  facet_grid(vars(year))+labs(x = 'Crime rate per 100,000 inhabitants',y = 'Proportion of people left', title = 'Crime rate vs. Proportion of people left')
 ggplotly(f, tooltip = "text")
-
-
 
 
 ```
@@ -69,6 +68,9 @@ library(plotly)
 library(DT)
 library(readr)
 library(crosstalk)
+
+# To explore the correlation between crime rate and proportion of people moved 
+# into/ leave the states by year
 
 movein1 <- read_csv("dataset/movein.csv")
 leave1 <- read_csv("dataset/leave.csv")
@@ -134,54 +136,3 @@ plot_ly(a1, type = "scatter", mode = "markers",
 
 ```
 ```
-
-
-```{r}
-movein1 <- read_csv("dataset/movein.csv")
-leave1 <- read_csv("dataset/leave.csv")
-movein1$d_state_name <- toupper(movein1$d_state_name)
-leave1$o_state_name <- toupper(leave1$o_state_name)
-early <- read_csv(here::here('dataset','00-07CrimeAvg.csv')) 
-early<- early %>% filter(Area!= 'DISTRICTOFCOLUMBIA')
-later <- read_csv(here::here('dataset','10-17CrimeAvg.csv'))
-
-
-colnames(movein1)[1] <- "Area"
-colnames(leave1)[1] <- "Area"
-colnames(early)[2] <- "early_meanRobbery"
-colnames(early)[3] <- "early_meanBurglary"
-colnames(later)[2] <- "later_meanRobbery"
-colnames(later)[3] <- "later_meanBurglary"
-colnames(later)[1] <- "Area"
-movein1 <- movein1 %>% filter(Area != 'DC') %>% select(Area,proportion)
-leave1 <- leave1 %>% filter(Area != 'DC')%>% select(Area,proportion)
-colnames(movein1)[2] <- "prop_movein"
-colnames(leave1)[2] <- "prop_leave"
-
-for_interactive <- read_csv("dataset/us map.csv")
-colnames(for_interactive)[1] <- "Area"
-for_interactive$Area <- gsub("(.*),.*", "\\1", for_interactive$Area) %>% toupper()
-
-
-for_interactive<- for_interactive %>% inner_join(movein1,by = 'Area')
-for_interactive<- for_interactive %>% inner_join(leave1,by = 'Area')
-for_interactive$Area<-str_replace_all(for_interactive$Area, " ", "")
-for_interactive<- for_interactive %>% inner_join(early,by = 'Area')
-for_interactive<- for_interactive %>% inner_join(later,by = 'Area') 
-
-```
-
-
-
-```{r}
-# for the interactive plots, we combined movein and moveout proportion and crime rates in early years and later years with the us map dataset which contains the state name and longitude and latitude of the states. We name this new dataset used for interactive plots for_interactive. To combine these data, we first read the datasets we already have which are the average crime rate in early/later years, movein/leave datasets. Then we change the column names and filtered out the DC area to make all the datasets consistent. Then we have the 
-
-
-
-```
-
-
-```{r}
-
-```
-
