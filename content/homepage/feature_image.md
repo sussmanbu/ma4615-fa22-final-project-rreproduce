@@ -15,12 +15,12 @@ widget:
   
   background:
     # Options: primary, secondary, tertiary or any valid color value. Default is primary.
-    color: secondary
-    image: images/data-science.png
+    color: primary
+    image: images/Immgration.webp
     # Options: auto, cover and contain. Default is auto.
-    size: contain
+    size: auto
     # Options: center, top, right, bottom, left.
-    position: left
+    position: center
     # Options: fixed, local, scroll.
-    attachment: local
+    attachment: scroll
 ---
