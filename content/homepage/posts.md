@@ -38,7 +38,7 @@ widget:
     color: primary
     image: images/WechatIMG1207.jpeg
     # Options: auto, cover and contain. Default is auto.
-    size: auto
+    size: cover
     # Options: center, top, right, bottom, left.
     position: left
     # Options: fixed, local, scroll.
