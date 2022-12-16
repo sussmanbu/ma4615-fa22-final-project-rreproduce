@@ -6,8 +6,9 @@ section: post
 # Pages count
 count: 5
 # Options: card, plain and masonry.
-style: plain
+style: card
 
+ 
 weight: 3
 widget:
   handler: pages
@@ -31,4 +32,15 @@ widget:
     position:
     # Options: fixed, local, scroll.
     attachment: 
+    
+  background:
+    # Options: primary, secondary, tertiary or any valid color value. Default is primary.
+    color: primary
+    image: images/WechatIMG1207.jpeg
+    # Options: auto, cover and contain. Default is auto.
+    size: auto
+    # Options: center, top, right, bottom, left.
+    position: left
+    # Options: fixed, local, scroll.
+    attachment: fixed
 ---
