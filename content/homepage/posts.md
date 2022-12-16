@@ -6,7 +6,7 @@ section: post
 # Pages count
 count: 8
 # Options: card, plain and masonry.
-style: plain
+style: card
 
  
 weight: 3
@@ -34,7 +34,7 @@ widget:
     
   background:
     # Options: primary, secondary, tertiary or any valid color value. Default is primary.
-    color: secondary
+    color: 
     # Options: auto, cover and contain. Default is auto.
     size:
     # Options: center, top, right, bottom, left.
