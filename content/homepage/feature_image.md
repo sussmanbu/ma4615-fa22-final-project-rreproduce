@@ -4,6 +4,7 @@ title: Immirgration
 role: Rreproduce
 draft: false
 bio: 'dhbqboqwoadasdasda'
+avatar: images/plane.png
 organization:
   name: Boston University
   url: https://www.bu.edu/
