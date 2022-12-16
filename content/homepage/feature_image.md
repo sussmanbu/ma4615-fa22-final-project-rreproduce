@@ -28,7 +28,7 @@ widget:
     color: secondary
     image: images/plane.png
     # Options: auto, cover and contain. Default is auto.
-    size: cover
+    size: contain
     # Options: center, top, right, bottom, left.
     position: center
     # Options: fixed, local, scroll.
