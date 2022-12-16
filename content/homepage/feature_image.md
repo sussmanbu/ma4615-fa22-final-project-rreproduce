@@ -1,12 +1,13 @@
 ---
 
 title: Immirgration
-role: Team NAME
+role: Rreproduce
 draft: false
 bio: dhbqboqwo
 organization:
   name: Boston University
   url: https://www.bu.edu/
+
 
 
 weight: 1
@@ -25,7 +26,7 @@ widget:
   background:
     # Options: primary, secondary, tertiary or any valid color value. Default is primary.
     color: secondary
-    image: images/WechatIMG1363.jpeg
+    image: images/WechatIMG1371.jpeg
     # Options: auto, cover and contain. Default is auto.
     size: cover
     # Options: center, top, right, bottom, left.
