@@ -36,7 +36,7 @@ widget:
   background:
     # Options: primary, secondary, tertiary or any valid color value. Default is primary.
     color: primary
-    image: images/WechatIMG1207.jpeg
+    image: images/WechatIMG1363.jpeg
     # Options: auto, cover and contain. Default is auto.
     size: cover
     # Options: center, top, right, bottom, left.
