@@ -4,7 +4,6 @@ title: Immirgration
 role: Rreproduce
 draft: false
 bio: 'dhbqboqwoadasdasda'
-avatar: images/plane.png
 organization:
   name: Boston University
   url: https://www.bu.edu/
@@ -23,7 +22,7 @@ widget:
     position:
     # Options: sm, md, lg and xl. Default is md.
     scale:
-  
+
   background:
     # Options: primary, secondary, tertiary or any valid color value. Default is primary.
     color: secondary
