@@ -15,10 +15,9 @@ library(tidyverse)
 library(htmltools)
 library(plotly)
 
-
-
 # Build UI
 ui <- fluidPage(
+    
     tags$style(type="text/css",".shiny-output-error { visibility: hidden; }",".shiny-output-error:before { visibility: hidden; }"), 
     # Application title
     span(style = "font-weight: 600; font-size: 25px; width: 100%;
@@ -30,6 +29,23 @@ ui <- fluidPage(
       column(8, leafletOutput("map")
       ),
       column(4, 
+             span(style = "font-weight: 600; font-size:20px","Instruction: "),
+             br(),
+             span("The first page shows the map of US."),
+             br(),
+             br(),
+             span(style = "font-weight: 500; font-size:14px",'Please select between Leave/Move-in below to see:'),
+             br(),
+             span(style = "font-weight: 400; font-size:13px",'proportion of people left the state where they lived at the age of 16'),
+             br(),
+             span(style = "font-weight: 400; font-size:13px",'proportion of people moved into the state where they lived at the age of 26'),
+             br(),
+             br(),
+             span(style = "font-weight: 500; font-size:14px",'Select a state on the map to see info about the state'),
+             br(),
+             span(style = "font-weight: 400; font-size:13px",'information about the states including state income and crime rates'),
+             br(),
+             hr(),
              span(style = "font-weight: 600; font-size:18px","Select "), span(style="font-weight: 600; font-size:18px; color:green", "State"), 
              span(style = "font-weight: 600; font-size:18px"," from the map:"),
              br(),br(),
@@ -53,7 +69,7 @@ ui <- fluidPage(
     fluidRow(
       column(4),
       column(4, plotlyOutput("robplot10", width = "100%", height = "250px")),
-      column(4, plotlyOutput("burplot10", width = "100%", height = "250px"))
+      column(4, plotlyOutput("burplot10", width = "100%", height = "250px")),
     )
   )
 
@@ -254,6 +270,7 @@ server <- function(input, output, session) {
       add_trace(y=~Burglary,name='Burglary',mode='lines+markers') %>%
       layout(title="State Burglary Cases From 2010-2017",
              font = list(family='Arial', size = 11))
+
   })
   }
 
