@@ -4,6 +4,7 @@ title: Immirgration
 role: Rreproduce
 draft: false
 bio: 'dhbqboqwoadasdasda'
+avatar: images/WechatIMG1371.jpeg
 organization:
   name: Boston University
   url: https://www.bu.edu/
@@ -26,7 +27,6 @@ widget:
   background:
     # Options: primary, secondary, tertiary or any valid color value. Default is primary.
     color: secondary
-    image: images/plane.png
     # Options: auto, cover and contain. Default is auto.
     size: contain
     # Options: center, top, right, bottom, left.
