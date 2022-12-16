@@ -4,7 +4,7 @@ draft: false
 # Section you want to display
 section: post
 # Pages count
-count: 5
+count: 8
 # Options: card, plain and masonry.
 style: card
 
