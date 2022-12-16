@@ -18,7 +18,7 @@ widget:
     color: secondary
     image: images/data-science.png
     # Options: auto, cover and contain. Default is auto.
-    size: contain
+    size: 
     # Options: center, top, right, bottom, left.
     position: left
     # Options: fixed, local, scroll.
