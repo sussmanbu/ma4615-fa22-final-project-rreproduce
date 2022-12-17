@@ -1,5 +1,5 @@
 ---
-title: "Post 3"
+title: "Post 3: Data for Equity"
 author: "Team Rreproduce"
 date: "2022-10-28"
 slug: []
@@ -11,7 +11,7 @@ authors: []
 series: []
 lastmod: "2022-10-28T09:31:54-04:00"
 featuredVideo: null
-featuredImage: null
+featuredImage: images/post3.webp
 ---
 The three fundamental principles of analyzing data of human subjects adapted from the Belmont Report are crucial for researchers to follow. Adhering to all three principles ensures the ethics of conducting human subject research, avoiding the conflict of interests, and securing the benefits of both researchers and participants.
 
