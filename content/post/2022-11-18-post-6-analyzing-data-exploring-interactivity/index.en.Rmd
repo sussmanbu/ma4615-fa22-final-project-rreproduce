@@ -11,7 +11,7 @@ authors: []
 series: []
 lastmod: '2022-11-18T09:48:34-05:00'
 featuredVideo: ~
-featuredImage: ~
+featuredImage: images/post6.webp
 ---
 This week we worked on combining two datasets and analyzing the patterns of several parameters and their relationship with others. Some of them will be used for answering our research questions. 
 
@@ -40,7 +40,7 @@ axis(2, ylim=c(0,1),col="darkorchid4",col.axis="darkorchid4",las=1)  ## las=1 ma
 mtext("Robbery rate per 100,000",side=2,col="darkorchid4",line=2.5)
 box()
 par(new=TRUE)
-plot(leave$prop_leave, pch=15,  xlab="", ylab="", ylim=c(0,0.6), 
+plot(leave$proportion, pch=15,  xlab="", ylab="", ylim=c(0,0.6), 
     axes=FALSE, type="l", col="gold1")
 mtext("Proportion of people left the state",side=4,col="gold1",line=4) 
 axis(4, ylim=c(0,7000), col="gold1",col.axis="gold1",las=1)
@@ -59,7 +59,7 @@ axis(2, ylim=c(0,1),col="deepskyblue3",col.axis="deepskyblue3",las=1)  ## las=1 
 mtext("Robbery rate per 100,000",side=2,col="deepskyblue3",line=2.5)
 box()
 par(new=TRUE)
-plot(movein$prop_movein, pch=15,  xlab="", ylab="", ylim=c(0,0.7), 
+plot(movein$proportion, pch=15,  xlab="", ylab="", ylim=c(0,0.7), 
     axes=FALSE, type="l", col="darkorange1")
 mtext("Proportion of people moved into the states",side=4,col="darkorange1",line=4) 
 axis(4, ylim=c(0,7000), col="darkorange1",col.axis="darkorange1",las=1)
@@ -79,7 +79,7 @@ axis(2, ylim=c(0,1),col="darkorchid4",col.axis="darkorchid4",las=1)  ## las=1 ma
 mtext("Burglary rate per 100,000",side=2,col="darkorchid4",line=2.5)
 box()
 par(new=TRUE)
-plot(leave$prop_leave, pch=15,  xlab="", ylab="", ylim=c(0.1,0.5), 
+plot(leave$proportion, pch=15,  xlab="", ylab="", ylim=c(0.1,0.5), 
     axes=FALSE, type="l", col="firebrick1")
 mtext("Proportion of people left the state",side=4,col="firebrick1",line=4) 
 axis(4, ylim=c(0,7000), col="firebrick1",col.axis="firebrick1",las=1)
@@ -99,7 +99,7 @@ axis(2, ylim=c(0,1),col="deepskyblue3",col.axis="deepskyblue3",las=1)  ## las=1 
 mtext("Burglary rate per 100,000",side=2,line=2.5,col = 'deepskyblue3')
 box()
 par(new=TRUE)
-plot(movein$prop_movein, pch=15,  xlab="", ylab="", ylim=c(0.1,0.5), 
+plot(movein$proportion, pch=15,  xlab="", ylab="", ylim=c(0.1,0.5), 
     axes=FALSE, type="l", col="darkolivegreen4")
 mtext("Proportion of people moved into the states",side=4,col="darkolivegreen4",line=4) 
 axis(4, ylim=c(0,7000), col="darkolivegreen4",col.axis="darkolivegreen4",las=1)
