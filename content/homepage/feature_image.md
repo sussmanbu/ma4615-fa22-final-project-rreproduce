@@ -1,9 +1,9 @@
 ---
 
-title: Immirgration
+title: Migration Data Analysis
 role: Rreproduce
 draft: false
-bio: 'dhbqboqwoadasdasda'
+bio: 'We explore the migration pattern in young adults of the United States and its relevant social and economic factors'
 organization:
   name: Boston University
   url: https://www.bu.edu/
