@@ -1,5 +1,5 @@
 ---
-title: Post 2:Data Cleaning + Preliminary Analysis
+title: 'Post 2:Data Cleaning + Preliminary Analysis'
 author: Team Rreproduce
 date: '2022-10-21'
 slug: []
@@ -36,6 +36,7 @@ Our subset data **o_MA** is then saved in the dataset file.
 
 ```{r message=FALSE, warning=FALSE}
 library(tidyverse)
+library(plotly)
 o_MA <- read_csv(here::here("dataset/o_MA.csv"))
 ```
 
@@ -69,12 +70,25 @@ We found out that the most popular state that people are moving to is New York, 
 ## Plot 2
 
 ```{r}
-o_MA %>%
-  filter(d_state_name =="Massachusetts")%>% 
-  filter(o_cz=="Boston") %>%
-  ggplot()+
-  geom_bar(aes(x = d_cz, fill=d_cz))+
-  coord_polar(theta='x')
+o_MA2 <- read_csv(here::here("dataset/o_MA.csv")) %>%
+  filter(d_state_name == "Massachusetts") %>%
+  filter(o_cz_name != d_cz_name) %>%
+  group_by(o_cz_name,d_cz_name) %>%
+  summarize(mig = sum(n)) %>%
+  ungroup() %>%
+  pivot_wider(names_from=(o_cz_name),values_from=(mig)) %>%
+  rename(OakBluffs='Oak Bluffs')
+
+o_MA2 %>%  plot_ly(y=~d_cz_name,x=~Nantucket,type='bar',name='Nantucket') %>%
+  add_trace(x=~OakBluffs,name='Oak Bluffs') %>%
+  add_trace(x=~Pittsfield,name='Pittsfield') %>%
+  add_trace(x=~Springfield,name='Springfield') %>%
+  add_trace(x=~Boston,name='Boston') %>%
+  layout(title = "Migration Patterns Withinin CZ in MA From Age 16 to 26",
+         xaxis = list(title="Population From Other CZs in MA at 26"),
+         yaxis = list(title="Destination State"),
+         legend = list(title="State From"),barmode = 'stack'
+         )
 ```
 
 The number of people who resided in Springfield and the number of people who resided in Boston are relatively similar, and they their populations are the highest among all five community zone.
@@ -84,7 +98,7 @@ The number of people in Pittsburgh is the second largest among all five communit
 
 ```{r fig.height=10, fig.width=10}
 o_MA %>%
-  filter(d_state_name!="Massachusetts") %>%
+  filter(d_state_name != "Massachusetts") %>%
   group_by(d_state_name,race) %>%
   summarize(state_race_pop = sum(n)) %>%
   ggplot() +
