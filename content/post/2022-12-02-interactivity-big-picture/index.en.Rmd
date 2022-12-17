@@ -1,5 +1,5 @@
 ---
-title: Interactivity, Big Picture
+title: 'Post 7: Interactivity + Big Picture'
 author: Team Rreproduce
 date: '2022-12-02'
 slug: []
@@ -11,7 +11,7 @@ authors: []
 series: []
 lastmod: '2022-12-02T20:42:54-05:00'
 featuredVideo: ~
-featuredImage: ~
+featuredImage: images/WechatIMG1363.jpeg
 ---
 
 This week we began to write big picture and design our interactive applications. 
