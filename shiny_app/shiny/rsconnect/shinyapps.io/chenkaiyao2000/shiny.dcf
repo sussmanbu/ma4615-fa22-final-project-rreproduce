@@ -5,9 +5,9 @@ account: chenkaiyao2000
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
 appId: 7853356
-bundleId: 6635095
+bundleId: 6649026
 url: https://chenkaiyao2000.shinyapps.io/shiny/
-when: 1671003032.26162
-lastSyncTime: 1671003032.26163
+when: 1671309332.79975
+lastSyncTime: 1671309332.79976
 asMultiple: FALSE
 asStatic: FALSE
