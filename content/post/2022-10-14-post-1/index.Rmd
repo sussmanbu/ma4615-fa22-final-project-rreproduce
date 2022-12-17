@@ -1,5 +1,5 @@
 ---
-title: Post 1
+title: Post 1: Interested Topic and Dataset Collection
 author: Team Rreproduce
 date: "2022-10-14"
 slug: []
@@ -11,7 +11,7 @@ authors: []
 series: []
 lastmod: "2022-10-14T11:38:54-04:00"
 featuredVideo: null
-featuredImage: images/WechatIMG1371.jpeg
+featuredImage: images/post1.jpeg
 ---
 
 ## Intro
