@@ -1,5 +1,5 @@
 ---
-title: 'Post 2:Data Cleaning + Preliminary Analysis'
+title: 'Post 2: Data Cleaning + Preliminary Analysis'
 author: Team Rreproduce
 date: '2022-10-21'
 slug: []
