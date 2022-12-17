@@ -1,5 +1,5 @@
 ---
-title: "Post 4"
+title: "Post 4: Statistical Analysis + Introducing Secondary Dataset"
 author: "Team Rreproduce"
 date: "2022-11-04"
 slug: []
@@ -11,7 +11,7 @@ authors: []
 series: []
 lastmod: "2022-11-04T20:27:56-04:00"
 featuredVideo: null
-featuredImage: null
+featuredImage: images/post4.jpeg
 ---
 **Introduction**
 
@@ -26,7 +26,7 @@ We examine the difference of income quantile between different races.
 ```{r message=FALSE, warning=FALSE}
 library(tidyverse)
 library(corrplot)
-load(here::here("dataset/o_MA.RData"))
+o_MA <-read_csv(here::here("dataset/o_MA.csv"))
 chisq_race_income <- chisq.test(o_MA$race, o_MA$income, correct=FALSE)
 round(chisq_race_income$residuals, 3)
 corrplot(chisq_race_income$residuals, is.cor = FALSE)
