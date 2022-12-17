@@ -12,7 +12,7 @@ This is a website for the final project for MA[46]15 Data Science with R by Team
 The members of this team are below.
 ## Chenkai Yao
 
-Chenkai is a senior student in BME.
+Chenkai is a senior student in Biomedical Engineering.
 
 ## Ziyu Zhao
 
