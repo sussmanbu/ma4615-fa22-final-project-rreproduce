@@ -1,5 +1,5 @@
 ---
-title: Post 5
+title: 'Post 5: Tidying Secondary Dataset + EDA'
 author: Team Rreproduce
 date: '2022-11-11'
 slug: []
@@ -11,7 +11,7 @@ authors: []
 series: []
 lastmod: '2022-11-11T21:23:04-05:00'
 featuredVideo: ~
-featuredImage: ~
+featuredImage: images/post5.webp
 ---
 **Introduction**
 
