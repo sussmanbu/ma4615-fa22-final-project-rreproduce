@@ -1,5 +1,5 @@
 ---
-title: Post 2
+title: Post 2:Data Cleaning + Preliminary Analysis
 author: Team Rreproduce
 date: '2022-10-21'
 slug: []
@@ -11,7 +11,7 @@ authors: []
 series: []
 lastmod: '2022-10-21T13:29:25-04:00'
 featuredVideo: ~
-featuredImage: ~
+featuredImage: images/post2.png
 ---
 
 # Introduction
@@ -43,17 +43,24 @@ o_MA <- read_csv(here::here("dataset/o_MA.csv"))
 
 ```{r}
 
-o_MA %>% 
-  group_by(Dest_state) %>%
+o_MA %>%
+  group_by(d_state_name) %>%
   mutate(sum_n = sum(n)) %>%
-  filter(Dest_state != "Massachusetts") %>%
+  ungroup() %>%
+  group_by(d_state_name,race) %>%
+  mutate(state_race_pop = sum(n)) %>%
+  summarize(sum_n=sum_n,state_race_pop=state_race_pop) %>%
+  distinct(d_state_name,race,.keep_all = T) %>%
+  filter(d_state_name != "Massachusetts") %>%
   ungroup() %>%
   arrange(desc(sum_n)) %>%
   filter(sum_n > 1650) %>% 
   ggplot() +
-  geom_col(aes(x=reorder(Dest_state,sum_n),y=n,fill=race))+
+  geom_col(aes(x=reorder(d_state_name,sum_n),y=state_race_pop,fill=race))+
   theme(axis.text.x = element_text(angle=45,vjust=1,hjust=1)) +
-  labs(x = "Destination State", y = "Total Commute Population", color="race")
+  labs(title = "Population(16-26) Moved From MA to Other States",
+       x = "Destination State", y = "Population From MA to Other States", color="race") + 
+  theme(plot.title = element_text(hjust = 0.5))
   
 ```
 
@@ -63,10 +70,10 @@ We found out that the most popular state that people are moving to is New York, 
 
 ```{r}
 o_MA %>%
-  filter(Dest_state =="Massachusetts")%>% 
-  filter(Original_CZ=="Boston") %>%
+  filter(d_state_name =="Massachusetts")%>% 
+  filter(o_cz=="Boston") %>%
   ggplot()+
-  geom_bar(aes(x = Dest_CZ, fill=Dest_CZ))+
+  geom_bar(aes(x = d_cz, fill=d_cz))+
   coord_polar(theta='x')
 ```
 
@@ -77,12 +84,15 @@ The number of people in Pittsburgh is the second largest among all five communit
 
 ```{r fig.height=10, fig.width=10}
 o_MA %>%
-  filter(Dest_state!="Massachusetts") %>%
+  filter(d_state_name!="Massachusetts") %>%
+  group_by(d_state_name,race) %>%
+  summarize(state_race_pop = sum(n)) %>%
   ggplot() +
-  geom_col(aes(x=1,y=n,fill=race),position = "fill") +
-  facet_wrap(~Dest_state) +  
+  geom_col(aes(x=1,y=state_race_pop,fill=race),position = "fill") +
+  facet_wrap(~d_state_name) +  
   coord_polar(theta = "y") +
-  labs(x="",y="",fill="Race")
+  labs(title = "Migration Race Proportion By Destination States", x="",y="",fill="Race")+
+  theme(plot.title = element_text(hjust = 0.5))
 ```
 
 Among 50 different destination states, white group people are the most likely to migrate. Moreover, white group people make up at least 75 percent of the total migration in each state, except Alabama, Florida, and Georgia. Asian and colored groups have relatively similar migration patterns in most states.
@@ -91,12 +101,16 @@ Among 50 different destination states, white group people are the most likely to
 
 ```{r fig.height=15, fig.width=15}
 o_MA %>%
-  filter(Dest_state!="Massachusetts") %>%
+  filter(d_state_name!="Massachusetts") %>%
+  group_by(d_state_name,income) %>%
+  summarize(state_inc_pop = sum(n)) %>%
   ggplot() +
-  geom_col(aes(x=1,y=n,fill=income),position = "fill") +
-  facet_wrap(~Dest_state) +  
+  geom_col(aes(x=1,y=state_inc_pop,fill=income),position = "fill") +
+  facet_wrap(~d_state_name) +  
   coord_polar(theta = "y")+
-  labs(x="",y="",fill="Income (Q1=poorest,Q5=richest)")
+  labs(title="Migration Parental Income Quantile Proportion By Destination States",
+       x = "", y="",fill="Income (Q1=poorest,Q5=richest)") + 
+   theme(plot.title = element_text(hjust = 0.5))
 ```
 
 Among 50 states’ migration population, the Q1 income group ( poorest parental income quintile) has the lowest migrant population in most cases. Surprisingly, the migration pattern in 10 of the states is very similar: people from 5 different income groups contribute a relatively equal number of the migrating population.
