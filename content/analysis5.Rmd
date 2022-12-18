@@ -47,6 +47,9 @@ We found that the number of educational institutions within a state was signific
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE, paged.print=TRUE}
 forward <- leaps::regsubsets(movein_prop~.,data=moveinsearch,method="forward")
+(forward%>%
+    broom:: tidy() %>% 
+    knitr::kable(format = "markdown"))
 forward_summary <- summary(forward)
 forward_summary$which
 forward_summary$cp
