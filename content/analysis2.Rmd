@@ -44,8 +44,8 @@ o_MA %>%
   theme(plot.title = element_text(hjust = 0.5))
 ```
 
-We then further explored whether the migration patterns of each state would be differentiated by income levels. We found that among 50 states’ migration population, the Q1 income group (poorest parental income quantile) has the lowest migrant population in most cases. Surprisingly, the migration pattern in 10 of the states is very similar: people from 5 different income groups contribute a relatively equal number of the migrating population. The graph illustrating the patterns and the difference is below.
 
+We then further explored whether the migration patterns of each state would be differentiated by income levels. We found that among 50 states’ migration population, the Q1 income group (poorest parental income quantile) has the lowest migrant population in most cases. Surprisingly, the migration pattern in 10 of the states is very similar: people from 5 different income groups contribute a relatively equal number of the migrating population. The graph illustrating the patterns and the difference is below.
 ```{r echo=FALSE, fig.height=10, fig.width=10, message=FALSE, warning=FALSE}
 o_MA %>%
   filter(d_state_name!="Massachusetts") %>%
