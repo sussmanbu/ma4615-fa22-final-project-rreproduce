@@ -50,8 +50,7 @@ forward <- leaps::regsubsets(movein_prop~.,data=moveinsearch,method="forward")
 (forward%>%
     broom:: tidy() %>% 
     knitr::kable(format = "markdown"))
-forward_summary <- summary(forward)
-forward_summary$cp
+
 model <- lm(movein_prop~sum_uni+1,data=moveinsearch)
 (model%>%
     broom:: tidy() %>% 
@@ -66,8 +65,7 @@ forward2 <- leaps::regsubsets(movein_prop~.,data=moveinsearch2,method="forward")
 (forward2%>%
     broom:: tidy() %>% 
     knitr::kable(format = "markdown"))
-forward2_summary <- summary(forward2)
-forward2_summary$cp
+
 model2 <- lm(movein_prop~Business+Computer+EduServ+General+meanBurglary+1,data=moveinsearch2)
 (model2%>%
     broom:: tidy() %>% 
@@ -83,8 +81,6 @@ forwardleave <- leaps::regsubsets(leave_prop~.,data=leavesearch,method="forward"
 (forwardleave%>%
     broom:: tidy() %>% 
     knitr::kable(format = "markdown"))
-forwardleave_summary <- summary(forwardleave)
-forwardleave_summary$cp
 
 modelleave <- lm(leave_prop~sum_uni+meanBurglary+1,data=leavesearch)
 (modelleave%>%
@@ -100,8 +96,6 @@ forwardleave2 <- leaps::regsubsets(leave_prop~.,data=leavesearch2,method="forwar
 (forwardleave2%>%
     broom:: tidy() %>% 
     knitr::kable(format = "markdown"))
-forwardleave2_summary <- summary(forwardleave2)
-forwardleave2_summary$cp
 
 modelleave2 <- lm(leave_prop~General+Cosme_Barber+meanBurglary+1,data=leavesearch2)
 (modelleave2%>%
