@@ -21,11 +21,90 @@ draft: false
 <p><font size="5"><b>Model Analysis on Migration Factors</font></b></p>
 <p>While we did not find direct associations between the crime rate and the migration patterns, we assumed that the number of educational institutions would be associated with both the crime rate and the migration pattern; thus, we should adjust the number of educational institutions as a covariate. In this way, we can also investigate whether the covariate is significantly associated with the migration patterns. We used a linear exhaustive search model in forward direction to see which predictor fitted the model best, and our model confirmed that the number of educational institution was worth to investigate.</p>
 <p>We found that the number of educational institutions within a state was significantly associated with the proportion of people moved into the state. However, the association was negative, meaning that the more educational institutions within a state, the less people were likely to move into the state. At the first glance, this result might be surprising and contradictory to conventional perspectives, as states with numerous educational institutions would attract more people, especially for our participants, who were at the age of seeking education. Nevertheless, we can still argue that since the outcome we looked at was the proportion of the migrants in terms of the entire state population, it is plausible that local residents would not move out of the states for educational purposes. Thus, the higher the number of educational institutions a state had, the higher proportion of people who would like to stay in the state, which rendered the move-in proportion low.</p>
-<pre><code>##   (Intercept) sum_uni meanRobbery meanBurglary
-## 1        TRUE    TRUE       FALSE        FALSE
-## 2        TRUE    TRUE       FALSE         TRUE
-## 3        TRUE    TRUE        TRUE         TRUE</code></pre>
+<table>
+<colgroup>
+<col width="13%" />
+<col width="8%" />
+<col width="13%" />
+<col width="14%" />
+<col width="10%" />
+<col width="15%" />
+<col width="12%" />
+<col width="12%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">(Intercept)</th>
+<th align="left">sum_uni</th>
+<th align="left">meanRobbery</th>
+<th align="left">meanBurglary</th>
+<th align="right">r.squared</th>
+<th align="right">adj.r.squared</th>
+<th align="right">BIC</th>
+<th align="right">mallows_cp</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">TRUE</td>
+<td align="left">TRUE</td>
+<td align="left">FALSE</td>
+<td align="left">FALSE</td>
+<td align="right">0.2066513</td>
+<td align="right">0.1901232</td>
+<td align="right">-3.7505726</td>
+<td align="right">0.8206384</td>
+</tr>
+<tr class="even">
+<td align="left">TRUE</td>
+<td align="left">TRUE</td>
+<td align="left">FALSE</td>
+<td align="left">TRUE</td>
+<td align="right">0.2197907</td>
+<td align="right">0.1865903</td>
+<td align="right">-0.6735863</td>
+<td align="right">2.0451925</td>
+</tr>
+<tr class="odd">
+<td align="left">TRUE</td>
+<td align="left">TRUE</td>
+<td align="left">TRUE</td>
+<td align="left">TRUE</td>
+<td align="right">0.2205565</td>
+<td align="right">0.1697232</td>
+<td align="right">3.1893384</td>
+<td align="right">4.0000000</td>
+</tr>
+</tbody>
+</table>
 <pre><code>## [1] 0.8206384 2.0451925 4.0000000</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="left">term</th>
+<th align="right">estimate</th>
+<th align="right">std.error</th>
+<th align="right">statistic</th>
+<th align="right">p.value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">(Intercept)</td>
+<td align="right">0.2726287</td>
+<td align="right">0.0139743</td>
+<td align="right">19.509268</td>
+<td align="right">0.0000000</td>
+</tr>
+<tr class="even">
+<td align="left">sum_uni</td>
+<td align="right">-0.0002715</td>
+<td align="right">0.0000768</td>
+<td align="right">-3.535962</td>
+<td align="right">0.0009117</td>
+</tr>
+</tbody>
+</table>
 <pre><code>## 
 ## Call:
 ## lm(formula = movein_prop ~ sum_uni + 1, data = moveinsearch)
@@ -45,25 +124,248 @@ draft: false
 ## Multiple R-squared:  0.2067, Adjusted R-squared:  0.1901 
 ## F-statistic:  12.5 on 1 and 48 DF,  p-value: 0.0009117</code></pre>
 <p>We then further divided the educational institutions into specific types, such as business school, computer science school, etc. Once again, we used a linear exhaustive search model in forward direction, and generated several predictors that fit the model the best as demonstrated in the below graph. We found that the mean burglary rate was still not significantly associated with the proportion of moved-in people. However, the number of business schools, computer science schools, and general education schools were significantly associated with the proportion of moved-in people. However, only the number of computer schools was positively associated with the proportion of moved-in people. One reasonable explanation is that computer science and related majors have become increasingly popular in recent years, and people were likely to migrate based on the decision of seeking quality computer science-related education. Still, this model also demonstrated that the burglary rate was not significantly associated with the proportion of moved-in people, confirming the graph we made above.</p>
-<pre><code>##   (Intercept) Business Junior Computer EduServ Flight General Cosme_Barber
-## 1        TRUE    FALSE  FALSE    FALSE   FALSE  FALSE    TRUE        FALSE
-## 2        TRUE     TRUE  FALSE    FALSE   FALSE  FALSE    TRUE        FALSE
-## 3        TRUE     TRUE  FALSE     TRUE   FALSE  FALSE    TRUE        FALSE
-## 4        TRUE     TRUE  FALSE     TRUE   FALSE  FALSE    TRUE        FALSE
-## 5        TRUE     TRUE  FALSE     TRUE    TRUE  FALSE    TRUE        FALSE
-## 6        TRUE     TRUE  FALSE     TRUE    TRUE  FALSE    TRUE         TRUE
-## 7        TRUE     TRUE  FALSE     TRUE    TRUE  FALSE    TRUE         TRUE
-## 8        TRUE     TRUE   TRUE     TRUE    TRUE  FALSE    TRUE         TRUE
-##    Arts Other meanRobbery meanBurglary
-## 1 FALSE FALSE       FALSE        FALSE
-## 2 FALSE FALSE       FALSE        FALSE
-## 3 FALSE FALSE       FALSE        FALSE
-## 4 FALSE FALSE       FALSE         TRUE
-## 5 FALSE FALSE       FALSE         TRUE
-## 6 FALSE FALSE       FALSE         TRUE
-## 7 FALSE FALSE        TRUE         TRUE
-## 8 FALSE FALSE        TRUE         TRUE</code></pre>
+<table>
+<colgroup>
+<col width="7%" />
+<col width="5%" />
+<col width="4%" />
+<col width="5%" />
+<col width="5%" />
+<col width="4%" />
+<col width="5%" />
+<col width="8%" />
+<col width="3%" />
+<col width="3%" />
+<col width="7%" />
+<col width="8%" />
+<col width="6%" />
+<col width="8%" />
+<col width="7%" />
+<col width="7%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">(Intercept)</th>
+<th align="left">Business</th>
+<th align="left">Junior</th>
+<th align="left">Computer</th>
+<th align="left">EduServ</th>
+<th align="left">Flight</th>
+<th align="left">General</th>
+<th align="left">Cosme_Barber</th>
+<th align="left">Arts</th>
+<th align="left">Other</th>
+<th align="left">meanRobbery</th>
+<th align="left">meanBurglary</th>
+<th align="right">r.squared</th>
+<th align="right">adj.r.squared</th>
+<th align="right">BIC</th>
+<th align="right">mallows_cp</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">TRUE</td>
+<td align="left">FALSE</td>
+<td align="left">FALSE</td>
+<td align="left">FALSE</td>
+<td align="left">FALSE</td>
+<td align="left">FALSE</td>
+<td align="left">TRUE</td>
+<td align="left">FALSE</td>
+<td align="left">FALSE</td>
+<td align="left">FALSE</td>
+<td align="left">FALSE</td>
+<td align="left">FALSE</td>
+<td align="right">0.1997105</td>
+<td align="right">0.1830378</td>
+<td align="right">-3.3150416</td>
+<td align="right">7.161506</td>
+</tr>
+<tr class="even">
+<td align="left">TRUE</td>
+<td align="left">TRUE</td>
+<td align="left">FALSE</td>
+<td align="left">FALSE</td>
+<td align="left">FALSE</td>
+<td align="left">FALSE</td>
+<td align="left">TRUE</td>
+<td align="left">FALSE</td>
+<td align="left">FALSE</td>
+<td align="left">FALSE</td>
+<td align="left">FALSE</td>
+<td align="left">FALSE</td>
+<td align="right">0.2528652</td>
+<td align="right">0.2210722</td>
+<td align="right">-2.8394106</td>
+<td align="right">5.630557</td>
+</tr>
+<tr class="odd">
+<td align="left">TRUE</td>
+<td align="left">TRUE</td>
+<td align="left">FALSE</td>
+<td align="left">TRUE</td>
+<td align="left">FALSE</td>
+<td align="left">FALSE</td>
+<td align="left">TRUE</td>
+<td align="left">FALSE</td>
+<td align="left">FALSE</td>
+<td align="left">FALSE</td>
+<td align="left">FALSE</td>
+<td align="left">FALSE</td>
+<td align="right">0.3046391</td>
+<td align="right">0.2592895</td>
+<td align="right">-2.5181217</td>
+<td align="right">4.191326</td>
+</tr>
+<tr class="even">
+<td align="left">TRUE</td>
+<td align="left">TRUE</td>
+<td align="left">FALSE</td>
+<td align="left">TRUE</td>
+<td align="left">FALSE</td>
+<td align="left">FALSE</td>
+<td align="left">TRUE</td>
+<td align="left">FALSE</td>
+<td align="left">FALSE</td>
+<td align="left">FALSE</td>
+<td align="left">FALSE</td>
+<td align="left">TRUE</td>
+<td align="right">0.3388649</td>
+<td align="right">0.2800974</td>
+<td align="right">-1.1297409</td>
+<td align="right">3.917778</td>
+</tr>
+<tr class="odd">
+<td align="left">TRUE</td>
+<td align="left">TRUE</td>
+<td align="left">FALSE</td>
+<td align="left">TRUE</td>
+<td align="left">TRUE</td>
+<td align="left">FALSE</td>
+<td align="left">TRUE</td>
+<td align="left">FALSE</td>
+<td align="left">FALSE</td>
+<td align="left">FALSE</td>
+<td align="left">FALSE</td>
+<td align="left">TRUE</td>
+<td align="right">0.3717531</td>
+<td align="right">0.3003614</td>
+<td align="right">0.2310361</td>
+<td align="right">3.733087</td>
+</tr>
+<tr class="even">
+<td align="left">TRUE</td>
+<td align="left">TRUE</td>
+<td align="left">FALSE</td>
+<td align="left">TRUE</td>
+<td align="left">TRUE</td>
+<td align="left">FALSE</td>
+<td align="left">TRUE</td>
+<td align="left">TRUE</td>
+<td align="left">FALSE</td>
+<td align="left">FALSE</td>
+<td align="left">FALSE</td>
+<td align="left">TRUE</td>
+<td align="right">0.3868298</td>
+<td align="right">0.3012712</td>
+<td align="right">2.9285240</td>
+<td align="right">4.731574</td>
+</tr>
+<tr class="odd">
+<td align="left">TRUE</td>
+<td align="left">TRUE</td>
+<td align="left">FALSE</td>
+<td align="left">TRUE</td>
+<td align="left">TRUE</td>
+<td align="left">FALSE</td>
+<td align="left">TRUE</td>
+<td align="left">TRUE</td>
+<td align="left">FALSE</td>
+<td align="left">FALSE</td>
+<td align="left">TRUE</td>
+<td align="left">TRUE</td>
+<td align="right">0.4003350</td>
+<td align="right">0.3003909</td>
+<td align="right">5.7269749</td>
+<td align="right">5.834451</td>
+</tr>
+<tr class="even">
+<td align="left">TRUE</td>
+<td align="left">TRUE</td>
+<td align="left">TRUE</td>
+<td align="left">TRUE</td>
+<td align="left">TRUE</td>
+<td align="left">FALSE</td>
+<td align="left">TRUE</td>
+<td align="left">TRUE</td>
+<td align="left">FALSE</td>
+<td align="left">FALSE</td>
+<td align="left">TRUE</td>
+<td align="left">TRUE</td>
+<td align="right">0.4083238</td>
+<td align="right">0.2928748</td>
+<td align="right">8.9684183</td>
+<td align="right">7.303774</td>
+</tr>
+</tbody>
+</table>
 <pre><code>## [1] 7.161506 5.630557 4.191326 3.917778 3.733087 4.731574 5.834451 7.303774</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="left">term</th>
+<th align="right">estimate</th>
+<th align="right">std.error</th>
+<th align="right">statistic</th>
+<th align="right">p.value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">(Intercept)</td>
+<td align="right">0.3371180</td>
+<td align="right">0.0331152</td>
+<td align="right">10.180174</td>
+<td align="right">0.0000000</td>
+</tr>
+<tr class="even">
+<td align="left">Business</td>
+<td align="right">-0.0167052</td>
+<td align="right">0.0069661</td>
+<td align="right">-2.398069</td>
+<td align="right">0.0207898</td>
+</tr>
+<tr class="odd">
+<td align="left">Computer</td>
+<td align="right">0.0338872</td>
+<td align="right">0.0144705</td>
+<td align="right">2.341823</td>
+<td align="right">0.0237811</td>
+</tr>
+<tr class="even">
+<td align="left">EduServ</td>
+<td align="right">0.0058663</td>
+<td align="right">0.0038653</td>
+<td align="right">1.517683</td>
+<td align="right">0.1362473</td>
+</tr>
+<tr class="odd">
+<td align="left">General</td>
+<td align="right">-0.0012141</td>
+<td align="right">0.0003607</td>
+<td align="right">-3.366199</td>
+<td align="right">0.0015904</td>
+</tr>
+<tr class="even">
+<td align="left">meanBurglary</td>
+<td align="right">-0.0000884</td>
+<td align="right">0.0000500</td>
+<td align="right">-1.766846</td>
+<td align="right">0.0841902</td>
+</tr>
+</tbody>
+</table>
 <pre><code>## 
 ## Call:
 ## lm(formula = movein_prop ~ Business + Computer + EduServ + General + 
@@ -88,11 +390,97 @@ draft: false
 ## Multiple R-squared:  0.3718, Adjusted R-squared:  0.3004 
 ## F-statistic: 5.207 on 5 and 44 DF,  p-value: 0.000771</code></pre>
 <p>We then changed our outcome variable into the proportion of people moved-out. Implemented the same method of analysis, we found the mean burglary rate and the number of the educational institutions were significantly associated with the moved-out proportion. It is to our surprise that the crime rate was significantly, but inversely associated with the proportion of the people moved-out, meaning that the higher the crime rate of a state, the lower the proportion of people who moved out. We discussed this scenario more in our discussion section.</p>
-<pre><code>##   (Intercept) sum_uni meanRobbery meanBurglary
-## 1        TRUE    TRUE       FALSE        FALSE
-## 2        TRUE    TRUE       FALSE         TRUE
-## 3        TRUE    TRUE        TRUE         TRUE</code></pre>
+<table>
+<colgroup>
+<col width="13%" />
+<col width="8%" />
+<col width="13%" />
+<col width="14%" />
+<col width="11%" />
+<col width="15%" />
+<col width="11%" />
+<col width="12%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">(Intercept)</th>
+<th align="left">sum_uni</th>
+<th align="left">meanRobbery</th>
+<th align="left">meanBurglary</th>
+<th align="right">r.squared</th>
+<th align="right">adj.r.squared</th>
+<th align="right">BIC</th>
+<th align="right">mallows_cp</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">TRUE</td>
+<td align="left">TRUE</td>
+<td align="left">FALSE</td>
+<td align="left">FALSE</td>
+<td align="right">0.3657224</td>
+<td align="right">0.3525083</td>
+<td align="right">-14.93938</td>
+<td align="right">12.556938</td>
+</tr>
+<tr class="even">
+<td align="left">TRUE</td>
+<td align="left">TRUE</td>
+<td align="left">FALSE</td>
+<td align="left">TRUE</td>
+<td align="right">0.4959102</td>
+<td align="right">0.4744595</td>
+<td align="right">-22.51397</td>
+<td align="right">2.537914</td>
+</tr>
+<tr class="odd">
+<td align="left">TRUE</td>
+<td align="left">TRUE</td>
+<td align="left">TRUE</td>
+<td align="left">TRUE</td>
+<td align="right">0.5017368</td>
+<td align="right">0.4692413</td>
+<td align="right">-19.18325</td>
+<td align="right">4.000000</td>
+</tr>
+</tbody>
+</table>
 <pre><code>## [1] 12.556938  2.537914  4.000000</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="left">term</th>
+<th align="right">estimate</th>
+<th align="right">std.error</th>
+<th align="right">statistic</th>
+<th align="right">p.value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">(Intercept)</td>
+<td align="right">0.3309258</td>
+<td align="right">0.0183832</td>
+<td align="right">18.001493</td>
+<td align="right">0.0000000</td>
+</tr>
+<tr class="even">
+<td align="left">sum_uni</td>
+<td align="right">-0.0002328</td>
+<td align="right">0.0000429</td>
+<td align="right">-5.428747</td>
+<td align="right">0.0000019</td>
+</tr>
+<tr class="odd">
+<td align="left">meanBurglary</td>
+<td align="right">-0.0000859</td>
+<td align="right">0.0000247</td>
+<td align="right">-3.484015</td>
+<td align="right">0.0010799</td>
+</tr>
+</tbody>
+</table>
 <pre><code>## 
 ## Call:
 ## lm(formula = leave_prop ~ sum_uni + meanBurglary + 1, data = leavesearch)
@@ -113,25 +501,234 @@ draft: false
 ## Multiple R-squared:  0.4959, Adjusted R-squared:  0.4745 
 ## F-statistic: 23.12 on 2 and 47 DF,  p-value: 1.021e-07</code></pre>
 <p>When using specific types of educational institutions, including the number of schools of general education, and the number of cosmetic schools as covariates, we again found significant associations between the mean burglary rate and the proportion of people moved out. Nonetheless, the association was still negative. Meanwhile, the number of the specific educational institutions were not significantly associated with the proportion of people moved out of the state.</p>
-<pre><code>##   (Intercept) Business Junior Computer EduServ Flight General Cosme_Barber
-## 1        TRUE    FALSE  FALSE    FALSE   FALSE  FALSE   FALSE         TRUE
-## 2        TRUE    FALSE  FALSE    FALSE   FALSE  FALSE   FALSE         TRUE
-## 3        TRUE    FALSE  FALSE    FALSE   FALSE  FALSE    TRUE         TRUE
-## 4        TRUE    FALSE  FALSE    FALSE   FALSE  FALSE    TRUE         TRUE
-## 5        TRUE    FALSE  FALSE    FALSE    TRUE  FALSE    TRUE         TRUE
-## 6        TRUE    FALSE  FALSE    FALSE    TRUE   TRUE    TRUE         TRUE
-## 7        TRUE    FALSE  FALSE    FALSE    TRUE   TRUE    TRUE         TRUE
-## 8        TRUE    FALSE  FALSE    FALSE    TRUE   TRUE    TRUE         TRUE
-##    Arts Other meanRobbery meanBurglary
-## 1 FALSE FALSE       FALSE        FALSE
-## 2 FALSE FALSE       FALSE         TRUE
-## 3 FALSE FALSE       FALSE         TRUE
-## 4 FALSE  TRUE       FALSE         TRUE
-## 5 FALSE  TRUE       FALSE         TRUE
-## 6 FALSE  TRUE       FALSE         TRUE
-## 7 FALSE  TRUE        TRUE         TRUE
-## 8  TRUE  TRUE        TRUE         TRUE</code></pre>
+<table style="width:100%;">
+<colgroup>
+<col width="7%" />
+<col width="5%" />
+<col width="4%" />
+<col width="5%" />
+<col width="5%" />
+<col width="4%" />
+<col width="5%" />
+<col width="8%" />
+<col width="3%" />
+<col width="3%" />
+<col width="7%" />
+<col width="8%" />
+<col width="6%" />
+<col width="9%" />
+<col width="6%" />
+<col width="7%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">(Intercept)</th>
+<th align="left">Business</th>
+<th align="left">Junior</th>
+<th align="left">Computer</th>
+<th align="left">EduServ</th>
+<th align="left">Flight</th>
+<th align="left">General</th>
+<th align="left">Cosme_Barber</th>
+<th align="left">Arts</th>
+<th align="left">Other</th>
+<th align="left">meanRobbery</th>
+<th align="left">meanBurglary</th>
+<th align="right">r.squared</th>
+<th align="right">adj.r.squared</th>
+<th align="right">BIC</th>
+<th align="right">mallows_cp</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">TRUE</td>
+<td align="left">FALSE</td>
+<td align="left">FALSE</td>
+<td align="left">FALSE</td>
+<td align="left">FALSE</td>
+<td align="left">FALSE</td>
+<td align="left">FALSE</td>
+<td align="left">TRUE</td>
+<td align="left">FALSE</td>
+<td align="left">FALSE</td>
+<td align="left">FALSE</td>
+<td align="left">FALSE</td>
+<td align="right">0.4323652</td>
+<td align="right">0.4205395</td>
+<td align="right">-20.48981</td>
+<td align="right">8.849256</td>
+</tr>
+<tr class="even">
+<td align="left">TRUE</td>
+<td align="left">FALSE</td>
+<td align="left">FALSE</td>
+<td align="left">FALSE</td>
+<td align="left">FALSE</td>
+<td align="left">FALSE</td>
+<td align="left">FALSE</td>
+<td align="left">TRUE</td>
+<td align="left">FALSE</td>
+<td align="left">FALSE</td>
+<td align="left">FALSE</td>
+<td align="left">TRUE</td>
+<td align="right">0.5062350</td>
+<td align="right">0.4852237</td>
+<td align="right">-23.54871</td>
+<td align="right">3.711392</td>
+</tr>
+<tr class="odd">
+<td align="left">TRUE</td>
+<td align="left">FALSE</td>
+<td align="left">FALSE</td>
+<td align="left">FALSE</td>
+<td align="left">FALSE</td>
+<td align="left">FALSE</td>
+<td align="left">TRUE</td>
+<td align="left">TRUE</td>
+<td align="left">FALSE</td>
+<td align="left">FALSE</td>
+<td align="left">FALSE</td>
+<td align="left">TRUE</td>
+<td align="right">0.5324576</td>
+<td align="right">0.5019657</td>
+<td align="right">-22.36517</td>
+<td align="right">3.177555</td>
+</tr>
+<tr class="even">
+<td align="left">TRUE</td>
+<td align="left">FALSE</td>
+<td align="left">FALSE</td>
+<td align="left">FALSE</td>
+<td align="left">FALSE</td>
+<td align="left">FALSE</td>
+<td align="left">TRUE</td>
+<td align="left">TRUE</td>
+<td align="left">FALSE</td>
+<td align="left">TRUE</td>
+<td align="left">FALSE</td>
+<td align="left">TRUE</td>
+<td align="right">0.5504929</td>
+<td align="right">0.5105367</td>
+<td align="right">-20.42007</td>
+<td align="right">3.434847</td>
+</tr>
+<tr class="odd">
+<td align="left">TRUE</td>
+<td align="left">FALSE</td>
+<td align="left">FALSE</td>
+<td align="left">FALSE</td>
+<td align="left">TRUE</td>
+<td align="left">FALSE</td>
+<td align="left">TRUE</td>
+<td align="left">TRUE</td>
+<td align="left">FALSE</td>
+<td align="left">TRUE</td>
+<td align="left">FALSE</td>
+<td align="left">TRUE</td>
+<td align="right">0.5605010</td>
+<td align="right">0.5105579</td>
+<td align="right">-17.63385</td>
+<td align="right">4.467793</td>
+</tr>
+<tr class="even">
+<td align="left">TRUE</td>
+<td align="left">FALSE</td>
+<td align="left">FALSE</td>
+<td align="left">FALSE</td>
+<td align="left">TRUE</td>
+<td align="left">TRUE</td>
+<td align="left">TRUE</td>
+<td align="left">TRUE</td>
+<td align="left">FALSE</td>
+<td align="left">TRUE</td>
+<td align="left">FALSE</td>
+<td align="left">TRUE</td>
+<td align="right">0.5927930</td>
+<td align="right">0.5359734</td>
+<td align="right">-17.53752</td>
+<td align="right">3.347488</td>
+</tr>
+<tr class="odd">
+<td align="left">TRUE</td>
+<td align="left">FALSE</td>
+<td align="left">FALSE</td>
+<td align="left">FALSE</td>
+<td align="left">TRUE</td>
+<td align="left">TRUE</td>
+<td align="left">TRUE</td>
+<td align="left">TRUE</td>
+<td align="left">FALSE</td>
+<td align="left">TRUE</td>
+<td align="left">TRUE</td>
+<td align="left">TRUE</td>
+<td align="right">0.6018592</td>
+<td align="right">0.5355024</td>
+<td align="right">-14.75129</td>
+<td align="right">4.471443</td>
+</tr>
+<tr class="even">
+<td align="left">TRUE</td>
+<td align="left">FALSE</td>
+<td align="left">FALSE</td>
+<td align="left">FALSE</td>
+<td align="left">TRUE</td>
+<td align="left">TRUE</td>
+<td align="left">TRUE</td>
+<td align="left">TRUE</td>
+<td align="left">TRUE</td>
+<td align="left">TRUE</td>
+<td align="left">TRUE</td>
+<td align="left">TRUE</td>
+<td align="right">0.6045131</td>
+<td align="right">0.5273450</td>
+<td align="right">-11.17368</td>
+<td align="right">6.214995</td>
+</tr>
+</tbody>
+</table>
 <pre><code>## [1] 8.849256 3.711392 3.177555 3.434847 4.467793 3.347488 4.471443 6.214995</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="left">term</th>
+<th align="right">estimate</th>
+<th align="right">std.error</th>
+<th align="right">statistic</th>
+<th align="right">p.value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">(Intercept)</td>
+<td align="right">0.3326403</td>
+<td align="right">0.0195630</td>
+<td align="right">17.003537</td>
+<td align="right">0.0000000</td>
+</tr>
+<tr class="even">
+<td align="left">General</td>
+<td align="right">-0.0003145</td>
+<td align="right">0.0001958</td>
+<td align="right">-1.606227</td>
+<td align="right">0.1150679</td>
+</tr>
+<tr class="odd">
+<td align="left">Cosme_Barber</td>
+<td align="right">-0.0007722</td>
+<td align="right">0.0004272</td>
+<td align="right">-1.807478</td>
+<td align="right">0.0772297</td>
+</tr>
+<tr class="even">
+<td align="left">meanBurglary</td>
+<td align="right">-0.0000825</td>
+<td align="right">0.0000266</td>
+<td align="right">-3.103342</td>
+<td align="right">0.0032682</td>
+</tr>
+</tbody>
+</table>
 <pre><code>## 
 ## Call:
 ## lm(formula = leave_prop ~ General + Cosme_Barber + meanBurglary + 
