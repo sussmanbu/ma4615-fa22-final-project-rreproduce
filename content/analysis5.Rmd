@@ -47,13 +47,15 @@ We found that the number of educational institutions within a state was signific
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE, paged.print=TRUE}
 forward <- leaps::regsubsets(movein_prop~.,data=moveinsearch,method="forward")
-forward_summary <- summary(forward)
-(forward_summary%>%
+(forward%>%
     broom:: tidy() %>% 
     knitr::kable(format = "markdown"))
-forward_summary$which
+forward_summary <- summary(forward)
 forward_summary$cp
 model <- lm(movein_prop~sum_uni+1,data=moveinsearch)
+(model%>%
+    broom:: tidy() %>% 
+    knitr::kable(format = "markdown"))
 summary(model)
 ```
 
@@ -61,10 +63,15 @@ We then further divided the educational institutions into specific types, such a
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE, paged.print=TRUE}
 forward2 <- leaps::regsubsets(movein_prop~.,data=moveinsearch2,method="forward")
+(forward2%>%
+    broom:: tidy() %>% 
+    knitr::kable(format = "markdown"))
 forward2_summary <- summary(forward2)
-forward2_summary$which
 forward2_summary$cp
 model2 <- lm(movein_prop~Business+Computer+EduServ+General+meanBurglary+1,data=moveinsearch2)
+(model2%>%
+    broom:: tidy() %>% 
+    knitr::kable(format = "markdown"))
 summary(model2)
 ```
 
@@ -73,11 +80,16 @@ We then changed our outcome variable into the proportion of people moved-out. Im
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE, paged.print=TRUE}
 forwardleave <- leaps::regsubsets(leave_prop~.,data=leavesearch,method="forward")
+(forwardleave%>%
+    broom:: tidy() %>% 
+    knitr::kable(format = "markdown"))
 forwardleave_summary <- summary(forwardleave)
-forwardleave_summary$which
 forwardleave_summary$cp
 
 modelleave <- lm(leave_prop~sum_uni+meanBurglary+1,data=leavesearch)
+(modelleave%>%
+    broom:: tidy() %>% 
+    knitr::kable(format = "markdown"))
 summary(modelleave)
 ```
 
@@ -85,11 +97,16 @@ When using specific types of educational institutions, including the number of s
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE, paged.print=TRUE}
 forwardleave2 <- leaps::regsubsets(leave_prop~.,data=leavesearch2,method="forward")
+(forwardleave2%>%
+    broom:: tidy() %>% 
+    knitr::kable(format = "markdown"))
 forwardleave2_summary <- summary(forwardleave2)
-forwardleave2_summary$which
 forwardleave2_summary$cp
 
 modelleave2 <- lm(leave_prop~General+Cosme_Barber+meanBurglary+1,data=leavesearch2)
+(modelleave2%>%
+    broom:: tidy() %>% 
+    knitr::kable(format = "markdown"))
 summary(modelleave2)
 ```
 
