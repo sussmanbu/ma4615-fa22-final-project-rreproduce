@@ -105,24 +105,6 @@ draft: false
 </tr>
 </tbody>
 </table>
-<pre><code>## 
-## Call:
-## lm(formula = movein_prop ~ sum_uni + 1, data = moveinsearch)
-## 
-## Residuals:
-##       Min        1Q    Median        3Q       Max 
-## -0.136389 -0.062528  0.007897  0.049201  0.163652 
-## 
-## Coefficients:
-##               Estimate Std. Error t value Pr(&gt;|t|)    
-## (Intercept)  2.726e-01  1.397e-02  19.509  &lt; 2e-16 ***
-## sum_uni     -2.715e-04  7.679e-05  -3.536 0.000912 ***
-## ---
-## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
-## 
-## Residual standard error: 0.07043 on 48 degrees of freedom
-## Multiple R-squared:  0.2067, Adjusted R-squared:  0.1901 
-## F-statistic:  12.5 on 1 and 48 DF,  p-value: 0.0009117</code></pre>
 <p>We then further divided the educational institutions into specific types, such as business school, computer science school, etc. Once again, we used a linear exhaustive search model in forward direction, and generated several predictors that fit the model the best as demonstrated in the below graph. We found that the mean burglary rate was still not significantly associated with the proportion of moved-in people. However, the number of business schools, computer science schools, and general education schools were significantly associated with the proportion of moved-in people. However, only the number of computer schools was positively associated with the proportion of moved-in people. One reasonable explanation is that computer science and related majors have become increasingly popular in recent years, and people were likely to migrate based on the decision of seeking quality computer science-related education. Still, this model also demonstrated that the burglary rate was not significantly associated with the proportion of moved-in people, confirming the graph we made above.</p>
 <table>
 <colgroup>
@@ -366,29 +348,6 @@ draft: false
 </tr>
 </tbody>
 </table>
-<pre><code>## 
-## Call:
-## lm(formula = movein_prop ~ Business + Computer + EduServ + General + 
-##     meanBurglary + 1, data = moveinsearch2)
-## 
-## Residuals:
-##       Min        1Q    Median        3Q       Max 
-## -0.099433 -0.050345 -0.001098  0.049476  0.151287 
-## 
-## Coefficients:
-##                Estimate Std. Error t value Pr(&gt;|t|)    
-## (Intercept)   3.371e-01  3.312e-02  10.180 3.84e-13 ***
-## Business     -1.671e-02  6.966e-03  -2.398  0.02079 *  
-## Computer      3.389e-02  1.447e-02   2.342  0.02378 *  
-## EduServ       5.866e-03  3.865e-03   1.518  0.13625    
-## General      -1.214e-03  3.607e-04  -3.366  0.00159 ** 
-## meanBurglary -8.841e-05  5.004e-05  -1.767  0.08419 .  
-## ---
-## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
-## 
-## Residual standard error: 0.06546 on 44 degrees of freedom
-## Multiple R-squared:  0.3718, Adjusted R-squared:  0.3004 
-## F-statistic: 5.207 on 5 and 44 DF,  p-value: 0.000771</code></pre>
 <p>We then changed our outcome variable into the proportion of people moved-out. Implemented the same method of analysis, we found the mean burglary rate and the number of the educational institutions were significantly associated with the moved-out proportion. It is to our surprise that the crime rate was significantly, but inversely associated with the proportion of the people moved-out, meaning that the higher the crime rate of a state, the lower the proportion of people who moved out. We discussed this scenario more in our discussion section.</p>
 <table>
 <colgroup>
@@ -481,25 +440,6 @@ draft: false
 </tr>
 </tbody>
 </table>
-<pre><code>## 
-## Call:
-## lm(formula = leave_prop ~ sum_uni + meanBurglary + 1, data = leavesearch)
-## 
-## Residuals:
-##       Min        1Q    Median        3Q       Max 
-## -0.081832 -0.021661 -0.004887  0.023287  0.091557 
-## 
-## Coefficients:
-##                Estimate Std. Error t value Pr(&gt;|t|)    
-## (Intercept)   3.309e-01  1.838e-02  18.001  &lt; 2e-16 ***
-## sum_uni      -2.328e-04  4.289e-05  -5.429 1.95e-06 ***
-## meanBurglary -8.593e-05  2.467e-05  -3.484  0.00108 ** 
-## ---
-## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
-## 
-## Residual standard error: 0.0391 on 47 degrees of freedom
-## Multiple R-squared:  0.4959, Adjusted R-squared:  0.4745 
-## F-statistic: 23.12 on 2 and 47 DF,  p-value: 1.021e-07</code></pre>
 <p>When using specific types of educational institutions, including the number of schools of general education, and the number of cosmetic schools as covariates, we again found significant associations between the mean burglary rate and the proportion of people moved out. Nonetheless, the association was still negative. Meanwhile, the number of the specific educational institutions were not significantly associated with the proportion of people moved out of the state.</p>
 <table style="width:100%;">
 <colgroup>
@@ -729,26 +669,5 @@ draft: false
 </tr>
 </tbody>
 </table>
-<pre><code>## 
-## Call:
-## lm(formula = leave_prop ~ General + Cosme_Barber + meanBurglary + 
-##     1, data = leavesearch2)
-## 
-## Residuals:
-##       Min        1Q    Median        3Q       Max 
-## -0.075483 -0.016856 -0.004577  0.022799  0.086993 
-## 
-## Coefficients:
-##                Estimate Std. Error t value Pr(&gt;|t|)    
-## (Intercept)   3.326e-01  1.956e-02  17.004  &lt; 2e-16 ***
-## General      -3.145e-04  1.958e-04  -1.606  0.11507    
-## Cosme_Barber -7.722e-04  4.272e-04  -1.807  0.07723 .  
-## meanBurglary -8.253e-05  2.660e-05  -3.103  0.00327 ** 
-## ---
-## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
-## 
-## Residual standard error: 0.03806 on 46 degrees of freedom
-## Multiple R-squared:  0.5325, Adjusted R-squared:  0.502 
-## F-statistic: 17.46 on 3 and 46 DF,  p-value: 1.04e-07</code></pre>
 <p><a href="/analysis4/">Previous Page: Crime Association Analysis</a></p>
 <p><a href="/analysis6/">Next Page: Discussion</a></p>

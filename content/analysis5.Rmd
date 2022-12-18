@@ -56,7 +56,7 @@ model <- lm(movein_prop~sum_uni+1,data=moveinsearch)
 (model%>%
     broom:: tidy() %>% 
     knitr::kable(format = "markdown"))
-summary(model)
+
 ```
 
 We then further divided the educational institutions into specific types, such as business school, computer science school, etc. Once again, we used a linear exhaustive search model in forward direction, and generated several predictors that fit the model the best as demonstrated in the below graph. We found that the mean burglary rate was still not significantly associated with the proportion of moved-in people. However, the number of business schools, computer science schools, and general education schools were significantly associated with the proportion of moved-in people. However, only the number of computer schools was positively associated with the proportion of moved-in people. One reasonable explanation is that computer science and related majors have become increasingly popular in recent years, and people were likely to migrate based on the decision of seeking quality computer science-related education. Still, this model also demonstrated that the burglary rate was not significantly associated with the proportion of moved-in people, confirming the graph we made above. 
@@ -72,7 +72,7 @@ model2 <- lm(movein_prop~Business+Computer+EduServ+General+meanBurglary+1,data=m
 (model2%>%
     broom:: tidy() %>% 
     knitr::kable(format = "markdown"))
-summary(model2)
+
 ```
 
 
@@ -90,7 +90,7 @@ modelleave <- lm(leave_prop~sum_uni+meanBurglary+1,data=leavesearch)
 (modelleave%>%
     broom:: tidy() %>% 
     knitr::kable(format = "markdown"))
-summary(modelleave)
+
 ```
 
 When using specific types of educational institutions, including the number of schools of general education, and the number of cosmetic schools as covariates, we again found significant associations between the mean burglary rate and the proportion of people moved out. Nonetheless, the association was still negative. Meanwhile, the number of the specific educational institutions were not significantly associated with the proportion of people moved out of the state. 
@@ -107,7 +107,7 @@ modelleave2 <- lm(leave_prop~General+Cosme_Barber+meanBurglary+1,data=leavesearc
 (modelleave2%>%
     broom:: tidy() %>% 
     knitr::kable(format = "markdown"))
-summary(modelleave2)
+
 ```
 
 [Previous Page: Crime Association Analysis](/analysis4/)
