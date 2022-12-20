@@ -173,7 +173,7 @@ uni %>% group_by(STATE) %>% summarize(n=n()) %>%
   labs(x="State",y="Number of Schools")
 ```
 
-In this graph, the x-axis represents the name of each state in the US.  The y-axis represents the total number of colleges in the state. Based on the graph above, we can see that California(CA) contains  the largest number of colleges among all states. New York State has the second highest number. More generally, the Top 5 are: CA, NY, TX, FL, PA. 
+The x-axis represents the name of each state in the US.  The y-axis represents the total number of colleges in the state. Based on the graph above, we can see that California(CA) contains  the largest number of colleges among all states. New York State has the second highest number. More generally, the Top 5 are: CA, NY, TX, FL, PA. 
 
 ```{r echo=FALSE, fig.height=8, fig.width=8, message=FALSE, warning=FALSE}
 stateuni %>% ggplot(aes(y=STATE,x=n)) + geom_col() + facet_grid(~type) + labs(x="Number of Schools",y="State")
