@@ -3,17 +3,14 @@ title: Big Picture
 description:
 toc: true
 featuredImage: https://images.unsplash.com/photo-1606373664971-bf9b25eb508d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8Ym9zdG9uJTIwc2t5bGluZXxlbnwwfHwwfHw%3D&w=1000&q=80
-featuredVideo:
+featuredVideo: https://www.youtube.com/watch?v=V37TaRdVUQY
 draft: false
 ---
 
 <font size="5"><b>Big Question: Which state will be the best choice for Amy to migrate?</font></b>
 
 
-Interactive1: https://chenkaiyao2000.shinyapps.io/shiny/
-
-Interactive2: https://fredaaa.shinyapps.io/crosstalk/
-
+Interactive: https://chenkaiyao2000.shinyapps.io/shiny/
 
 In most cases, we cannot decide where we are born and live at a younger age, but when we grow up, we get the chance to decide where we want to live by migrating to other states, even other countries. In the first dataset about migration decisions, we specifically look at the place the participants live at 16 years old and the place they live when they are 26 years old.  Because before the age of 16 years old, people mainly stay in the states they were originally born in or where their family is.	However, during their age from 16 years old to 26 years old, they get the chance to migrate because of the university's location and working location. 
 
