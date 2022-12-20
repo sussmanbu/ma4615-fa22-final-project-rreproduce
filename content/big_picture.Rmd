@@ -9,6 +9,9 @@ draft: false
 ```{r message=FALSE, warning=FALSE, include=FALSE}
 library(tidyverse)
 library(plotly)
+library(ggplot2)
+library(graphics)
+
 od_data <- read_csv(here::here("dataset-ignore/od_data.csv"))
 for_interactive<-read_csv(here::here("dataset/for_interactive.csv"))
 uni<-read_csv(here::here("dataset/Uni.csv"))
