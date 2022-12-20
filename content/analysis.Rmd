@@ -3,7 +3,7 @@ title: Analysis
 description:
 toc: true
 featuredVideo:
-featuredImage: images/analysis page.webp
+featuredImage: images/istockphoto-1024128102-612x612.jpeg
 draft: false
 ---
 
