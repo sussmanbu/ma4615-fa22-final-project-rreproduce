@@ -106,5 +106,5 @@ modelleave2 <- lm(leave_prop~General+Cosme_Barber+meanBurglary+1,data=leavesearc
 
 [Previous Page: Crime Association Analysis](/analysis4/)
 
-[Next Page: Discussion](/analysis6/)
+[Next Page: Discussion & Flaws and limitations](/analysis6/)
 
