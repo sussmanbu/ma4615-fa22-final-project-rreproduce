@@ -67,8 +67,8 @@ The crime dataset contains 13 variables, including different kinds of hate crime
 We use 3 variables from the dataset: 
 
 *	State (50 in total)
-*	Number of robbery cases by states (numeric) in two ranges: 2000- 2007 (except 2004), 2010-2017.
-*	Number of burglary cases by states (numeric) in two ranges: 2000- 2007 (except 2004), 2010-2017.
+*	Robbery rate per 100,000 inhabitants by states (numeric) in two ranges: 2000- 2007 (except 2004), 2010-2017.
+*	Burglary rate per 100,000 inhabitants by states (numeric) in two ranges: 2000- 2007 (except 2004), 2010-2017.
 
 We specifically choose robbery and burglary from all hate crimes because they are measured in every years, whereas other crime types have missing data that may influence the consistency of statistical analysis.
 
