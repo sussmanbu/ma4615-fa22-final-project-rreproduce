@@ -3,7 +3,7 @@ title: Big Picture
 description:
 toc: true
 featuredImage: 
-featuredVideo: https://www.youtube.com/watch?v=QRp1PTWRmMk
+featuredVideo: shiny_app/video/MA415 proj 2022-12-12 21.03.08.mp4
 draft: false
 ---
 
