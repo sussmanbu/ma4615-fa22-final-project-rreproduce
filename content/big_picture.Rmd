@@ -2,7 +2,7 @@
 title: Big Picture
 description:
 toc: true
-featuredImage: images/shutterstock_1445642459.jpeg
+featuredImage: https://media.istockphoto.com/id/1024128102/vector/city-skyscrapers-and-business-buildings-skyline-scenery-downtown-cityscape-with-lots-of-all.jpg?s=612x612&w=0&k=20&c=MU_4Zk_4Ky8TFZnkDfLWc8vW5JLRR8ninKVZq8oZokI=
 featuredVideo: 
 draft: false
 ---
@@ -19,7 +19,6 @@ stateuni<-read_csv(here::here("dataset/StateUni.csv"))
 ```
 
 <font size="5"><b>Big Question: Which state will be the best choice for Amy to migrate?</font></b>
-
 
 Interactive: https://chenkaiyao2000.shinyapps.io/shiny/
 
