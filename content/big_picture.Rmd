@@ -6,6 +6,14 @@ featuredImage:
 featuredVideo: shiny_app/video/MA415 proj 2022-12-12 21.03.08.mp4
 draft: false
 ---
+```{r message=FALSE, warning=FALSE, include=FALSE}
+library(tidyverse)
+library(plotly)
+od_data <- read_csv(here::here("dataset-ignore/od_data.csv"))
+for_interactive<-read_csv(here::here("dataset/for_interactive.csv"))
+uni<-read_csv(here::here("dataset/Uni.csv"))
+stateuni<-read_csv(here::here("dataset/StateUni.csv"))
+```
 
 <font size="5"><b>Big Question: Which state will be the best choice for Amy to migrate?</font></b>
 
@@ -26,4 +34,162 @@ Amy is a 20 years old girl studying advertising in Boston University. As a risin
  
 Our unifying hypothesis is : <b>The quality of life standard in each state will have an impact on people’s migration decision from 16 years old to 26 years old.</b>
 
-[Next Page: Dig Into Data](/big_picture2/)
+The first dataset we focus on the population with two categorical variables: family income level and race. Therefore, as a starter of the process, <b>we want to get some basic insights about how our sample population looks demographically.</b>  
+
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+within_income <- od_data %>%  
+  group_by(race,income) %>%
+  summarize(inc_race_pop=sum(n)) %>%
+  ungroup() %>%
+  group_by(income) %>%
+  mutate(inc_pop = sum(inc_race_pop)) %>%
+  pivot_wider(names_from=(race),values_from=(inc_race_pop)) %>%
+  mutate(Asian_prop = Asian/inc_pop) %>%
+  mutate(Black_prop = Black/inc_pop) %>%
+  mutate(White_prop = White/inc_pop) %>%
+  mutate(Hispanic_prop = Hispanic/inc_pop) %>%
+  mutate(Other_prop = Other/inc_pop)
+
+within_income %>% plot_ly(x=~income,y=~White_prop,type='bar',name='White') %>%
+  add_trace(y=~Black_prop,name='Black') %>%
+  add_trace(y=~Asian_prop,name='Asian') %>%
+  add_trace(y=~Hispanic_prop,name='Hispanic') %>%
+  add_trace(y=~Other_prop,name='Other') %>%
+  layout(xaxis=list(title="Income Quantile"),
+         yaxis=list(title="Race Percentage"),
+         barmode='stack')
+```
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+within_race <- od_data %>%
+  group_by(race,income) %>%
+  summarize(inc_race_pop=sum(n)) %>%
+  ungroup() %>%
+  group_by(race) %>%
+  mutate(race_pop = sum(inc_race_pop)) %>%
+  pivot_wider(names_from=(income),values_from=(inc_race_pop)) %>%
+  mutate(Q1_prop = Q1/race_pop) %>%
+  mutate(Q2_prop = Q2/race_pop) %>%
+  mutate(Q3_prop = Q3/race_pop) %>%
+  mutate(Q4_prop = Q4/race_pop) %>%
+  mutate(Q5_prop = Q5/race_pop)
+
+within_race %>% plot_ly(x=~race,y=~Q1_prop,type='bar',name='Q1-poorest') %>%
+  add_trace(y=~Q2_prop,name='Q2') %>%
+  add_trace(y=~Q3_prop,name='Q3') %>%
+  add_trace(y=~Q4_prop,name='Q4') %>%
+  add_trace(y=~Q5_prop,name='Q5-richest') %>%
+  layout(xaxis=list(title="Race"),
+         yaxis=list(title="Income Quantile Percentage"),
+         barmode='stack')
+```
+
+
+In graph 1, the x-axis is the income level which has been divided into five quantiles:  Q1 represents the lowest family income group and Q5 represents the highest.  The y-axis represents the percentage of population for different races in each income group. We use the percentage instead of the actual population number since the total population in each group is different and the percentage makes the comparison clearer.
+
+
+As we can see in the graph, in the Q1 family income quantile group, the population for white group and the black group is relatively similar. Besides that, from Q2 to Q5, as the family income level increases, the white population starts to dominate the percentage while other race groups’ population diminish. 
+For graph 2 ( on the right),  axes are switched. The x-axis is the race group, the y axis represents the percentage of each income group. Then we look carefully into each column: 
+For Asian race group and the white race group, the population percentage in each five income quantile are almost equally distributed. The Q1 income quantile takes the least percentage and Q5 quantile takes the largest percentage among the five. For the other three race group ( Black, Hispanic & Other), they are more dominant in the Q1 and Q2 income level group.
+ 
+ 
+<b>Therefore, we assume Amy belongs to the white race group and Q3 income level.</b>
+ 
+ 
+After in order to get the basic understanding of what migration trends look like, we start with a small subset which specifically focuses on migration trends within Massachusetts. The reason we chose Massachusetts is because all the group members are students in Boston University. After staying here for four years, some of us have strong intentions to leave Boston while some of us love the city and want to stay. Therefore, Massachusetts is the most relatable choice and provides some insights for people that tend to migrate after graduation. 
+ 
+
+We came up with our first question: <b>How do people migrate to other  commuter zones within Massachusetts at the age of 26?</b>
+
+Our hypothesis is that Boston will have the largest migration population. 
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+o_MA <- read_csv(here::here("dataset/o_MA.csv")) %>%
+  filter(d_state_name == "Massachusetts") %>%
+  filter(o_cz_name != d_cz_name) %>%
+  group_by(o_cz_name,d_cz_name) %>%
+  summarize(mig = sum(n)) %>%
+  ungroup() %>%
+  pivot_wider(names_from=(o_cz_name),values_from=(mig)) %>%
+  rename(OakBluffs='Oak Bluffs')
+
+o_MA %>%  plot_ly(y=~d_cz_name,x=~Nantucket,type='bar',name='Nantucket') %>%
+  add_trace(x=~OakBluffs,name='Oak Bluffs') %>%
+  add_trace(x=~Pittsfield,name='Pittsfield') %>%
+  add_trace(x=~Springfield,name='Springfield') %>%
+  add_trace(x=~Boston,name='Boston') %>%
+  layout(title = "Migration Patterns Withinin CZ in MA From Age 16 to 26",
+         xaxis = list(title="Population From Other CZs in MA at 26"),
+         yaxis = list(title="Destination State"),
+         legend = list(title="State From"),barmode = 'stack'
+         )
+```
+
+We came up with the graph above. In this graph, the x-axis represents the population in that commuter zone from other commuter zones in Massachusetts at the age of 26. The y-axis represents their destination commuter zones.   
+ 
+ 
+We start the analysis with a broader picture: Apparently, Boston has the largest population among five computer zones. The second largest population is springfield. The commuter zone with the least population within the dataset is Nantucket. Then, we dive deeper to look at the construction of the migration population. We exclude the population that stays in its original commuter zone from age 16 to 26. Most of the moving population in Springfield is from Boston. Additionally, Springfield has the second largest migration population and Boston has the largest migration population. Moreover, Boston has the largest population for both migrate in and migrate out.  
+ 
+ 
+<b>Therefore, if Amy decides to move within Massachusetts, Springfield might be her first choice since it is a hot pick and very near to Boston.</b>
+
+After looking specifically at Massachusetts' migration trend, we shift our focus to the broader picture: <b>The migration trend among all states.</b>
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+o_MA <- read_csv(here::here("dataset","o_MA.csv"))
+o_MA %>%
+  group_by(d_state_name) %>%
+  mutate(sum_n = sum(n)) %>%
+  ungroup() %>%
+  group_by(d_state_name,race) %>%
+  mutate(state_race_pop = sum(n)) %>%
+  summarize(sum_n=sum_n,state_race_pop=state_race_pop) %>%
+  distinct(d_state_name,race,.keep_all = T) %>%
+  filter(d_state_name != "Massachusetts") %>%
+  ungroup() %>%
+  arrange(desc(sum_n)) %>%
+  filter(sum_n > 1650) %>% 
+  ggplot() +
+  geom_col(aes(x=reorder(d_state_name,sum_n),y=state_race_pop,fill=race))+
+  theme(axis.text.x = element_text(angle=45,vjust=1,hjust=1)) +
+  labs(title = "Population(16-26) Moved From MA to Other States",
+       x = "Destination State", y = "Population From MA to Other States", color="race") + 
+  theme(plot.title = element_text(hjust = 0.5))
+```
+
+According to the graph above, the top five migration states have very distinct results compared to all other states. They are : New York, California, New Hampshire, Rhode Island and Florida. We also noticed that the white group population that migrates into the top five destinations are even larger than the total move in migration for the remaining states. 
+ 
+ 
+<b>Based on the demographic picture for Amy, we think if Amy likes warm weather, California and Florida can both be a good option for her to move. If Amy likes to stay in the east-coast, New York is always an option. If Amy doesn’t want very crowded city life, New Hampshire, Connecticut and DC can also be put into the migration list.</b>
+
+After knowing the TOP five migration destinations generally, we started to analyze <b>what features are affecting people’s migration decision from age 16 to age 26.</b> 
+ 
+ 
+First, we look at the number of colleges in each state. People between the ages of 16- 26 are exactly the period of study for schools. By knowing the number of colleges in each state, we will be able to find the <b>relation between how the number of c.</b> 
+
+```{r echo=FALSE, fig.height=6, fig.width=6, message=FALSE, warning=FALSE}
+uni %>% group_by(STATE) %>% summarize(n=n()) %>%
+  ggplot(aes(x=reorder(STATE,desc(n)),y=n)) + geom_col() +
+  labs(x="State",y="Number of Schools")
+```
+
+In this graph, the x-axis represents the name of each state in the US.  The y-axis represents the total number of colleges in the state. Based on the graph above, we can see that California(CA) contains  the largest number of colleges among all states. New York State has the second highest number. More generally, the Top 5 are: CA, NY, TX, FL, PA. 
+
+```{r echo=FALSE, fig.height=8, fig.width=8, message=FALSE, warning=FALSE}
+stateuni %>% ggplot(aes(y=STATE,x=n)) + geom_col() + facet_grid(~type) + labs(x="Number of Schools",y="State")
+```
+
+Then, we zoom in to look at the number of each type of college among every state. Since the numbers of Fine Arts School(Arts), Business Secretarial School(Business), Computer Training(Computer), Educational Support Services(Eduserv), and Flight Training(Flights) are small, we decided to only focus on the categories with conspicuous result:
+
+```{r echo=FALSE, fig.height=8, fig.width=8, message=FALSE, warning=FALSE}
+stateuni %>% filter(type %in% c('Cosme_Barber','General','Junior','Other')) %>%
+  ggplot(aes(y=STATE,x=n)) + geom_col() + facet_grid(~type) + labs(x="Number of Schools",y="State")
+```
+
+California has the most schools in General, Junior, and Other types of schools. Among New York State, the General types of schools are the largest number with 228 schools. For Taxes, it has similar numbers of schools in Cosme_Barber, General, and Junior types.
+
+
+<font size="3"><b>Therefore, if Amy wants to go to a graduate school, California seems to be her best choice.
+
+In conclusion, we pick several options for Amy to choose after graduating from Boston University. The Top 3 option is : California, New York and Florida.</b>
+
