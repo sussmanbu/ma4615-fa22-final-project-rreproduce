@@ -23,7 +23,7 @@ for_interactive<-read_csv(here::here("dataset/for_interactive.csv"))
 <font size="5"><b>Crime Association Analysis</font></b>
 
 
-To continue testing our hypothesis that crime rate is associated with the migration pattern and whether race and income would influence such association, we designed interactive plots to better illustrate the associations between the two selected crime rates (robbery and burglary) and proportion of people moved in and out of the state. By clicking the specific points on our interactive plots, one would see the exact proportion of people moved in or out of the state corresponding to the crime rate. Again, as there were no distinct patterns on our plot, we did not find evidence to support our hypothesis that the crime rate is associated with the migration patterns of the residents in the United States.
+To continue testing our hypothesis that crime rate is associated with the migration pattern and whether race and income would influence such association, we designed interactive plots to better illustrate the associations between the two selected crime rates (robbery and burglary) and proportion of people moved in and out of the state. By clicking the specific points on our interactive plots, one would see the exact proportion of people moved in or out of the state corresponding to the crime rate. There were no distinct patterns on our plot, we did not find evidence to support our hypothesis that the crime rate is associated with the migration patterns of the residents in the United States. We also explored the pattern by year and reached the same conclusion.
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 leave <- read_csv(here::here('dataset','leave.csv')) %>%
